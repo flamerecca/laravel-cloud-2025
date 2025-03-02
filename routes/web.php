@@ -18,18 +18,20 @@ Route::get('/users', function (Request $request) {
     return response()->json($users);
 });
 
-Route::get('/users-seed', function () {
-    User::factory()
-        ->count(100_000)
-        ->create();
+Route::get('/users-with-index', function (Request $request) {
+    return response()->json(User::where('email', $request->input('email'))->get());
 });
 
-Route::get('/users-with-index', function (Request $request) {
-    dd(User::where('email', $request->input('email'))->first());
+Route::get('/users-without-index', function (Request $request) {
+    return response()->json(User::where('email_without_index', $request->input('email'))->get());
 });
 
-Route::get('/users-with-index', function (Request $request) {
-    dd(User::where('email_without_index', $request->input('email'))->first());
+Route::get('/users-with-index-explain', function (Request $request) {
+    return response()->json(User::where('email', $request->input('email'))->explain());
+});
+
+Route::get('/users-without-index-explain', function (Request $request) {
+    return response()->json(User::where('email_without_index', $request->input('email'))->explain());
 });
 
 Route::view('dashboard', 'dashboard')
