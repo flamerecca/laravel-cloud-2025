@@ -38,6 +38,10 @@ Route::get('/users-without-index-explain', function (Request $request) {
     return response()->json(User::where('email_without_index', $request->input('email'))->explain());
 });
 
+Route::get('/users-rand', function (Request $request) {
+    return response()->json(User::inRandomOrder()->first());
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
