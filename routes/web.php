@@ -18,6 +18,7 @@ Route::get('/users', function (Request $request) {
 });
 
 Route::get('/users-count', function () {
+    // 計算有幾位 user
     return User::count();
 });
 
