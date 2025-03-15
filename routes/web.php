@@ -17,6 +17,12 @@ Route::get('/users', function (Request $request) {
     return response()->json($users);
 });
 
+
+Route::get('/users-count', function () {
+    // 計算有幾位 user
+    return User::count();
+});
+
 Route::get('/users-with-index', function (Request $request) {
     return response()->json(User::where('email', $request->input('email'))->get());
 });
