@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -8,9 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 Route::get('/users', function (Request $request) {
     $name = $request->input('name');
     $users = User::where('name', $name)->get();
