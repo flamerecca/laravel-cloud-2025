@@ -17,10 +17,6 @@ Route::get('/users', function (Request $request) {
     return response()->json($users);
 });
 
-Route::get('/users-count', function () {
-    return User::count();
-});
-
 Route::get('/users-with-index', function (Request $request) {
     return response()->json(User::where('email', $request->input('email'))->get());
 });
@@ -44,6 +40,11 @@ Route::get('/users-rand', function (Request $request) {
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
