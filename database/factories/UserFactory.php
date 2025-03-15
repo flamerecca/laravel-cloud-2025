@@ -24,10 +24,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $email = fake()->userName()
-            . '_'
-            . fake()->userName()
-            . '_'
-            . fake()->unique()->safeEmail();
+            .'_'
+            .fake()->userName()
+            .'_'
+            .fake()->unique()->safeEmail();
+
         return [
             'name' => fake()->name(),
             'email' => $email,
@@ -43,7 +44,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
