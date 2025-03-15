@@ -17,6 +17,7 @@ Route::get('/users', function (Request $request) {
     return response()->json($users);
 });
 
+
 Route::get('/users-count', function () {
     // 計算有幾位 user
     return User::count();
@@ -45,6 +46,11 @@ Route::get('/users-rand', function (Request $request) {
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
