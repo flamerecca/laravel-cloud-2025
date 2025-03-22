@@ -73,7 +73,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6">
-    <x-auth-header title="Log in to your account" description="Enter your email and password below to log in" />
+    <x-auth-header title="登入帳號" description="輸入 Email 登入" />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
