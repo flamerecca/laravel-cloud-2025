@@ -2,7 +2,7 @@
 
 ### 概述
 
-`FizzBuzz API 2.0` 提供比起 [FizzBuzz API 規格文件 2.0.0](fizzbuzz-1.0.0.md) 更進階的服務，除了提供起始數字與結束數字，API 將回傳對應的結果。
+`FizzBuzz API 2.0.0` 提供比起 [FizzBuzz API 1.0.0](fizzbuzz-1.0.0.md) 更進階的服務，除了提供起始數字與結束數字，API 將根據客製化規則回傳對應的結果。
 
 ### 新增功能說明
 
@@ -12,10 +12,6 @@
 - 7: `"Jazz"`
 
 當某個數字能被多個條件整除時，會將對應字串合併起來（例如 `3*5*7 = 105`，輸出為 `"FizzBuzzJazz"`）
-
----
-
-### API 規格文件（進階版）
 
 ### Base URL
 
@@ -95,7 +91,7 @@ POST /api/v2/fizzbuzz
 
 ### 失敗回應範例
 
-- **400 Bad Request** – 缺少必要欄位或參數格式錯誤
+- **422 Unprocessable Entity** – 缺少必要欄位或參數格式錯誤
 
 ```json
 {

@@ -1,0 +1,79 @@
+### 2.0.0 test 1
+POST http://localhost:8000/api/v2/fizzbuzz
+Content-Type: application/json
+
+{
+    "start": 1,
+    "end": 35,
+    "rules": {
+        "3": "Fizz",
+        "5": "Buzz",
+        "7": "Jazz"
+    }
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "start": 1,
+            "end": 35,
+            "rules": {
+                "3": "Fizz",
+                "5": "Buzz",
+                "7": "Jazz"
+            },
+            "result": [
+                "1",
+                "2",
+                "Fizz",
+                "4",
+                "Buzz",
+                "Fizz",
+                "Jazz",
+                "8",
+                "Fizz",
+                "Buzz",
+                "11",
+                "Fizz",
+                "13",
+                "Jazz",
+                "FizzBuzz",
+                "16",
+                "17",
+                "Fizz",
+                "19",
+                "Buzz",
+                "FizzJazz",
+                "22",
+                "23",
+                "Fizz",
+                "Buzz",
+                "26",
+                "Fizz",
+                "Jazz",
+                "29",
+                "FizzBuzz",
+                "31",
+                "32",
+                "Fizz",
+                "34",
+                "BuzzJazz"
+            ]
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}

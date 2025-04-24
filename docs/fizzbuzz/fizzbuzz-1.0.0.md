@@ -53,7 +53,7 @@ GET /api/fizzbuzz
 
 #### 失敗回應（例如參數錯誤）
 
-- **400 Bad Request**
+- **422 Unprocessable Entity**
 
 ```json
 {
@@ -104,3 +104,5 @@ GET /api/fizzbuzz?start=2&end=15
     ]
 }
 ```
+
+(p.s. 到這一階段，你已經完成了 Leetcode 412. Fizz Buzz https://leetcode.com/problems/fizz-buzz/)
