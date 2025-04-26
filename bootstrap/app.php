@@ -18,13 +18,15 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/day_of_the_week.php',
             __DIR__ . '/../routes/api/customers.php',
             __DIR__ . '/../routes/api/leap_year.php',
+            __DIR__ . '/../routes/api/shuffle_the_array.php',
+            __DIR__ . '/../routes/api/short_url.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         //
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

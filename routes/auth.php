@@ -4,8 +4,8 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::middleware('guest')->group(function () {
-    Volt::route('login', 'auth.login')
+Route::middleware('guest')->group(function (): void {
+    Volt::route('login', \Illuminate\Auth\Events\Login::class)
         ->name('login');
 
     Volt::route('register', 'auth.register')
@@ -19,7 +19,7 @@ Route::middleware('guest')->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Volt::route('verify-email', 'auth.verify-email')
         ->name('verification.notice');
 
