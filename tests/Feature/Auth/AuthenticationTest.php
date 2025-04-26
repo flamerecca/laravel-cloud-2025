@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = LivewireVolt::test(\Illuminate\Auth\Events\Login::class)
+        $response = LivewireVolt::test('auth.login')
             ->set('email', $user->email)
             ->set('password', 'password')
             ->call('login');

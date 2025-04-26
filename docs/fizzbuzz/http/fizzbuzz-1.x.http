@@ -86,7 +86,7 @@ GET http://localhost:8000/api/fizzbuzz?start=2&end=15
     });
 %}
 
-### fizzbuzz 1.0.01 with failed attemp
+### fizzbuzz 1.0.0 with failed attemp
 
 GET http://localhost:8000/api/fizzbuzz?start=15&end=1
 

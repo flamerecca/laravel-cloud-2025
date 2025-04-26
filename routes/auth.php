@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function (): void {
-    Volt::route('login', \Illuminate\Auth\Events\Login::class)
+    Volt::route('login', 'auth.login')
         ->name('login');
 
     Volt::route('register', 'auth.register')

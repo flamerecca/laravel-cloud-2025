@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 Route::get('/fizzbuzz', function (Request $request) {
     try {
         $validated = $request->validate([
-            'start' => 'bail|required|integer',
-            'end' => 'required|integer|gte:start',
+            'start' => ['bail', 'required', 'integer'],
+            'end' => ['required', 'integer', 'gte:start'],
         ]);
     } catch (ValidationException $exception) {
         return response()->json(
@@ -43,9 +43,9 @@ Route::get('/fizzbuzz', function (Request $request) {
 
 Route::post('/v2/fizzbuzz', function (Request $request) {
     $validated = $request->validate([
-        'start' => 'required|integer',
-        'end' => 'required|integer|gte:start',
-        'rules' => 'required|array',
+        'start' => ['required', 'integer'],
+        'end' => ['required', 'integer', 'gte:start'],
+        'rules' => ['required', 'array'],
     ]);
 
     $start = $validated['start'];
