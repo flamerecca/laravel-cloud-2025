@@ -14,6 +14,16 @@
 /api/short-urls
 ```
 
+### 短網址資料結構
+
+| 參數名稱           | 類型      | 描述       |
+|----------------|---------|----------|
+| `id`           | integer | 短網址資料 id |
+| `original_url` | text    | 原始網址     |
+| `slug`         | string  | 短網址結尾    |
+
+### API 內容
+
 #### 建立短網址
 
 ##### Endpoint
@@ -54,7 +64,7 @@ POST /api/short-urls
 ##### Endpoint
 
 ```
-GET /short-urls/{id}
+GET /api/short-urls/{id}
 ```
 
 ##### Response (200 OK)
@@ -83,7 +93,7 @@ GET /short-urls/{id}
 ##### Endpoint
 
 ```
-PUT /short-urls/{1}
+PUT /api/short-urls/{id}
 ```
 
 ##### Request Body
@@ -112,10 +122,38 @@ PUT /short-urls/{1}
 ##### Endpoint
 
 ```
-DELETE /short-urls/{id}
+DELETE /api/short-urls/{id}
 ```
 
 ##### Response (204 No Content)
+
+#### 取得所有短網址
+
+##### Endpoint
+
+```
+GET /api/short-urls/
+```
+
+##### Response (200 OK)
+```json
+{
+    "data": [
+        {
+            "id": "1",
+            "slug": "abcd",
+            "original_url": "https://www.example.com/some/very/long/url",
+            "created_at": "2025-04-26 12:34:56"
+        },
+        {
+            "id": "2",
+            "slug": "asdf",
+            "original_url": "https://www.example.com/next/very/long/url",
+            "created_at": "2025-04-26 23:45:56"
+        }
+    ]
+}
+```
 
 #### 錯誤格式統一範例
 
