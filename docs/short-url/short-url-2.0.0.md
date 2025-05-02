@@ -188,7 +188,7 @@ PATCH /short-urls/{id}/domain-owner
 {
     "id": "23",
     "original_url": "https://example.com",
-    "short_code": "exmp",
+    "short_code": "qwerasdfzx",
     "domain_owner": {
         "id": "1",
         "name": "Alice Chen",

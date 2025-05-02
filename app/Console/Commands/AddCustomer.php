@@ -2,17 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Console\Command;
 
-class AddUsers extends Command
+class AddCustomer extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:add-users';
+    protected $signature = 'app:add-customer';
 
     /**
      * The console command description.
@@ -26,8 +26,8 @@ class AddUsers extends Command
      */
     public function handle()
     {
-        User::factory()
-            ->count(1000)
+        Customer::factory()
+            ->count(10)
             ->create();
     }
 }

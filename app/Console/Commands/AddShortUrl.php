@@ -2,17 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\ShortUrl;
 use Illuminate\Console\Command;
 
-class AddUsers extends Command
+class AddShortUrl extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:add-users';
+    protected $signature = 'app:add-short-url';
 
     /**
      * The console command description.
@@ -24,9 +24,9 @@ class AddUsers extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        User::factory()
+        ShortUrl::factory()
             ->count(1000)
             ->create();
     }

@@ -51,7 +51,7 @@ POST /api/short-urls
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdzxcvqw",
     "original_url": "https://www.example.com/some/very/long/url",
     "created_at": "2025-04-26 12:34:56"
 }
@@ -72,7 +72,7 @@ GET /api/short-urls/{id}
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdzxcvqw",
     "original_url": "https://www.example.com/some/very/long/url",
     "created_at": "2025-04-26 12:34:56"
 }
@@ -109,7 +109,7 @@ PUT /api/short-urls/{id}
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdzxcvqw",
     "original_url": "https://www.new-url.com",
     "updated_at": "2025-04-26T14:10:00Z"
 }
@@ -141,13 +141,13 @@ GET /api/short-urls/
     "data": [
         {
             "id": "1",
-            "slug": "abcd",
+            "slug": "abcdzxcvqw",
             "original_url": "https://www.example.com/some/very/long/url",
             "created_at": "2025-04-26 12:34:56"
         },
         {
             "id": "2",
-            "slug": "asdf",
+            "slug": "asdfzxcvqw",
             "original_url": "https://www.example.com/next/very/long/url",
             "created_at": "2025-04-26 23:45:56"
         }
@@ -168,4 +168,4 @@ GET /api/short-urls/
 | 欄位             | 條件                           |
 |----------------|------------------------------|
 | `original_url` | 必填，必須為有效 URL，長度建議不超過 2048 字元 |
-| `slug`         | 系統產生，四碼英文數字                  |
+| `slug`         | 系統產生，十碼英文數字                  |

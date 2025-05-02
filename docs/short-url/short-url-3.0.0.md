@@ -48,7 +48,7 @@ POST /api/short-urls
 ```json
 {
     "original_url": "https://www.example.com/some/very/long/url",
-    "tags": [
+    "domain_tags": [
         "example",
         "https"
     ]
@@ -60,9 +60,9 @@ POST /api/short-urls
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdqwerzx",
     "original_url": "https://www.example.com/some/very/long/url",
-    "tags": [
+    "domain_tags": [
         "example",
         "https"
     ],
@@ -95,7 +95,7 @@ PUT /api/short-urls/{id}/tags
 
 ```json
 {
-    "tags": [
+    "domain_tags": [
         "promotion",
         "social-media"
     ]
@@ -115,9 +115,9 @@ PUT /api/short-urls/{id}/tags
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdqwerax",
     "original_url": "https://www.example.com/some/very/long/url",
-    "tags": [
+    "domain_tags": [
         "promotion",
         "social-media"
     ],
@@ -141,9 +141,9 @@ GET /short-urls/{id}
 ```json
 {
     "id": "1",
-    "slug": "abcd",
+    "slug": "abcdqwerax",
     "original_url": "https://www.example.com/some/very/long/url",
-    "tags": [
+    "domain_tags": [
         "promotion",
         "social-media"
     ],
