@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
+    User::all();
     return view('welcome');
 })->name('home');
 

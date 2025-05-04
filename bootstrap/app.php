@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/leap_year.php',
             __DIR__ . '/../routes/api/shuffle_the_array.php',
             __DIR__ . '/../routes/api/short_url.php',
+            __DIR__ . '/../routes/api/slow_order.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
