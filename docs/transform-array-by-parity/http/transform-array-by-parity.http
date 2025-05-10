@@ -1,0 +1,38 @@
+###  1.0.0 正常案例
+GET http://localhost:8000/api/transform-array-by-parity?nums[]=1&nums[]=2&nums[]=3&nums[]=4&nums[]=5
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "result": [0, 0, 1, 1, 1]
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+###
+
+### 少了 nums (應回傳驗證錯誤)
+#GET http://localhost/api/transform-array-by-parity
+#Accept: application/json
+#
+####
+#
+### nums 裡有非整數 (應回傳驗證錯誤)
+#GET http://localhost/api/transform-array-by-parity?nums[]=1&nums[]=abc&nums[]=3
+#Accept: application/json
