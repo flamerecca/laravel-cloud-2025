@@ -14,7 +14,7 @@ class ParityServiceTest extends TestCase
     {
         $parityService = new ParityService();
         $input = [1, 2, 3, 4, 5];
-        $result = $parityService->parity($input);
+        $result = $parityService($input);
         $this->assertEquals([0, 0, 1, 1, 1], $result);
     }
 }

@@ -1,6 +1,7 @@
 ### 2.0.0 test 1
 POST http://localhost:8000/api/v2/fizzbuzz
 Content-Type: application/json
+Accept: application/json
 
 {
     "start": 1,
@@ -79,8 +80,9 @@ Content-Type: application/json
 %}
 
 ### 2.0.0 test 2
-POST http://localhost:8000/api/v2/fizzbuzz
+POST http://localhost:8000/api/v2/fizzbuzz HTTP/1.1
 Content-Type: application/json
+Accept: application/json
 
 {
     "start": 1,

@@ -38,7 +38,7 @@ Content-Type: application/json
 %}
 
 ### 1.0.0 testcase 測試：nums 長度錯誤
-POST http://localhost/api/shuffle
+POST http://localhost:8000/api/shuffle
 Content-Type: application/json
 
 {
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 200");
+        client.assert(response.status === 400, "Response status is not 400");
     });
 
     client.test("Response content-type is json", function () {
@@ -74,7 +74,7 @@ Content-Type: application/json
 %}
 
 ### 1.0.0 testcase 測試：nums 包含非整數元素
-POST http://localhost/api/shuffle
+POST http://localhost:8000/api/shuffle
 Content-Type: application/json
 
 {
@@ -89,7 +89,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 200");
+        client.assert(response.status === 400, "Response status is not 400");
     });
 
     client.test("Response content-type is json", function () {
@@ -111,7 +111,7 @@ Content-Type: application/json
 %}
 
 ### 1.0.0 testcase 測試：n 為負數
-POST http://localhost/api/shuffle
+POST http://localhost:8000/api/shuffle
 Content-Type: application/json
 
 {
@@ -126,7 +126,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 200");
+        client.assert(response.status === 400, "Response status is not 400");
     });
 
     client.test("Response content-type is json", function () {
