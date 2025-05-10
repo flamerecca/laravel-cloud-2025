@@ -37,3 +37,5 @@ GET /api/transform-array-by-parity?nums[]=4&nums[]=3&nums[]=2&nums[]=1
   "results": [0, 0, 1, 1]
 }
 ```
+
+(p.s. 到這一階段，你已經完成了 3467. Transform Array by Parity https://leetcode.com/problems/transform-array-by-parity/)
