@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/short_url.php',
             __DIR__ . '/../routes/api/slow_order.php',
             __DIR__ . '/../routes/api/transform_array_by_parity.php',
+            __DIR__ . '/../routes/api/three_divisors.php',
+            __DIR__ . '/../routes/api/roman_convert_to_integer.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',

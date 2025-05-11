@@ -1,0 +1,165 @@
+### 1.0.0 測試 n = 4 (應回傳 true)
+GET http://127.0.0.1:8000/api/three-divisors?n=4
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "n": 4,
+            "isThree": true
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 1.0.0 測試 n = 10 (應回傳 false)
+GET http://127.0.0.1:8000/api/three-divisors?n=10
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "n": 10,
+            "isThree": false
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 1.0.0 測試 n = 25 (應回傳 true)
+GET http://127.0.0.1:8000/api/three-divisors?n=25
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "n": 25,
+            "isThree": true
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 1.0.0 測試 n = 1 (應回傳 false)
+GET http://127.0.0.1:8000/api/three-divisors?n=1
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "n": 1,
+            "isThree": false
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 測試錯誤參數 (n = -5)
+GET http://127.0.0.1:8000/api/three-divisors?n=-5
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "error": "'n' must be an integer."
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 測試錯誤參數 (n 缺漏)
+GET http://127.0.0.1:8000/api/three-divisors
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "error": "'n' must be an integer."
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
