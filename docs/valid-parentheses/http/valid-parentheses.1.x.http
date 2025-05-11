@@ -1,0 +1,214 @@
+### 驗證成功 (Valid parentheses)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+{
+    "input": "{[()]}"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "input": "{[()]}",
+            "valid": true
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 驗證失敗 (Invalid parentheses)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+{
+    "input": "({[})"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "input": "({[})",
+            "valid": false
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 驗證失敗 (不合法字元)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+{
+    "input": "{abc}"
+}
+
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "message": "The 'input' field must only contain (), {}, [].",
+            "errors": {
+                "input": [
+                    "The 'input' field must only contain (), {}, []."
+                ]
+            }
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 驗證失敗 (缺少 input)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+{
+    "input": false
+}
+
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "message": "The 'input' field must be a string.",
+            "errors": {
+                "input": [
+                    "The 'input' field must be a string."
+                ]
+            }
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 驗證失敗 (input 非字串)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+{
+}
+
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "message": "The 'input' field is required.",
+            "errors": {
+                "input": [
+                    "The 'input' field is required."
+                ]
+            }
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 驗證失敗 (字數超過 1000)
+POST http://127.0.0.1:8000/api/valid-parentheses
+Content-Type: application/json
+Accept: application/json
+
+< ./input.json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "message": "The 'input' field must not exceed 1000 characters.",
+            "errors": {
+                "input": [
+                    "The 'input' field must not exceed 1000 characters."
+                ]
+            }
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
