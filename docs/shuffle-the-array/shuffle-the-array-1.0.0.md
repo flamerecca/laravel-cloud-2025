@@ -50,13 +50,17 @@ POST /api/shuffle
 
 ### 錯誤回應
 
-#### 400 Bad Request
+#### 422 Bad Request
 
 - **範例：陣列長度錯誤**
 
 ```json
 {
-    "error": "The length of 'nums' must be exactly 2 * n."
+    "errors": {
+        "nums": [
+            "The nums array length must be exactly 2 * n."
+        ]
+    }
 }
 ```
 
@@ -64,7 +68,11 @@ POST /api/shuffle
 
 ```json
 {
-    "error": "'n' must be a positive integer."
+    "errors": {
+        "nums.1": [
+            "The nums.1 field must be an integer."
+        ]
+    }
 }
 ```
 
@@ -72,7 +80,11 @@ POST /api/shuffle
 
 ```json
 {
-    "error": "'nums' must be an array of integers."
+    "errors": {
+        "nums": [
+            "The nums array length must be exactly 2 * n."
+        ]
+    }
 }
 ```
 

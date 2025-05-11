@@ -1,6 +1,7 @@
 ### 1.0.0 testcase 測試成功案例
 POST http://localhost:8000/api/shuffle
 Content-Type: application/json
+Accept: application/json
 
 {
     "nums": [
@@ -40,6 +41,7 @@ Content-Type: application/json
 ### 1.0.0 testcase 測試：nums 長度錯誤
 POST http://localhost:8000/api/shuffle
 Content-Type: application/json
+Accept: application/json
 
 {
     "nums": [
@@ -52,7 +54,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.status === 422, "Response status is not 422");
     });
 
     client.test("Response content-type is json", function () {
@@ -64,7 +66,11 @@ Content-Type: application/json
     client.test("Response body is correct", function () {
         const body = JSON.stringify(response.body);
         const expect = JSON.stringify({
-            "error": "The length of 'nums' must be exactly 2 * n."
+            "errors": {
+                "nums": [
+                    "The nums array length must be exactly 2 * n."
+                ]
+            }
         });
         client.assert(
             body === expect,
@@ -76,6 +82,7 @@ Content-Type: application/json
 ### 1.0.0 testcase 測試：nums 包含非整數元素
 POST http://localhost:8000/api/shuffle
 Content-Type: application/json
+Accept: application/json
 
 {
     "nums": [
@@ -89,7 +96,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.status === 422, "Response status is not 422");
     });
 
     client.test("Response content-type is json", function () {
@@ -101,7 +108,11 @@ Content-Type: application/json
     client.test("Response body is correct", function () {
         const body = JSON.stringify(response.body);
         const expect = JSON.stringify({
-            "error": "'nums' must be an array of integers."
+            "errors": {
+                "nums.1": [
+                    "The nums.1 field must be an integer."
+                ]
+            }
         });
         client.assert(
             body === expect,
@@ -113,6 +124,7 @@ Content-Type: application/json
 ### 1.0.0 testcase 測試：n 為負數
 POST http://localhost:8000/api/shuffle
 Content-Type: application/json
+Accept: application/json
 
 {
     "nums": [
@@ -126,7 +138,7 @@ Content-Type: application/json
 
 > {%
     client.test("Request executed successfully", function () {
-        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.status === 422, "Response status is not 422");
     });
 
     client.test("Response content-type is json", function () {
@@ -138,7 +150,11 @@ Content-Type: application/json
     client.test("Response body is correct", function () {
         const body = JSON.stringify(response.body);
         const expect = JSON.stringify({
-            "error": "'n' must be a positive integer."
+            "errors": {
+                "nums": [
+                    "The nums array length must be exactly 2 * n."
+                ]
+            }
         });
         client.assert(
             body === expect,
