@@ -10,6 +10,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/web.php',
             __DIR__ . '/../routes/web_user.php',
             __DIR__ . '/../routes/web_customer.php',
+            __DIR__ . '/../routes/web/short_url.php',
         ],
         api: [
             __DIR__ . '/../routes/api/fizzbuzz.php',
