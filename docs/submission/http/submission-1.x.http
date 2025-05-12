@@ -1,0 +1,86 @@
+### 測試成功上傳 PDF 作業 (正確版本)
+POST http://127.0.0.1:8000/api/submissions
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="student_id"
+
+S12345678
+--WebAppBoundary
+Content-Disposition: form-data; name="assignment_id"
+
+A001
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+
+< samples/example.pdf
+--WebAppBoundary--
+
+### 錯誤範例：缺少 student_id
+POST http://127.0.0.1:8000/api/submissions
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="assignment_id"
+
+A001
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+
+< samples/example.pdf
+--WebAppBoundary--
+
+### 錯誤範例：缺少 file
+POST http://127.0.0.1:8000/api/submissions
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="student_id"
+
+S12345678
+--WebAppBoundary
+Content-Disposition: form-data; name="assignment_id"
+
+A001
+--WebAppBoundary--
+
+### 錯誤範例：file 不是 PDF
+POST http://127.0.0.1:8000/api/submissions
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="student_id"
+
+S12345678
+--WebAppBoundary
+Content-Disposition: form-data; name="assignment_id"
+
+A001
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="example.png"
+
+< samples/example.png
+--WebAppBoundary--
+
+### 錯誤範例：file 副檔名是 pdf 但是格式不是 PDF
+POST http://127.0.0.1:8000/api/submissions
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="student_id"
+
+S12345678
+--WebAppBoundary
+Content-Disposition: form-data; name="assignment_id"
+
+A001
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="example.png"
+
+< samples/fake-example.pdf
+--WebAppBoundary--

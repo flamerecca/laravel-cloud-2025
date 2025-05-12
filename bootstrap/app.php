@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/three_divisors.php',
             __DIR__ . '/../routes/api/roman_convert_to_integer.php',
             __DIR__ . '/../routes/api/valid_parentheses.php',
+            __DIR__ . '/../routes/api/submission.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
