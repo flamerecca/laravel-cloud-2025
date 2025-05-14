@@ -1,0 +1,10 @@
+### 1.0.0 testcase 測試成功案例
+POST http://localhost:8000/api/slow-order
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user": "Alice",
+    "usd": 30,
+    "date": "2025-05-02"
+}
