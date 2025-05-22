@@ -1,0 +1,82 @@
+### 成功請求範例
+GET http://localhost:8000/api/gcd?a=21&b=14
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "a": 21,
+            "b": 14,
+            "gcd": 7
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 錯誤請求範例（缺少參數）
+GET http://localhost:8000/api/gcd?a=21
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "error": "Invalid input. Parameters a and b must be positive integers."
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
+
+### 錯誤請求範例（非正整數）
+GET http://localhost:8000/api/gcd?a=-5&b=0
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 422, "Response status is not 422");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+    client.test("Response body is correct", function () {
+        const body = JSON.stringify(response.body);
+        const expect = JSON.stringify({
+            "error": "Invalid input. Parameters a and b must be positive integers."
+        });
+        client.assert(
+            body === expect,
+            "received wrong body'" + body + "'"
+        );
+    });
+%}
