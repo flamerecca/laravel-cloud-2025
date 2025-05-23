@@ -1,0 +1,15 @@
+### 呼叫 Laravel API: 查詢第一個壞版本
+GET http://127.0.0.1:8000/api/first-bad-version
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+%}

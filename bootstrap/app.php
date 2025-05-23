@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/valid_parentheses.php',
             __DIR__ . '/../routes/api/submission.php',
             __DIR__ . '/../routes/api/gcd.php',
+            __DIR__ . '/../routes/api/first-bad-version.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
