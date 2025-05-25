@@ -12,17 +12,13 @@
 
 按下「產生短網址」按鈕後，畫面即時顯示產生的短網址
 
-若使用者輸入的網址已經存在於資料庫，則直接回傳原有的短網址
-
-若輸入的網址格式錯誤，需提示錯誤訊息
-
 #### 短網址產生規則
 
-使用隨機的 6 碼英數字組合做為短網址碼（short_code）
+使用隨機的 10 碼英數字組合做為短網址碼（slug）
 
-需避免與資料庫中既有 short_code 重複
+需避免與資料庫中既有 slug 重複
 
-最終顯示的短網址格式為：http://your-domain.test/s/{short_code}
+最終顯示的短網址格式為：http://your-domain.test/s/{slug}
 
 #### 資料庫設計
 
@@ -53,8 +49,27 @@
 
 - 一個輸入欄位讓使用者輸入網址
 - 一個按鈕「產生短網址」
-- 輸入驗證錯誤訊息（若格式錯誤）
 - 產生成功後顯示短網址並提供點擊連結
+
+#### Blade 視圖範例
+
+```html
+<div class="max-w-xl mx-auto p-6 bg-white shadow rounded-lg space-y-4">
+    <input type="text"
+           class="w-full border rounded p-2"
+           placeholder="請輸入原始網址..." />
+    
+    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        產生短網址
+    </button>
+
+    <!--@if ($shortUrl)-->
+        <div class="mt-4">
+            <label class="font-semibold">短網址：</label>
+            <a href="http://shortUrl" target="_blank" class="text-blue-600 underline">{{ $shortUrl }}</a>
+        </div>
+</div>
+```
 
 #### 建立專屬頁面
 
@@ -67,7 +82,7 @@
 ### 範例畫面流程
 
 - 使用者輸入 https://laravel.com 並按下按鈕
-- 畫面顯示短網址如 http://your-domain.test/s/A1B2C3
+- 畫面顯示短網址如 http://your-domain.test/s/A1B2C3D4E5
 
 使用者可點擊該短網址進行跳轉
 
@@ -76,4 +91,3 @@
 - [ ] 頁面能正確顯示 Livewire 元件並執行功能
 - [ ] 成功產生短網址並可從 /s/{slug} 正確跳轉
 - [ ] 使用者無需頁面刷新
-- [ ] 輸入錯誤網址會提示錯誤訊息
