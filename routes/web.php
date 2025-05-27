@@ -14,14 +14,12 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('/s/{code}', function ($code) {
-    $short = ShortUrl::where('slug', $code)->firstOrFail();
+Route::get('/s/{slug}', function ($slug) {
+    $short = ShortUrl::where('slug', $slug)->firstOrFail();
     return redirect()->to($short->original_url);
 });
 
-Route::get('/shorten', function () {
-    return view('shorten');
-});
+Route::view('/shorten', 'shorten');
 
 
 
