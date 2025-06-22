@@ -28,4 +28,3 @@ Route::get('/three-divisors', function (Request $request) {
         'isThree' => $isThree,
     ]);
 });
-

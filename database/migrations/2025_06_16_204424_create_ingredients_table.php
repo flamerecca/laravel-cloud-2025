@@ -10,8 +10,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('email_without_index')->nullable();
+        Schema::create('ingredients', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->json('details');
+            $table->timestamps();
         });
     }
 
@@ -20,8 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_without_index');
-        });
+        Schema::dropIfExists('ingredients');
     }
 };

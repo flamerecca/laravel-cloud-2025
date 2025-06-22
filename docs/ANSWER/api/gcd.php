@@ -43,4 +43,3 @@ Route::get('/gcd', function (Request $request) {
         'gcd' => $gcd,
     ]);
 });
-

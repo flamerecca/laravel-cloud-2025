@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Services\CountService;
 use DivisionByZeroError;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 

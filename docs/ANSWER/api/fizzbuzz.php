@@ -73,4 +73,3 @@ Route::post('/v2/fizzbuzz', function (Request $request) {
         'result' => $result
     ]);
 });
-

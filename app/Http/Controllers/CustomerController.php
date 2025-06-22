@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use App\Http\Resources\CustomerResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -61,4 +60,3 @@ class CustomerController extends Controller
         return response()->json(['message' => 'Deleted']);
     }
 }
-

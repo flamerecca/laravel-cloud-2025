@@ -2,7 +2,5 @@
 
 use App\Http\Controllers\ShortUrlController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 Route::apiResource('short-urls', ShortUrlController::class);
-

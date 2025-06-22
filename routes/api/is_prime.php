@@ -14,12 +14,20 @@ Route::get('/is-prime', function (Request $request) {
 
     $number = (int) $number;
     $isPrime = true;
-    if ($number <= 1) {$isPrime = false;}
-    if ($number === 2) {$isPrime = true;}
-    if ($number % 2 === 0) {$isPrime = false;}
+    if ($number <= 1) {
+        $isPrime = false;
+    }
+    if ($number === 2) {
+        $isPrime = true;
+    }
+    if ($number % 2 === 0) {
+        $isPrime = false;
+    }
 
     for ($i = 3; $i <= sqrt($number); $i += 2) {
-        if ($number % $i === 0) {$isPrime = false;}
+        if ($number % $i === 0) {
+            $isPrime = false;
+        }
     }
 
     return response()->json([
