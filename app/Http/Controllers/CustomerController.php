@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 use Throwable;
 
 class CustomerController extends Controller
@@ -16,6 +18,13 @@ class CustomerController extends Controller
      */
     public function index(): ResourceCollection
     {
+        $user = Auth::user();
+        $user->givePermissionTo('edit articles');
+
+// Adding permissions via a role
+        $user->assignRole('writer');
+        $role = Role::create(['name' => 'writer']);
+        $role->givePermissionTo('edit articles');
         return Customer::all()->toResourceCollection();
     }
 
