@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Services\CountService;
 use DivisionByZeroError;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class CountServiceTest extends TestCase
 {
@@ -27,6 +27,8 @@ class CountServiceTest extends TestCase
     {
         return [
             [5, 2, 3],
+            [3, 3, 0],
+            [0, 3, -3],
             [3, 2, null],
             [0, -1, null],
             [-1, -2, null],
