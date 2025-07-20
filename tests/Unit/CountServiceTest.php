@@ -12,13 +12,13 @@ class CountServiceTest extends TestCase
     /**
      * A basic feature test example.
      */
-    #[DataProvider('provider')] public function test_add_number($expected, $a, $b): void
+    #[DataProvider('provider')] public function test_add_number($expected, $num1, $num2): void
     {
         $target = new CountService();
-        if (!is_null($b)) {
-            $this->assertEquals($expected, $target->add($a, $b));
+        if (!is_null($num2)) {
+            $this->assertEquals($expected, $target->add($num1, $num2));
         } else {
-            $this->assertEquals($expected, $target->add($a));
+            $this->assertEquals($expected, $target->add($num1));
         }
     }
 
@@ -38,13 +38,13 @@ class CountServiceTest extends TestCase
     /**
      * A basic feature test example.
      */
-    #[DataProvider('divide_provider')] public function test_divide_number($expected, $a, $b): void
+    #[DataProvider('divide_provider')] public function test_divide_number($expected, $num1, $num2): void
     {
         $target = new CountService();
-        if (!is_null($b)) {
-            $this->assertEquals($expected, $target->divide($a, $b));
+        if (!is_null($num2)) {
+            $this->assertEquals($expected, $target->divide($num1, $num2));
         } else {
-            $this->assertEquals($expected, $target->divide($a));
+            $this->assertEquals($expected, $target->divide($num1));
         }
     }
 
