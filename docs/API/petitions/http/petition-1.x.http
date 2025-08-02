@@ -1,0 +1,23 @@
+### 1.0.0 test 1
+
+POST http://localhost:8000/api/signatures
+Content-Type: application/json
+
+{
+    "name": "陳大文",
+    "email": "david.chen@example.com",
+    "comment": "支持這個活動！"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+
+    client.test("Response content-type is json", function () {
+        client.assert(
+            response.contentType.mimeType === "application/json",
+            "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+    });
+
+%}
