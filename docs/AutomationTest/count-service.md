@@ -38,5 +38,5 @@ public function divide(int $a, int $b = 1): float|int
 - 正常相除：`6 / 3` 等於 `2`
 - 小數：`7 / 3` 等於 `2`
 - 被除數為零：`0 / 3` 等於 `0`
-- 除數為零：`3 / 0` 拋出例外 `0`
+- 除數為零：`3 / 0` 拋出例外 `DivisionByZeroError`
 - 包含負數：`3 + -3 = 0`
