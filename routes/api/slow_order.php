@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Concurrency;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -7,6 +8,11 @@ use Illuminate\Http\Client\Pool;
 
 Route::post('/slow-order', function (Request $request) {
     $url = 'https://laravelslowapi-main-j3y6l3.laravel.cloud/api/';
+
+    [$userCount, $orderCount] = Concurrency::run([
+        fn () => DB::table('users')->count(),
+        fn () => DB::table('orders')->count(),
+    ]);
 
     $responses = Http::pool(fn (Pool $pool) => [
         $pool->as('user')->withQueryParameters([

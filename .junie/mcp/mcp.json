@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "php",
+            "args": [
+                "/Users/reccachao/code/laravel-cloud-2025/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
