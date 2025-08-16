@@ -35,6 +35,28 @@ class CountServiceTest extends TestCase
         ];
     }
 
+    #[DataProvider('providerFloat')] public function test_add_float_number($expected, $num1, $num2): void
+    {
+        $target = new CountService();
+        if (!is_null($num2)) {
+            $this->assertEquals($expected, new CountService()->addFloat($num1, $num2)); //
+        } else {
+            $this->assertEquals($expected, new CountService()->addFloat($num1));
+        }
+    }
+
+    public static function providerFloat(): array
+    {
+        return [
+            [5.0, 2.0, 3.0],
+            [3.0, 3.0, 0],
+            [0, 3.0, -3.0],
+            [3.0, 2.0, null],
+            [0, -1.0, null],
+            [-1.0, -2.0, null],
+        ];
+    }
+
     /**
      * A basic feature test example.
      */
