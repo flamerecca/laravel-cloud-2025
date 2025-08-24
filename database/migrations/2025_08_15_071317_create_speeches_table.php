@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('speeches', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('speaker_id')->constrained('speakers')->cascadeOnDelete();
+            $table->foreignId('speaker_id');
             $table->decimal('fee', 10)->default(0);
             $table->enum('status', ['draft', 'confirmed', 'paid', 'completed'])->default('draft');
             $table->timestamp('scheduled_at')->nullable();
