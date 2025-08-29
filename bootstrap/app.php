@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/web/card.php',
             __DIR__ . '/../routes/web/assignment.php',
             __DIR__ . '/../routes/web/crypt.php',
+            __DIR__ . '/../routes/web/fallback.php',
         ],
         api: [
             __DIR__ . '/../routes/api/fizzbuzz.php',
