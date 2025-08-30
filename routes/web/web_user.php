@@ -28,7 +28,7 @@ Route::get('/users-without-index', function (Request $request) {
 Route::get('/users-with-cache', function (Request $request) {
     $email = $request->input('email');
     return Cache::remember("user_search_email_{$email}", 300, function () use ($email) {
-        return response()->json(User::where('email', $email)->get());
+        return response()->json(User::where('email_without_index', $email)->get());
     });
 });
 
