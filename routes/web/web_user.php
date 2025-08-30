@@ -25,6 +25,13 @@ Route::get('/users-without-index', function (Request $request) {
     return response()->json(User::where('email_without_index', $request->input('email'))->get());
 });
 
+Route::get('/users-with-cache', function (Request $request) {
+    $email = $request->input('email');
+    return Cache::remember("user_search_email_{$email}", 300, function () use ($email) {
+        return response()->json(User::where('email', $email)->get());
+    });
+});
+
 Route::get('/users-with-index-explain', function (Request $request) {
     return response()->json(User::where('email', $request->input('email'))->explain());
 });
