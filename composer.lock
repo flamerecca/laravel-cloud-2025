@@ -5658,16 +5658,16 @@
         },
         {
             "name": "recca/chinese-military-number",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flamerecca/chinese-military-number.git",
-                "reference": "a8df1460cd1da1a3a36863048a683d0d3604fd46"
+                "reference": "990e7f7c76d2bcb4e5262b519e0552c181c3595a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flamerecca/chinese-military-number/zipball/a8df1460cd1da1a3a36863048a683d0d3604fd46",
-                "reference": "a8df1460cd1da1a3a36863048a683d0d3604fd46",
+                "url": "https://api.github.com/repos/flamerecca/chinese-military-number/zipball/990e7f7c76d2bcb4e5262b519e0552c181c3595a",
+                "reference": "990e7f7c76d2bcb4e5262b519e0552c181c3595a",
                 "shasum": ""
             },
             "require": {
@@ -5717,7 +5717,7 @@
                 }
             ],
             "description": "將數字轉換成中文軍用數字",
-            "homepage": "https://github.com/flamerecca/chinesemilitarynumber",
+            "homepage": "https://github.com/flamerecca/chinese-military-number",
             "keywords": [
                 "chinesemilitarynumber",
                 "laravel",
@@ -5725,7 +5725,7 @@
             ],
             "support": {
                 "issues": "https://github.com/flamerecca/chinese-military-number/issues",
-                "source": "https://github.com/flamerecca/chinese-military-number/tree/v1.0.0"
+                "source": "https://github.com/flamerecca/chinese-military-number/tree/v1.1.0"
             },
             "funding": [
                 {
@@ -5733,7 +5733,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-03T08:03:37+00:00"
+            "time": "2025-11-04T06:35:35+00:00"
         },
         {
             "name": "ryangjchandler/blade-capture-directive",
@@ -6376,16 +6376,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.17.1",
+            "version": "11.17.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "2db342c84c48a62cdb1ae9684506e5ffd644714c"
+                "reference": "3e535836da341776b1616002eb9e2a5776fa9a4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/2db342c84c48a62cdb1ae9684506e5ffd644714c",
-                "reference": "2db342c84c48a62cdb1ae9684506e5ffd644714c",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/3e535836da341776b1616002eb9e2a5776fa9a4d",
+                "reference": "3e535836da341776b1616002eb9e2a5776fa9a4d",
                 "shasum": ""
             },
             "require": {
@@ -6404,7 +6404,7 @@
                 "spatie/image": "^3.3.2",
                 "spatie/laravel-package-tools": "^1.16.1",
                 "spatie/temporary-directory": "^2.2",
-                "symfony/console": "^6.4.1|^7.0"
+                "symfony/console": "^6.4.1|^7.0|^8.0"
             },
             "conflict": {
                 "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -6470,7 +6470,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.17.1"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.17.2"
             },
             "funding": [
                 {
@@ -6482,7 +6482,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-03T08:26:35+00:00"
+            "time": "2025-11-03T08:29:05+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -6633,16 +6633,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "6.22.0",
+            "version": "6.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "8c87966ddc21893bfda54b792047473703992625"
+                "reference": "9e41247bd512b1e6c229afbc1eb528f7565ae3bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/8c87966ddc21893bfda54b792047473703992625",
-                "reference": "8c87966ddc21893bfda54b792047473703992625",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/9e41247bd512b1e6c229afbc1eb528f7565ae3bb",
+                "reference": "9e41247bd512b1e6c229afbc1eb528f7565ae3bb",
                 "shasum": ""
             },
             "require": {
@@ -6704,7 +6704,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/6.22.0"
+                "source": "https://github.com/spatie/laravel-permission/tree/6.23.0"
             },
             "funding": [
                 {
@@ -6712,7 +6712,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-27T21:58:45+00:00"
+            "time": "2025-11-03T20:16:13+00:00"
         },
         {
             "name": "spatie/laravel-signal-aware-command",

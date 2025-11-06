@@ -34,5 +34,7 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
+    'n8n' => [
+        'webhook' => env('N8N_WEBHOOK_URL', 'https://your-n8n-url/webhook/newsletter'),
+    ],
 ];

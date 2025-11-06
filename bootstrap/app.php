@@ -34,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/gcd.php',
             __DIR__ . '/../routes/api/first-bad-version.php',
             __DIR__ . '/../routes/api/n8n_order.php',
+            __DIR__ . '/../routes/api/newsletter.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
