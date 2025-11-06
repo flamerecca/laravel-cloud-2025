@@ -79,7 +79,7 @@
                             class="w-full bg-[#fff8f8] border border-pink-200 text-gray-700
                rounded-full px-5 py-2.5 text-sm
                focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400
-               shadow-inner transition"
+               shadow-inner transition mb-6"
                         >
                         <button
                             type="submit"
@@ -106,7 +106,7 @@
 
                     {{-- 右側可以放圖或 Logo --}}
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-pink-700 dark:text-pink-200 text-4xl font-bold">📬</span>
+                        <x-newsletter-icon class="size-3 fill-current text-white dark:text-black" />
                     </div>
                 </div>
             </main>
