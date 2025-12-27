@@ -11,11 +11,8 @@ class N8nOrderHeaderController extends Controller
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
-    {
-        $token = $request->header('unique_id');
-
-        // 檢查 Header 是否存在
-        if (!$request->hasHeader('unique_id')) {
+    {// 檢查 Header 是否存在
+        if (!$request->hasHeader('unique-id')) {
             return response()->json(['message' => '缺少 Header: unique_id']);
         }
         // 模擬資料（實務上你可能從外部 API 或記憶體取得）
