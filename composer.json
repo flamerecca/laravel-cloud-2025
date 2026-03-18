@@ -3,39 +3,42 @@
     "name": "laravel/livewire-starter-kit",
     "type": "project",
     "description": "The official Laravel starter kit for Livewire.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "fakerphp/faker": "^1.23",
-        "filament/filament": "^4.0",
-        "intervention/image": "^3.11",
-        "laravel/framework": "^12.0",
-        "laravel/octane": "^2.11",
-        "laravel/tinker": "^2.10.1",
-        "livewire/flux": "^2.0",
-        "livewire/volt": "^1.6.7",
-        "recca/chinese-military-number": "^1.0",
-        "spatie/fork": "^1.2",
-        "spatie/laravel-backup": "^9.3",
-        "spatie/laravel-medialibrary": "^11.12",
-        "spatie/laravel-pdf": "^1.5",
-        "spatie/laravel-permission": "^6.20",
-        "spatie/url": "^2.4",
-        "spiral/roadrunner-cli": "^2.7"
+        "fakerphp/faker": "*",
+        "filament/filament": "*",
+        "intervention/image": "*",
+        "laravel/framework": "^13.0",
+        "laravel/octane": "*",
+        "laravel/tinker": "*",
+        "livewire/flux": "*",
+        "livewire/volt": "*",
+        "recca/chinese-military-number": "dev-main",
+        "spatie/fork": "*",
+        "spatie/laravel-backup": "*",
+        "spatie/laravel-medialibrary": "*",
+        "spatie/laravel-pdf": "*",
+        "spatie/laravel-permission": "*",
+        "spatie/url": "*",
+        "spiral/roadrunner-cli": "*"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.15",
-        "driftingly/rector-laravel": "^2.0",
-        "larastan/larastan": "^3.5",
-        "laravel/boost": "^1.0",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.18",
-        "laravel/sail": "^1.44",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^4.0",
-        "rector/rector": "^2.0"
+        "barryvdh/laravel-debugbar": "*",
+        "driftingly/rector-laravel": "*",
+        "larastan/larastan": "*",
+        "laravel/boost": "*",
+        "laravel/pail": "*",
+        "laravel/pint": "*",
+        "laravel/sail": "*",
+        "mockery/mockery": "*",
+        "nunomaduro/collision": "*",
+        "pestphp/pest": "*",
+        "rector/rector": "*"
     },
     "autoload": {
         "psr-4": {
@@ -86,5 +89,11 @@
         }
     },
     "minimum-stability": "beta",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": {
+        "chinese-military-number": {
+            "type": "path",
+            "url": "../chinese-military-number"
+        }
+    }
 }

@@ -1,9 +1,10 @@
 <?php
 
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    //
+new #[Layout('components.layouts.app')] class extends Component {
+    /**
 }; ?>
 
 <div class="flex flex-col items-start">

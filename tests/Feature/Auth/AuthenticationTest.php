@@ -48,6 +48,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_logout(): void
     {
+        $this->withoutMiddleware();
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/logout');
