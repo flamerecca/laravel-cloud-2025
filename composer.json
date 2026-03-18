@@ -18,7 +18,7 @@
         "laravel/tinker": "*",
         "livewire/flux": "*",
         "livewire/volt": "*",
-        "recca/chinese-military-number": "dev-main",
+        "recca/chinese-military-number": "^13.0",
         "spatie/fork": "*",
         "spatie/laravel-backup": "*",
         "spatie/laravel-medialibrary": "*",
@@ -89,11 +89,5 @@
         }
     },
     "minimum-stability": "beta",
-    "prefer-stable": true,
-    "repositories": {
-        "chinese-military-number": {
-            "type": "path",
-            "url": "../chinese-military-number"
-        }
-    }
+    "prefer-stable": true
 }
