@@ -25,7 +25,8 @@
         "spatie/laravel-pdf": "*",
         "spatie/laravel-permission": "*",
         "spatie/url": "*",
-        "spiral/roadrunner-cli": "*"
+        "spiral/roadrunner-cli": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "*",

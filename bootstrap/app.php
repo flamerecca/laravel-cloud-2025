@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/web/fallback.php',
         ],
         api: [
+            __DIR__ . '/../routes/api/ping.php',
             __DIR__ . '/../routes/api/fizzbuzz.php',
             __DIR__ . '/../routes/api/is_power_of.php',
             __DIR__ . '/../routes/api/convert_to_roman.php',
