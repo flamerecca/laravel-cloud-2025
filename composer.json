@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "ext-pdo": "*",
         "fakerphp/faker": "*",
         "filament/filament": "*",
         "intervention/image": "*",
@@ -18,6 +19,7 @@
         "laravel/tinker": "*",
         "livewire/flux": "*",
         "livewire/volt": "*",
+        "mati365/ckeditor5-livewire": "^1.11",
         "recca/chinese-military-number": "^13.0",
         "spatie/fork": "*",
         "spatie/laravel-backup": "*",
@@ -25,8 +27,7 @@
         "spatie/laravel-pdf": "*",
         "spatie/laravel-permission": "*",
         "spatie/url": "*",
-        "spiral/roadrunner-cli": "*",
-        "ext-pdo": "*"
+        "spiral/roadrunner-cli": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "*",
