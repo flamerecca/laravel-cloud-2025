@@ -10,7 +10,7 @@
 
 ### 判斷是否胡牌
 
-*   **URL:** `/api/mahjong/check-winning`
+*   **URL:** `/api/mahjong/v1/check-winning`
 *   **Method:** `POST`
 *   **Content-Type:** `application/json`
 

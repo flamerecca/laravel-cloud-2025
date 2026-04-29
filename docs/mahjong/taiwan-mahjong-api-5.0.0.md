@@ -9,12 +9,12 @@
 ## 2. API 端點
 
 ### 2.1 判斷胡牌與計算台數 (v5)
-*   **URL:** `/api/mahjong/check-winning-v5`
+*   **URL:** `/api/mahjong/v5/check-winning`
 *   **Method:** `POST`
 *   **說明:** 延續 v4 功能，支援所有台數計算。
 
 ### 2.2 打牌建議分析 (v5)
-*   **URL:** `/api/mahjong/analyze-discard`
+*   **URL:** `/api/mahjong/v5/analyze-discard`
 *   **Method:** `POST`
 *   **Content-Type:** `application/json`
 

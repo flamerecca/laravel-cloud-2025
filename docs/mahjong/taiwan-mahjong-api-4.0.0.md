@@ -10,7 +10,7 @@
 
 ### 判斷胡牌與計算台數 (v4)
 
-*   **URL:** `/api/mahjong/check-winning-v4`
+*   **URL:** `/api/mahjong/v4/check-winning`
 *   **Method:** `POST`
 *   **Content-Type:** `application/json`
 
