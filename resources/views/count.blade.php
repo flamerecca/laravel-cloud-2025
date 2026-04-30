@@ -1,0 +1,3 @@
+<body>
+<livewire:counter/>
+</body>
