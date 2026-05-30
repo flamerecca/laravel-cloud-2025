@@ -31,6 +31,9 @@ Route::middleware(['auth'])->group(function (): void {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+
+    Volt::route('announcements', 'announcements.index')->name('announcements.index');
+    Volt::route('announcements/{announcement}', 'announcements.show')->name('announcements.show');
 });
 
 require __DIR__.'/auth.php';
