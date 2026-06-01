@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\AnnouncementFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Announcement extends Model
@@ -28,5 +29,10 @@ class Announcement extends Model
             'is_pinned' => 'boolean',
             'published_at' => 'datetime',
         ];
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(AnnouncementComment::class);
     }
 }

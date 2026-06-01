@@ -2,6 +2,7 @@
 
 ## 相關文件
 - [介面設計文件](../view/AnnouncementView.md)
+- [公告評論模型文件](./AnnouncementComment.md)
 
 ## 簡介
 本文件介紹了公告系統的資料結構與模型設計。此功能用於在系統中顯示重要的公告訊息。
