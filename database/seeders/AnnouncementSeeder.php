@@ -17,6 +17,7 @@ class AnnouncementSeeder extends Seeder
             'title' => '測試公告標題',
             'content' => '測試公告內容',
             'status' => 1,
+            'published_at' => now(),
             'is_pinned' => true,
         ]);
 

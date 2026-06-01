@@ -32,7 +32,6 @@ class AnnouncementCommentSeeder extends Seeder
                     AnnouncementComment::factory(rand(1, 2))->create([
                         'announcement_id' => $announcement->id,
                         'user_id' => $users->random()->id,
-                        'parent_id' => $comment->id,
                     ]);
                 }
             });
