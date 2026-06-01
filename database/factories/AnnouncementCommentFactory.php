@@ -22,7 +22,6 @@ class AnnouncementCommentFactory extends Factory
         return [
             'announcement_id' => Announcement::factory(),
             'user_id' => User::factory(),
-            'parent_id' => null,
             'content' => $this->faker->paragraph(),
         ];
     }
