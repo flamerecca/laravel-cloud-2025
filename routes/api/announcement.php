@@ -2,5 +2,7 @@
 
 use App\Http\Controllers\Api\AnnouncementController;
 
-Route::apiResource('/announcements', AnnouncementController::class);
+Route::name('api.')->group(function () {
+    Route::apiResource('/announcements', AnnouncementController::class);
+});
 
