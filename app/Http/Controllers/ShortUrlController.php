@@ -42,6 +42,7 @@ class ShortUrlController extends Controller
     {
         $shortUrl->original_url = $request->input('original_url');
         $shortUrl->save();
+
         return $shortUrl;
     }
 
@@ -51,6 +52,7 @@ class ShortUrlController extends Controller
     public function destroy(ShortUrl $shortUrl)
     {
         $shortUrl->delete();
+
         return response()->noContent();
     }
 }

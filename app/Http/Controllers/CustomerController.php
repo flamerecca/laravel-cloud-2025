@@ -21,22 +21,24 @@ class CustomerController extends Controller
         $user = Auth::user();
         $user->givePermissionTo('edit articles');
 
-// Adding permissions via a role
+        // Adding permissions via a role
         $user->assignRole('writer');
         $role = Role::create(['name' => 'writer']);
         $role->givePermissionTo('edit articles');
+
         return Customer::all()->toResourceCollection();
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'  => 'required|string',
+            'name' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
         ]);
 
         $customer = Customer::create($validated);
+
         return $customer->toResource();
     }
 
@@ -54,18 +56,20 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $validated = $request->validate([
-            'name'  => 'sometimes|string',
+            'name' => 'sometimes|string',
             'email' => 'sometimes|email',
             'phone' => 'sometimes|string',
         ]);
 
         $customer->update($validated);
+
         return $customer->toResource();
     }
 
     public function destroy(Customer $customer): JsonResponse
     {
         $customer->delete();
+
         return response()->json(['message' => 'Deleted']);
     }
 }

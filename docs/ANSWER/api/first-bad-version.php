@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/first-bad-version', function () {
     $low = 1;
@@ -19,7 +19,6 @@ Route::get('/first-bad-version', function () {
             $low = $mid + 1;
         }
     }
-
 
     return response()->json(['version' => $low]);
 });

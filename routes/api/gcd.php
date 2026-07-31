@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,12 +14,11 @@ Route::get('/gcd', function (Request $request) {
     } catch (ValidationException $exception) {
         return response()->json(
             [
-                'error' => "Invalid input. Parameters a and b must be positive integers."
+                'error' => 'Invalid input. Parameters a and b must be positive integers.',
             ],
             status: Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
-
 
     $a = $validated['a'];
     $b = $validated['b'];
@@ -32,14 +31,15 @@ Route::get('/gcd', function (Request $request) {
             $y = $x % $y;
             $x = $temp;
         }
+
         return $x;
     }
 
-    $gcd = gcd((int)$a, (int)$b);
+    $gcd = gcd((int) $a, (int) $b);
 
     return response()->json([
-        'a' => (int)$a,
-        'b' => (int)$b,
+        'a' => (int) $a,
+        'b' => (int) $b,
         'gcd' => $gcd,
     ]);
 });

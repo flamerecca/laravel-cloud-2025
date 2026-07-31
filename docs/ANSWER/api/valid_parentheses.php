@@ -39,7 +39,7 @@ Route::post('/valid-parentheses', function (Request $request) {
         }
     }
 
-    if (!empty($stack)) {
+    if (! empty($stack)) {
         $isValid = false;
     }
 

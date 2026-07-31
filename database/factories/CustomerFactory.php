@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
+ * @extends Factory<Customer>
  */
 class CustomerFactory extends Factory
 {
@@ -19,7 +20,7 @@ class CustomerFactory extends Factory
         return [
             'name' => fake(locale: 'zh_TW')->name(),
             'email' => fake()->unique()->safeEmail(),
-            'phone' => '09' . rand(10000000, 99999999),
+            'phone' => '09'.rand(10000000, 99999999),
         ];
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/users', function (Request $request) {
     $name = $request->input('name');
@@ -10,7 +10,6 @@ Route::get('/users', function (Request $request) {
 
     return response()->json($users);
 });
-
 
 Route::get('/users-count', function () {
     // 計算有幾位 user
@@ -27,6 +26,7 @@ Route::get('/users-without-index', function (Request $request) {
 
 Route::get('/users-with-cache', function (Request $request) {
     $email = $request->input('email');
+
     return Cache::remember("user_search_email_{$email}", 300, function () use ($email) {
         return response()->json(User::where('email_without_index', 'like', "%{$email}%")->first());
     });

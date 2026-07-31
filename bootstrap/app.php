@@ -40,7 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/api/n8n_order.php',
             __DIR__ . '/../routes/api/newsletter.php',
         ],
-        commands: __DIR__ . '/../routes/console.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {

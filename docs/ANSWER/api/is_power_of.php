@@ -1,22 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/is-power-of-two', function (Request $request) {
     $validated = $request->validate([
         'number' => 'required|integer',
     ]);
-    $number = (int)$validated['number'];
+    $number = (int) $validated['number'];
     if ($number == 0) {
         return response()->json([
             'number' => $number,
-            'isPowerOfTwo' => false
+            'isPowerOfTwo' => false,
         ]);
     }
+
     return response()->json([
         'number' => $number,
-        'isPowerOfTwo' => ($number & ($number - 1)) == 0
+        'isPowerOfTwo' => ($number & ($number - 1)) == 0,
     ]);
 });
 
@@ -24,16 +25,17 @@ Route::get('/is-power-of-three', function (Request $request) {
     $validated = $request->validate([
         'number' => 'required|integer',
     ]);
-    $number = (int)$validated['number'];
+    $number = (int) $validated['number'];
     if ($number == 0) {
         return response()->json([
             'number' => $number,
-            'isPowerOfThree' => false
+            'isPowerOfThree' => false,
         ]);
     }
+
     return response()->json([
         'number' => $number,
-        'isPowerOfThree' => 1162261467 % $number == 0
+        'isPowerOfThree' => 1162261467 % $number == 0,
     ]);
 });
 
@@ -41,16 +43,17 @@ Route::get('/is-power-of-four', function (Request $request) {
     $validated = $request->validate([
         'number' => 'required|integer',
     ]);
-    $number = (int)$validated['number'];
+    $number = (int) $validated['number'];
     if ($number == 0) {
         return response()->json([
             'number' => $number,
-            'isPowerOfFour' => false
+            'isPowerOfFour' => false,
         ]);
     }
     $power = log($number, 4.0);
+
     return response()->json([
         'number' => $number,
-        'isPowerOfFour' => floor($power) == ceil($power)
+        'isPowerOfFour' => floor($power) == ceil($power),
     ]);
 });

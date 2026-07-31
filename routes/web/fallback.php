@@ -10,13 +10,14 @@ Route::fallback(function () {
     $safePath = str_replace('..', '', $path);
 
     // 拼出 legacy 目錄底下的檔案路徑
-    $legacyFile = $legacyBase . '/' . $safePath;
+    $legacyFile = $legacyBase.'/'.$safePath;
 
     if (file_exists($legacyFile)) {
         chdir(dirname($legacyFile));   // 修正相對路徑
+
         return include $legacyFile;    // 執行舊程式
     }
 
     // 如果 legacy 裡也沒有 → 回傳 404
-    abort(404, "Not Found in Laravel nor Legacy");
+    abort(404, 'Not Found in Laravel nor Legacy');
 });

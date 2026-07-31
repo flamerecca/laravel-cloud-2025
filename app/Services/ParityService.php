@@ -11,6 +11,7 @@ class ParityService
         }, $nums);
 
         sort($transformed);
+
         return $transformed;
     }
 }

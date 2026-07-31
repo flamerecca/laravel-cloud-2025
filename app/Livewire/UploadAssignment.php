@@ -2,18 +2,20 @@
 
 namespace App\Livewire;
 
+use App\Models\Assignment;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Str;
-use App\Models\Assignment;
 
 class UploadAssignment extends Component
 {
     use WithFileUploads;
 
     public $name = '';
+
     public $email = '';
+
     public $file = '';
 
     public $successMessage;
@@ -29,7 +31,7 @@ class UploadAssignment extends Component
         $this->validate();
 
         $originalName = $this->file->getClientOriginalName();
-        $filename = Str::uuid() . '.pdf';
+        $filename = Str::uuid().'.pdf';
         $path = $this->file->storeAs('assignments', $filename);
 
         Assignment::create([

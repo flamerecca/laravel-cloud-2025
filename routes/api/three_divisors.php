@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 Route::get('/three-divisors', function (Request $request) {
     $n = $request->query('n');
 
-    if (!is_numeric($n) || (int)$n <= 0) {
+    if (! is_numeric($n) || (int) $n <= 0) {
         return response()->json([
             'error' => "'n' must be an integer.",
         ], status: Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -15,7 +15,7 @@ Route::get('/three-divisors', function (Request $request) {
 
     if ($n < 2) {
         return response()->json([
-            'n' => (int)$n,
+            'n' => (int) $n,
             'isThree' => false,
         ]);
     }
@@ -24,7 +24,7 @@ Route::get('/three-divisors', function (Request $request) {
     $isThree = floor($square) === ceil($square);
 
     return response()->json([
-        'n' => (int)$n,
+        'n' => (int) $n,
         'isThree' => $isThree,
     ]);
 });

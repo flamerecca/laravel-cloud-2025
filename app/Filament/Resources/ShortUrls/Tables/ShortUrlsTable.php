@@ -18,7 +18,7 @@ class ShortUrlsTable
         return $table
             ->headerActions([
                 ImportAction::make()
-                    ->importer(ShortUrlImporter::class)
+                    ->importer(ShortUrlImporter::class),
             ])
             ->columns([
                 TextColumn::make('slug')

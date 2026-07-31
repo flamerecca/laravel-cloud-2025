@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,12 +14,11 @@ Route::get('/fizzbuzz', function (Request $request) {
     } catch (ValidationException $exception) {
         return response()->json(
             [
-                'error' => "Invalid input. 'start' and 'end' must be integers, and start <= end."
+                'error' => "Invalid input. 'start' and 'end' must be integers, and start <= end.",
             ],
             status: Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
-
 
     $start = $validated['start'];
     $end = $validated['end'];
@@ -29,14 +28,15 @@ Route::get('/fizzbuzz', function (Request $request) {
             $i % 15 == 0 => 'FizzBuzz',
             $i % 3 == 0 => 'Fizz',
             $i % 5 == 0 => 'Buzz',
-            default => (string)$i,
+            default => (string) $i,
         };
     }
+
     return response()->json(
         [
-            'start' => (int)$start,
-            'end' => (int)$end,
-            'result' => $answer
+            'start' => (int) $start,
+            'end' => (int) $end,
+            'result' => $answer,
         ]
     );
 });
@@ -58,18 +58,18 @@ Route::post('/v2/fizzbuzz', function (Request $request) {
         $output = '';
 
         foreach ($rules as $divisor => $word) {
-            if ($i % (int)$divisor === 0) {
+            if ($i % (int) $divisor === 0) {
                 $output .= $word;
             }
         }
 
-        $result[] = $output !== '' ? $output : (string)$i;
+        $result[] = $output !== '' ? $output : (string) $i;
     }
 
     return response()->json([
-        'start' => (int)$start,
-        'end' => (int)$end,
+        'start' => (int) $start,
+        'end' => (int) $end,
         'rules' => $rules,
-        'result' => $result
+        'result' => $result,
     ]);
 });

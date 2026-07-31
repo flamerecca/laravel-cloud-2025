@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 
 Route::post('/shuffle', function (Request $request) {
@@ -18,7 +18,7 @@ Route::post('/shuffle', function (Request $request) {
         // 自訂驗證 (長度)
         if (count($nums) != 2 * $n) {
             return response()->json([
-                'errors' => ['nums' => ['The nums array length must be exactly 2 * n.']]
+                'errors' => ['nums' => ['The nums array length must be exactly 2 * n.']],
             ], 422);
         }
     } catch (ValidationException $e) {
@@ -36,6 +36,7 @@ Route::post('/shuffle', function (Request $request) {
         $result[] = $x[$i];
         $result[] = $y[$i];
     }
+
     return response()->json([
         'result' => $result,
     ]);

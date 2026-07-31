@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class ParityController extends Controller
 {
-    public function __construct(private ParityService $parityService)
-    {
-    }
+    public function __construct(private readonly ParityService $parityService) {}
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -27,7 +25,7 @@ class ParityController extends Controller
         $result = $parity($nums);
 
         return response()->json([
-            'result' => $result
+            'result' => $result,
         ]);
     }
 }

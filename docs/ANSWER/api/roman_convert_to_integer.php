@@ -24,14 +24,14 @@ Route::get('/roman-convert-to-integer', function (Request $request) {
 
     if (empty($roman)) {
         return response()->json([
-            'error' => 'Parameter "roman" is required.'
+            'error' => 'Parameter "roman" is required.',
         ], 400);
     }
 
     $isValidRoman = preg_match('/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $roman) === 1;
-    if (!$isValidRoman) {
+    if (! $isValidRoman) {
         return response()->json([
-            'error' => 'Invalid Roman numeral format or out of range'
+            'error' => 'Invalid Roman numeral format or out of range',
         ], 400);
     }
 
@@ -51,11 +51,11 @@ Route::get('/roman-convert-to-integer', function (Request $request) {
 
     if ($result < 1 || $result > 3999) {
         return response()->json([
-            'error' => 'Roman numeral is out of supported range (1 ~ 3999)'
+            'error' => 'Roman numeral is out of supported range (1 ~ 3999)',
         ], 400);
     }
 
     return response()->json([
-        'integer' => $result
+        'integer' => $result,
     ]);
 });

@@ -12,16 +12,16 @@ class CountServiceTest extends TestCase
     /**
      * A basic feature test example.
      */
-    #[DataProvider('provider')] public function test_add_number($expected, $num1, $num2): void
+    #[DataProvider('provider')]
+    public function test_add_number($expected, $num1, $num2): void
     {
-        $target = new CountService();
-        if (!is_null($num2)) {
+        $target = new CountService;
+        if (! is_null($num2)) {
             $this->assertEquals($expected, $target->add($num1, $num2));
         } else {
             $this->assertEquals($expected, $target->add($num1));
         }
     }
-
 
     public static function provider(): array
     {
@@ -35,10 +35,11 @@ class CountServiceTest extends TestCase
         ];
     }
 
-    #[DataProvider('providerFloat')] public function test_add_float_number($expected, $num1, $num2): void
+    #[DataProvider('providerFloat')]
+    public function test_add_float_number($expected, $num1, $num2): void
     {
-        $target = new CountService();
-        if (!is_null($num2)) {
+        $target = new CountService;
+        if (! is_null($num2)) {
             $this->assertEquals($expected, new CountService()->addFloat($num1, $num2)); //
         } else {
             $this->assertEquals($expected, new CountService()->addFloat($num1));
@@ -60,10 +61,11 @@ class CountServiceTest extends TestCase
     /**
      * A basic feature test example.
      */
-    #[DataProvider('divide_provider')] public function test_divide_number($expected, $num1, $num2): void
+    #[DataProvider('divide_provider')]
+    public function test_divide_number($expected, $num1, $num2): void
     {
-        $target = new CountService();
-        if (!is_null($num2)) {
+        $target = new CountService;
+        if (! is_null($num2)) {
             $this->assertEquals($expected, $target->divide($num1, $num2));
         } else {
             $this->assertEquals($expected, $target->divide($num1));
@@ -81,12 +83,11 @@ class CountServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
      */
     public function test_divide_by_zero_number(): void
     {
         $this->expectException(DivisionByZeroError::class);
-        $target = new CountService();
+        $target = new CountService;
         $target->divide(3, 0);
     }
 }

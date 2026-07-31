@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Customer;
+use App\Models\ShortUrl;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ShortUrl>
+ * @extends Factory<ShortUrl>
  */
 class ShortUrlFactory extends Factory
 {

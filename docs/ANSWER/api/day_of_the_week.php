@@ -1,22 +1,22 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 Route::get('/day-of-the-week', function (Request $request) {
     $dateInput = $request->query('date');
 
     // 日期解析與錯誤處理
     try {
-        if (!$dateInput) {
-            throw new Exception("Missing date");
+        if (! $dateInput) {
+            throw new Exception('Missing date');
         }
 
         $date = Carbon::createFromFormat('Y-m-d', $dateInput);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return response()->json([
-            'error' => "Invalid or missing 'date' parameter. Expected format: YYYY-MM-DD"
+            'error' => "Invalid or missing 'date' parameter. Expected format: YYYY-MM-DD",
         ], 422);
     }
 
@@ -34,20 +34,20 @@ Route::get('/v2/day-of-the-week', function (Request $request) {
     $supportedLocales = ['en', 'zh_TW', 'ja'];
 
     // fallback 處理
-    if (!in_array($locale, $supportedLocales)) {
+    if (! in_array($locale, $supportedLocales)) {
         $locale = 'en';
     }
 
     // 日期解析與錯誤處理
     try {
-        if (!$dateInput) {
-            throw new Exception("Missing date");
+        if (! $dateInput) {
+            throw new Exception('Missing date');
         }
 
         $date = Carbon::createFromFormat('Y-m-d', $dateInput);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return response()->json([
-            'error' => "Invalid or missing 'date' parameter. Expected format: YYYY-MM-DD"
+            'error' => "Invalid or missing 'date' parameter. Expected format: YYYY-MM-DD",
         ], 422);
     }
 
@@ -67,7 +67,7 @@ Route::get('/v3/day-of-the-week', function (Request $request) {
     $supportedLocales = ['en', 'zh_TW', 'ja'];
 
     // fallback 語系處理
-    if (!in_array($locale, $supportedLocales)) {
+    if (! in_array($locale, $supportedLocales)) {
         $locale = 'en';
     }
 
@@ -83,16 +83,16 @@ Route::get('/v3/day-of-the-week', function (Request $request) {
                 'date' => $date->toDateString(),
                 'dayOfWeek' => $date->translatedFormat('l'),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $results[] = [
                 'date' => $dateInput,
-                'error' => 'Invalid date format'
+                'error' => 'Invalid date format',
             ];
         }
     }
 
     return response()->json([
         'locale' => $locale,
-        'results' => $results
+        'results' => $results,
     ]);
 });

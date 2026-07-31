@@ -17,37 +17,37 @@ class N8nOrderController extends Controller
             new N8nOrder(
                 orderID: 1,
                 customerID: 8,
-                employeeName: "Alice",
+                employeeName: 'Alice',
                 orderPrice: 150.32,
-                orderStatus: "processing"
+                orderStatus: 'processing'
             ),
             new N8nOrder(
                 orderID: 2,
                 customerID: 1,
-                employeeName: "Bob",
+                employeeName: 'Bob',
                 orderPrice: 111.19,
-                orderStatus: "booked"
+                orderStatus: 'booked'
             ),
             new N8nOrder(
                 orderID: 3,
                 customerID: 9,
-                employeeName: "Charlie",
+                employeeName: 'Charlie',
                 orderPrice: 111.19,
-                orderStatus: "booked"
+                orderStatus: 'booked'
             ),
             new N8nOrder(
                 orderID: 4,
                 customerID: 1,
-                employeeName: "Bob",
+                employeeName: 'Bob',
                 orderPrice: 101.71,
-                orderStatus: "booked"
+                orderStatus: 'booked'
             ),
             new N8nOrder(
                 orderID: 5,
                 customerID: 9,
-                employeeName: "Bob",
+                employeeName: 'Bob',
                 orderPrice: 55.9,
-                orderStatus: "booked"
+                orderStatus: 'booked'
             ),
         ]);
     }

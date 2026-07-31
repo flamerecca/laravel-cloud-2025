@@ -11,9 +11,6 @@ class CountService
 
     /**
      * @deprecated
-     * @param float $num1
-     * @param float $num2
-     * @return float
      */
     public function addFloat(float $num1, float $num2 = 1): float
     {

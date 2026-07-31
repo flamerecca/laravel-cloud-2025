@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Speech;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Speech>
+ * @extends Factory<Speech>
  */
 class SpeechFactory extends Factory
 {

@@ -8,7 +8,9 @@ use Livewire\Component;
 class CardSuits extends Component
 {
     public array $suits = [];
+
     public array $numbers = [];
+
     public array $cards = [];
 
     public function mount(): void
@@ -39,8 +41,8 @@ class CardSuits extends Component
         foreach ($this->suits as $suit) {
             foreach ($this->numbers as $number) {
                 $this->cards[] = [
-                    'name' => $suit['name'] . $number,
-                    'symbol' => $suit['symbol'] . $number,
+                    'name' => $suit['name'].$number,
+                    'symbol' => $suit['symbol'].$number,
                 ];
             }
         }

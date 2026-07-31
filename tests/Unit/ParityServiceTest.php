@@ -12,7 +12,7 @@ class ParityServiceTest extends TestCase
      */
     public function test_example(): void
     {
-        $parityService = new ParityService();
+        $parityService = new ParityService;
         $input = [1, 2, 3, 4, 5];
         $result = $parityService($input);
         $this->assertEquals([0, 0, 1, 1, 1], $result);

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/convert-to-roman', function (Request $request) {
     $validated = $request->validate([
@@ -34,6 +34,6 @@ Route::get('/convert-to-roman', function (Request $request) {
     }
 
     return [
-        'roman' => $result
+        'roman' => $result,
     ];
 });

@@ -30,6 +30,7 @@ class Speech extends Model
         if ($start && $end) {
             return $query->whereBetween('scheduled_at', [$start, $end]);
         }
+
         return $query;
     }
 
@@ -43,6 +44,7 @@ class Speech extends Model
         if ($user->hasRole('admin')) {
             return $query;
         }
+
         return $query->where('created_by', $user->id);
     }
 }

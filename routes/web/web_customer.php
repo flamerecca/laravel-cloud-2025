@@ -10,5 +10,6 @@ Route::get('customers/{customer}/short-urls', function (Customer $customer) {
             'name' => $shortUrl->name,
         ]);
     }
+
     return view('welcome');
 });

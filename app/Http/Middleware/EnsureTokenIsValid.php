@@ -19,9 +19,10 @@ class EnsureTokenIsValid
         if ($token !== 'secret-token') {
             return response()->json([
                 'status' => 'error',
-                'message' => '驗證失敗！'
+                'message' => '驗證失敗！',
             ], Response::HTTP_UNAUTHORIZED);
         }
+
         return $next($request);
     }
 }

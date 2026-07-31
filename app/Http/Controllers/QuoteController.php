@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 class QuoteController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class QuoteController extends Controller
         if (rand(1, 5) === 1) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error',
             ], 500);
         }
 
@@ -26,7 +27,7 @@ class QuoteController extends Controller
             'data' => [
                 'quote' => $quote,
                 'timestamp' => now()->toISOString(),
-            ]
+            ],
         ]);
     }
 }
