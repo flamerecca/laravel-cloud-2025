@@ -17,6 +17,7 @@ class AnnouncementComment extends Model
     protected $fillable = [
         'announcement_id',
         'user_id',
+        'parent_id',
         'content',
     ];
 
