@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.4",
         "ext-pdo": "*",
+        "amazingbv/laravel-google-sheets-database-driver": "^1.1",
         "fakerphp/faker": "*",
         "filament/filament": "*",
         "intervention/image": "*",

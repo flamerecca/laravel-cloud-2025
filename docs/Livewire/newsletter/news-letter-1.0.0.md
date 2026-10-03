@@ -1,3 +1,5 @@
+> **已被取代**：本規格所描述的 Livewire + `subscribers` 資料表設計未實際採用，正式規格請見 [docs/Newsletter/newsletter-subscribe-1.0.0.md](../../Newsletter/newsletter-subscribe-1.0.0.md)。本檔案保留供歷史對照。
+
 ## Newsletter 系統
 
 提供使用者輸入 email 訂閱 Newsletter。
