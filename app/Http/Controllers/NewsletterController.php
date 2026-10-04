@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\NewsletterTopic;
 use App\Http\Requests\SubscribeNewsletterRequest;
 use App\Jobs\StoreNewsletterSubscriber;
 use Illuminate\Http\RedirectResponse;
@@ -17,8 +18,9 @@ class NewsletterController extends Controller
         StoreNewsletterSubscriber::dispatch(
             $request->validated('email'),
             Carbon::now(),
+            $request->enum('topic', NewsletterTopic::class),
         );
 
-        return back()->with('success', '感謝訂閱！請到信箱查看確認信');
+        return back()->with('success', '感謝訂閱！請到信箱點擊確認連結，完成訂閱');
     }
 }

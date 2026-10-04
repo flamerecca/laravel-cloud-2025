@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\NewsletterTopic;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SubscribeNewsletterRequest extends FormRequest
 {
@@ -24,6 +26,7 @@ class SubscribeNewsletterRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email'],
+            'topic' => ['nullable', Rule::enum(NewsletterTopic::class)],
         ];
     }
 
@@ -37,6 +40,7 @@ class SubscribeNewsletterRequest extends FormRequest
         return [
             'email.required' => '請輸入 Email。',
             'email.email' => '請輸入正確的 Email 格式。',
+            'topic.enum' => '找不到這個電子報主題。',
         ];
     }
 }

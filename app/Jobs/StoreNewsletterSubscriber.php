@@ -2,10 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Enums\NewsletterTopic;
+use App\Mail\NewsletterConfirmation;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class StoreNewsletterSubscriber implements ShouldQueue
 {
@@ -24,6 +27,7 @@ class StoreNewsletterSubscriber implements ShouldQueue
     public function __construct(
         public readonly string $email,
         public readonly Carbon $subscribedAt,
+        public readonly ?NewsletterTopic $topic = null,
     ) {}
 
     /**
@@ -31,9 +35,15 @@ class StoreNewsletterSubscriber implements ShouldQueue
      */
     public function handle(): void
     {
-        NewsletterSubscriber::firstOrCreate(
+        $subscriber = NewsletterSubscriber::forTopic($this->topic)->firstOrCreate(
             ['email' => $this->email],
             ['subscribed_at' => $this->subscribedAt],
         );
+
+        if ($subscriber->isConfirmed()) {
+            return;
+        }
+
+        Mail::to($this->email)->send(new NewsletterConfirmation($this->email, $this->topic));
     }
 }

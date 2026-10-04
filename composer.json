@@ -28,7 +28,9 @@
         "spatie/laravel-pdf": "*",
         "spatie/laravel-permission": "*",
         "spatie/url": "*",
-        "spiral/roadrunner-cli": "*"
+        "spiral/roadrunner-cli": "*",
+        "symfony/http-client": "^8.0",
+        "symfony/mailgun-mailer": "^8.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "*",
