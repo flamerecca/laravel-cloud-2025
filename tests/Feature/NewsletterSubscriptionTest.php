@@ -4,28 +4,9 @@ use App\Enums\NewsletterTopic;
 use App\Jobs\StoreNewsletterSubscriber;
 use App\Mail\NewsletterConfirmation;
 use App\Models\NewsletterSubscriber;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
-use Tests\Support\InMemorySheetsTransport;
-
-beforeEach(function () {
-    InMemorySheetsTransport::reset();
-
-    $tables = ['newsletter_subscribers', ...array_map(fn (NewsletterTopic $topic) => $topic->table(), NewsletterTopic::cases())];
-
-    foreach ($tables as $name) {
-        Schema::connection('google-sheets')->create($name, function (Blueprint $table) {
-            $table->id();
-            $table->string('email');
-            $table->timestamp('subscribed_at')->nullable();
-            $table->timestamp('confirmed_at')->nullable();
-            $table->timestamps();
-        });
-    }
-});
 
 test('有效 email 訂閱後顯示成功訊息並派送寫入任務', function () {
     Queue::fake();
@@ -40,19 +21,19 @@ test('有效 email 訂閱後顯示成功訊息並派送寫入任務', function (
     Queue::assertPushed(StoreNewsletterSubscriber::class, fn (StoreNewsletterSubscriber $job) => $job->email === 'reader@example.com');
 });
 
-test('訂閱後會把訂閱者寫入 google-sheets 連線', function () {
+test('訂閱後會把訂閱者寫入資料庫', function () {
     $this->post(route('newsletter.subscribe'), [
         'email' => 'reader@example.com',
     ]);
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->count())->toBe(1);
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->count())->toBe(1);
 });
 
 test('重複訂閱同一個 email 不會建立第二筆資料', function () {
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com']);
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com']);
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->count())->toBe(1);
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->count())->toBe(1);
 });
 
 test('email 格式錯誤時顯示錯誤訊息', function () {
@@ -112,11 +93,11 @@ test('從主題頁面訂閱後導回該頁並顯示成功訊息', function () {
     Queue::assertPushed(StoreNewsletterSubscriber::class, fn (StoreNewsletterSubscriber $job) => $job->topic === NewsletterTopic::Filament);
 });
 
-test('主題訂閱寫入該主題自己的分頁，不寫入一般訂閱分頁', function () {
+test('主題訂閱記錄為該主題，不算入一般電子報', function () {
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com', 'topic' => 'filament']);
 
     expect(NewsletterSubscriber::forTopic(NewsletterTopic::Filament)->where('email', 'reader@example.com')->count())->toBe(1)
-        ->and(NewsletterSubscriber::where('email', 'reader@example.com')->count())->toBe(0);
+        ->and(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->count())->toBe(0);
 });
 
 test('同一個 email 可以同時訂閱一般電子報與主題電子報', function () {
@@ -124,7 +105,7 @@ test('同一個 email 可以同時訂閱一般電子報與主題電子報', func
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com', 'topic' => 'filament']);
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com', 'topic' => 'filament']);
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->count())->toBe(1)
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->count())->toBe(1)
         ->and(NewsletterSubscriber::forTopic(NewsletterTopic::Filament)->where('email', 'reader@example.com')->count())->toBe(1);
 });
 
@@ -183,7 +164,7 @@ test('點擊確認連結後完成訂閱', function () {
     expect(NewsletterSubscriber::forTopic(NewsletterTopic::Filament)->where('email', 'reader@example.com')->first()->isConfirmed())->toBeTrue();
 });
 
-test('一般電子報的確認連結只確認一般訂閱分頁', function () {
+test('一般電子報的確認連結只確認一般電子報的訂閱', function () {
     Mail::fake();
 
     $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com']);
@@ -193,7 +174,7 @@ test('一般電子報的確認連結只確認一般訂閱分頁', function () {
 
     $this->get($generalMail->confirmUrl())->assertOk();
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->first()->isConfirmed())->toBeTrue()
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->first()->isConfirmed())->toBeTrue()
         ->and(NewsletterSubscriber::forTopic(NewsletterTopic::Filament)->where('email', 'reader@example.com')->first()->isConfirmed())->toBeFalse();
 });
 
@@ -222,7 +203,7 @@ test('被竄改的確認連結無法完成訂閱', function () {
         ->assertForbidden()
         ->assertSee('確認連結無效');
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->first()->isConfirmed())->toBeFalse();
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->first()->isConfirmed())->toBeFalse();
 });
 
 test('過期的確認連結無法完成訂閱', function () {
@@ -236,7 +217,7 @@ test('過期的確認連結無法完成訂閱', function () {
 
     $this->get($url)->assertForbidden();
 
-    expect(NewsletterSubscriber::where('email', 'reader@example.com')->first()->isConfirmed())->toBeFalse();
+    expect(NewsletterSubscriber::forTopic(null)->where('email', 'reader@example.com')->first()->isConfirmed())->toBeFalse();
 });
 
 test('簽章有效但找不到訂閱者時顯示連結無效', function () {
@@ -245,4 +226,43 @@ test('簽章有效但找不到訂閱者時顯示連結無效', function () {
     $this->get($url)
         ->assertNotFound()
         ->assertSee('確認連結無效');
+});
+
+test('一般與主題訂閱存在同一張資料表，以 topic 欄位區分', function () {
+    $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com']);
+    $this->post(route('newsletter.subscribe'), ['email' => 'reader@example.com', 'topic' => 'filament']);
+
+    $this->assertDatabaseCount('newsletter_subscribers', 2);
+    $this->assertDatabaseHas('newsletter_subscribers', ['email' => 'reader@example.com', 'topic' => null]);
+    $this->assertDatabaseHas('newsletter_subscribers', ['email' => 'reader@example.com', 'topic' => 'filament']);
+
+    expect(NewsletterSubscriber::forTopic(NewsletterTopic::Filament)->first()->topic)->toBe(NewsletterTopic::Filament);
+});
+
+test('電子報列表頁面列出所有主題並連到各自的訂閱頁面', function () {
+    $response = $this->get(route('newsletter.index'));
+
+    $response->assertOk()->assertSee('電子報列表');
+
+    foreach (NewsletterTopic::cases() as $topic) {
+        $response->assertSee($topic->title())
+            ->assertSee('href="'.route('newsletter.show', $topic).'"', false);
+    }
+});
+
+test('電子報列表頁面包含連到首頁的一般電子報', function () {
+    $this->get('/newsletter')
+        ->assertOk()
+        ->assertSee(config('app.name').' 電子報')
+        ->assertSee('href="'.route('home').'"', false);
+});
+
+test('POST /newsletter 仍然是訂閱表單的送出位置', function () {
+    Queue::fake();
+
+    $this->post('/newsletter', ['email' => 'reader@example.com'])
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    Queue::assertPushed(StoreNewsletterSubscriber::class);
 });

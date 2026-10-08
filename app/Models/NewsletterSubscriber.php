@@ -13,12 +13,9 @@ class NewsletterSubscriber extends Model
 {
     use HasFactory;
 
-    protected $connection = 'google-sheets';
-
-    protected $table = 'newsletter_subscribers';
-
     protected $fillable = [
         'email',
+        'topic',
         'subscribed_at',
         'confirmed_at',
     ];
@@ -26,6 +23,7 @@ class NewsletterSubscriber extends Model
     protected function casts(): array
     {
         return [
+            'topic' => NewsletterTopic::class,
             'subscribed_at' => 'datetime',
             'confirmed_at' => 'datetime',
         ];
@@ -37,18 +35,13 @@ class NewsletterSubscriber extends Model
     }
 
     /**
-     * Query the google-sheets tab for the given topic, or the general list when no topic is given.
+     * Query the subscribers of the given topic, or of the general newsletter when no topic is given.
+     * Records created through this query get the same topic.
      *
      * @return Builder<static>
      */
     public static function forTopic(?NewsletterTopic $topic): Builder
     {
-        $model = new static;
-
-        if ($topic) {
-            $model->setTable($topic->table());
-        }
-
-        return $model->newQuery();
+        return static::query()->withAttributes(['topic' => $topic?->value]);
     }
 }

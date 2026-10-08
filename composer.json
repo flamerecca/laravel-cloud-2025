@@ -11,7 +11,6 @@
     "require": {
         "php": "^8.4",
         "ext-pdo": "*",
-        "amazingbv/laravel-google-sheets-database-driver": "^1.1",
         "fakerphp/faker": "*",
         "filament/filament": "*",
         "intervention/image": "*",
@@ -43,6 +42,7 @@
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
         "pestphp/pest": "*",
+        "pestphp/pest-plugin-livewire": "^4.1",
         "rector/rector": "*"
     },
     "autoload": {

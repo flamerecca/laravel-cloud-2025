@@ -2,9 +2,16 @@
 
 namespace App\Enums;
 
-enum NewsletterTopic: string
+use Filament\Support\Contracts\HasLabel;
+
+enum NewsletterTopic: string implements HasLabel
 {
     case Filament = 'filament';
+
+    public function getLabel(): string
+    {
+        return $this->title();
+    }
 
     public function title(): string
     {
@@ -35,13 +42,5 @@ enum NewsletterTopic: string
                 ['title' => 'v3 升級至 v4', 'description' => '升級時最常踩到的破壞性變更與逐步遷移策略'],
             ],
         };
-    }
-
-    /**
-     * The google-sheets tab that stores this topic's subscribers.
-     */
-    public function table(): string
-    {
-        return "newsletter_{$this->value}_subscribers";
     }
 }

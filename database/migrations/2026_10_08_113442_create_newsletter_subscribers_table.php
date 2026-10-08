@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\NewsletterTopic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('google-sheets')->create(NewsletterTopic::Filament->table(), function (Blueprint $table) {
+        Schema::create('newsletter_subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('email');
+            // null = the general newsletter; otherwise a NewsletterTopic value.
+            $table->string('topic')->nullable();
             $table->timestamp('subscribed_at')->nullable();
+            $table->timestamp('confirmed_at')->nullable();
             $table->timestamps();
+
+            $table->unique(['email', 'topic']);
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('google-sheets')->dropIfExists(NewsletterTopic::Filament->table());
+        Schema::dropIfExists('newsletter_subscribers');
     }
 };

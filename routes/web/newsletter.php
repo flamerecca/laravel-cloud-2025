@@ -5,6 +5,9 @@ use App\Http\Controllers\NewsletterConfirmationController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/newsletter', fn () => view('newsletter.index', ['topics' => NewsletterTopic::cases()]))
+    ->name('newsletter.index');
+
 // Registered before newsletter.show so "confirm" is not bound as a topic.
 Route::get('/newsletter/confirm', NewsletterConfirmationController::class)
     ->middleware('throttle:6,1')
