@@ -3,12 +3,14 @@
 namespace App\Filament\Resources\NewsletterIssues\Tables;
 
 use App\Enums\NewsletterTopic;
+use App\Filament\Resources\NewsletterIssues\Actions\MarkNewsletterIssueUnsentAction;
 use App\Models\NewsletterIssue;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class NewsletterIssuesTable
 {
@@ -44,7 +46,7 @@ class NewsletterIssuesTable
                     }),
                 TextColumn::make('deliveries_count')
                     ->label('已寄出人數')
-                    ->counts('deliveries'),
+                    ->counts(['deliveries' => fn (Builder $query): Builder => $query->whereColumn('newsletter_deliveries.send_round', 'newsletter_issues.send_round')]),
             ])
             ->filters([
                 SelectFilter::make('topic')
@@ -53,6 +55,7 @@ class NewsletterIssuesTable
             ])
             ->recordActions([
                 EditAction::make(),
+                MarkNewsletterIssueUnsentAction::make(),
                 DeleteAction::make()
                     ->visible(fn (NewsletterIssue $record): bool => ! $record->isDispatched()),
             ]);

@@ -6,7 +6,9 @@ use App\Filament\Resources\NewsletterIssues\Pages\CreateNewsletterIssue;
 use App\Filament\Resources\NewsletterIssues\Pages\EditNewsletterIssue;
 use App\Filament\Resources\NewsletterIssues\Pages\ListNewsletterIssues;
 use App\Models\NewsletterIssue;
+use App\Models\NewsletterSubscriber;
 use App\Models\User;
+use Filament\Actions\Testing\TestAction;
 
 use function Pest\Livewire\livewire;
 
@@ -119,4 +121,46 @@ test('尚未派送期數的內文可以編輯', function () {
         ->assertHasNoFormErrors();
 
     expect($issue->refresh()->body)->toBe('新的內文');
+});
+
+test('已派送的期數可以改為未寄出，並保留舊的寄送紀錄', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->sent()->create();
+    $subscriber = NewsletterSubscriber::factory()->confirmed()->create();
+    $issue->deliveries()->create(['newsletter_subscriber_id' => $subscriber->id, 'sent_at' => now()]);
+
+    livewire(ListNewsletterIssues::class)
+        ->callAction(TestAction::make('markUnsent')->table($issue))
+        ->assertNotified();
+
+    $issue->refresh();
+    expect($issue->status())->toBe('未排程')
+        ->and($issue->send_round)->toBe(2)
+        ->and($issue->deliveries()->count())->toBe(1);
+});
+
+test('尚未派送的期數不顯示改為未寄出', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->create();
+
+    livewire(ListNewsletterIssues::class)
+        ->assertActionHidden(TestAction::make('markUnsent')->table($issue));
+});
+
+test('卡在派送中的期數也可以改為未寄出', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->dispatched()->create();
+
+    livewire(ListNewsletterIssues::class)
+        ->assertActionVisible(TestAction::make('markUnsent')->table($issue));
+});
+
+test('已寄出人數只計算目前這一輪', function () {
+    $issue = NewsletterIssue::factory()->create();
+    $subscribers = NewsletterSubscriber::factory()->count(3)->confirmed()->create();
+    foreach ($subscribers as $subscriber) {
+        $issue->deliveries()->create(['newsletter_subscriber_id' => $subscriber->id, 'send_round' => 1, 'sent_at' => now()]);
+    }
+    $issue->resetToUnsent();
+    $issue->deliveries()->create(['newsletter_subscriber_id' => $subscribers->first()->id, 'send_round' => 2, 'sent_at' => now()]);
+
+    livewire(ListNewsletterIssues::class)
+        ->assertTableColumnStateSet('deliveries_count', 1, $issue);
 });

@@ -24,6 +24,7 @@ class SendNewsletterIssue implements ShouldQueue
     public function __construct(
         public readonly int $issueId,
         public readonly int $subscriberId,
+        public readonly ?int $round = null,
     ) {}
 
     public function handle(): void
@@ -39,8 +40,15 @@ class SendNewsletterIssue implements ShouldQueue
             return;
         }
 
-        // A retry after a successful send must not send the same issue twice.
-        if ($issue->deliveries()->where('newsletter_subscriber_id', $subscriber->id)->exists()) {
+        // Queued before the issue was turned back into unsent: the new round has its own jobs.
+        $round = $this->round ?? $issue->send_round;
+
+        if ($round !== $issue->send_round) {
+            return;
+        }
+
+        // A retry after a successful send must not send the same issue twice in one round.
+        if ($issue->deliveries()->where('newsletter_subscriber_id', $subscriber->id)->where('send_round', $round)->exists()) {
             return;
         }
 
@@ -53,6 +61,7 @@ class SendNewsletterIssue implements ShouldQueue
 
         $issue->deliveries()->create([
             'newsletter_subscriber_id' => $subscriber->id,
+            'send_round' => $round,
             'sent_at' => now(),
         ]);
     }

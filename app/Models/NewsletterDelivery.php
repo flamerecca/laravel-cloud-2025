@@ -12,6 +12,7 @@ class NewsletterDelivery extends Model
     protected $fillable = [
         'newsletter_issue_id',
         'newsletter_subscriber_id',
+        'send_round',
         'sent_at',
     ];
 

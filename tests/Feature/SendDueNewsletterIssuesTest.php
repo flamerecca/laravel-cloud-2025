@@ -84,3 +84,20 @@ test('派送途中發生例外時會釋放期數，下一輪可以重新派送',
 
     expect($issue->refresh()->dispatched_at)->toBeNull();
 });
+
+test('改為未寄出並重新排程後，所有人會再收到一次', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->create(['topic' => NewsletterTopic::Filament]);
+    NewsletterSubscriber::factory()->count(2)->forTopic(NewsletterTopic::Filament)->confirmed()->create();
+
+    $this->artisan('newsletter:send-due')->assertSuccessful();
+    Mail::assertSent(NewsletterIssueMail::class, 2);
+
+    $issue->refresh()->resetToUnsent();
+    $issue->update(['scheduled_at' => now()->subMinute()]);
+
+    $this->artisan('newsletter:send-due')->assertSuccessful();
+
+    Mail::assertSent(NewsletterIssueMail::class, 4);
+    expect($issue->refresh()->status())->toBe('已寄出')
+        ->and($issue->deliveries()->count())->toBe(4);
+});

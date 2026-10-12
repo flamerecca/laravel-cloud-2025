@@ -46,3 +46,25 @@ test('期數或訂閱者已被刪除時直接結束', function () {
 
     Mail::assertNothingSent();
 });
+
+test('改為未寄出後的新一輪會再寄給已收過的訂閱者，同一輪不重複', function () {
+    $job = fn () => new SendNewsletterIssue($this->issue->id, $this->subscriber->id, $this->issue->fresh()->send_round);
+
+    $job()->handle();
+    $this->issue->resetToUnsent();
+    $job()->handle();
+    $job()->handle();
+
+    Mail::assertSent(NewsletterIssueMail::class, 2);
+    expect(NewsletterDelivery::where('send_round', 1)->count())->toBe(1)
+        ->and(NewsletterDelivery::where('send_round', 2)->count())->toBe(1);
+});
+
+test('上一輪遺留在佇列裡的工作不會寄出', function () {
+    $stale = new SendNewsletterIssue($this->issue->id, $this->subscriber->id, 1);
+
+    $this->issue->resetToUnsent();
+    $stale->handle();
+
+    Mail::assertNothingSent();
+});

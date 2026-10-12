@@ -30,7 +30,7 @@ class SendDueNewsletterIssues extends Command
             try {
                 $jobs = $issue->recipients()
                     ->pluck('id')
-                    ->map(fn (int $subscriberId) => new SendNewsletterIssue($issue->id, $subscriberId))
+                    ->map(fn (int $subscriberId) => new SendNewsletterIssue($issue->id, $subscriberId, $issue->send_round))
                     ->all();
 
                 if ($jobs === []) {

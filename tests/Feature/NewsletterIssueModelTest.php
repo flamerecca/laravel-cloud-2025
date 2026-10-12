@@ -51,3 +51,29 @@ test('同一主題的期號不能重複', function () {
     expect(fn () => NewsletterIssue::factory()->create(['topic' => NewsletterTopic::Filament, 'number' => 1]))
         ->toThrow(UniqueConstraintViolationException::class);
 });
+
+test('resetToUnsent 清除寄出狀態並進入新一輪，同時保留舊的寄送紀錄', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->sent()->create();
+    $subscriber = NewsletterSubscriber::factory()->confirmed()->create();
+    $issue->deliveries()->create(['newsletter_subscriber_id' => $subscriber->id, 'sent_at' => now()]);
+
+    $issue->resetToUnsent();
+    $issue->refresh();
+
+    expect($issue->status())->toBe('未排程')
+        ->and($issue->scheduled_at)->toBeNull()
+        ->and($issue->dispatched_at)->toBeNull()
+        ->and($issue->sent_at)->toBeNull()
+        ->and($issue->send_round)->toBe(2)
+        ->and($issue->deliveries()->count())->toBe(1);
+});
+
+test('同一位訂閱者在不同輪次可以各有一筆寄送紀錄', function () {
+    $issue = NewsletterIssue::factory()->create();
+    $subscriber = NewsletterSubscriber::factory()->confirmed()->create();
+
+    $issue->deliveries()->create(['newsletter_subscriber_id' => $subscriber->id, 'send_round' => 1, 'sent_at' => now()]);
+    $issue->deliveries()->create(['newsletter_subscriber_id' => $subscriber->id, 'send_round' => 2, 'sent_at' => now()]);
+
+    expect($issue->deliveries()->count())->toBe(2);
+});

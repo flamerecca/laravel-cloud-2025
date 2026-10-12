@@ -17,6 +17,7 @@ class NewsletterIssue extends Model
     protected $fillable = [
         'topic',
         'number',
+        'send_round',
         'title',
         'summary',
         'body',
@@ -30,6 +31,7 @@ class NewsletterIssue extends Model
         return [
             'topic' => NewsletterTopic::class,
             'number' => 'integer',
+            'send_round' => 'integer',
             'scheduled_at' => 'datetime',
             'dispatched_at' => 'datetime',
             'sent_at' => 'datetime',
@@ -64,6 +66,24 @@ class NewsletterIssue extends Model
     public function recipients(): Builder
     {
         return NewsletterSubscriber::forTopic($this->topic)->deliverable();
+    }
+
+    /**
+     * Turn a dispatched issue back into an unsent draft.
+     *
+     * Earlier deliveries stay as history. Moving to the next round is what lets the issue
+     * go out to everyone again, since the one-per-subscriber rule applies within a round.
+     */
+    public function resetToUnsent(): void
+    {
+        // Incremented in the database: the round on this instance may be stale or not loaded at all.
+        static::query()->whereKey($this->getKey())->increment('send_round', 1, [
+            'scheduled_at' => null,
+            'dispatched_at' => null,
+            'sent_at' => null,
+        ]);
+
+        $this->refresh();
     }
 
     public function isDispatched(): bool

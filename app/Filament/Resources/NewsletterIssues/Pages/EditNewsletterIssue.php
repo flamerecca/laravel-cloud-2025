@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\NewsletterIssues\Pages;
 
+use App\Filament\Resources\NewsletterIssues\Actions\MarkNewsletterIssueUnsentAction;
 use App\Filament\Resources\NewsletterIssues\NewsletterIssueResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -9,6 +10,13 @@ use Filament\Resources\Pages\EditRecord;
 class EditNewsletterIssue extends EditRecord
 {
     protected static string $resource = NewsletterIssueResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            MarkNewsletterIssueUnsentAction::make(),
+        ];
+    }
 
     /**
      * The form was locked when the page rendered, but the issue may have been dispatched since.
