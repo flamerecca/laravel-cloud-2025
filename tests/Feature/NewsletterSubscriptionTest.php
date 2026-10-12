@@ -76,6 +76,25 @@ test('訂閱卡片排在內容介紹之前', function () {
         ->assertSeeInOrder(['訂閱電子報', '你會收到的內容']);
 });
 
+test('Filament 進階分享頁面在訂閱表單與內容介紹之間顯示三個重點', function () {
+    expect(NewsletterTopic::Filament->keyPoints())->toHaveCount(3);
+
+    $this->get(route('newsletter.show', NewsletterTopic::Filament))
+        ->assertOk()
+        ->assertSeeInOrder([
+            '訂閱電子報',
+            '訂閱後你會看到的三個重點',
+            ...array_column(NewsletterTopic::Filament->keyPoints(), 'title'),
+            '你會收到的內容',
+        ]);
+});
+
+test('沒有設定重點的主題不顯示重點區塊', function () {
+    $this->get(route('newsletter.show', NewsletterTopic::Laravel))
+        ->assertOk()
+        ->assertDontSee('訂閱後你會看到的三個重點');
+});
+
 test('不存在的主題頁面回傳 404', function () {
     $this->get('/newsletter/unknown')->assertNotFound();
 });

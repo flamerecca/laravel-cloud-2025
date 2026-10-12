@@ -42,6 +42,23 @@ enum NewsletterTopic: string implements HasLabel
     }
 
     /**
+     * The key points shown in a block of their own on the subscription page, if the topic has any.
+     *
+     * @return array<int, array{title: string, description: string}>
+     */
+    public function keyPoints(): array
+    {
+        return match ($this) {
+            self::Filament => [
+                ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
+                ['title' => '一杯咖啡的時間讀完', 'description' => '每期約 800 到 1500 字，專注解決一個具體的卡關情境'],
+                ['title' => '誠實說出框架的邊界', 'description' => '從自訂欄位走到即時推播，也會告訴你哪些需求不該勉強留在 Filament 裡'],
+            ],
+            self::Laravel => [],
+        };
+    }
+
+    /**
      * @return array<int, array{title: string, description: string}>
      */
     public function highlights(): array
