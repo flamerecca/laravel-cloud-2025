@@ -37,6 +37,15 @@ class NewsletterSubscribersTable
                     ->label('電子報')
                     ->badge()
                     ->placeholder('一般電子報'),
+                TextColumn::make('status')
+                    ->label('狀態')
+                    ->badge()
+                    ->state(fn (NewsletterSubscriber $record): string => $record->status())
+                    ->color(fn (string $state): string => match ($state) {
+                        '已確認' => 'success',
+                        '已退訂' => 'gray',
+                        default => 'warning',
+                    }),
                 TextColumn::make('confirmed_at')
                     ->label('確認時間')
                     ->dateTime()

@@ -75,6 +75,48 @@ test('可以依確認狀態篩選', function () {
         ->assertCanNotSeeTableRecords([$confirmed]);
 });
 
+test('分頁標籤分別列出尚未確認、已確認與已退訂的訂閱者', function () {
+    $pending = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->create();
+    $confirmed = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->create();
+    $unsubscribed = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->unsubscribed()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->assertCanSeeTableRecords([$pending, $confirmed, $unsubscribed])
+        ->set('activeTab', 'pending')
+        ->assertCanSeeTableRecords([$pending])
+        ->assertCanNotSeeTableRecords([$confirmed, $unsubscribed])
+        ->set('activeTab', 'confirmed')
+        ->assertCanSeeTableRecords([$confirmed])
+        ->assertCanNotSeeTableRecords([$pending, $unsubscribed])
+        ->set('activeTab', 'unsubscribed')
+        ->assertCanSeeTableRecords([$unsubscribed])
+        ->assertCanNotSeeTableRecords([$pending, $confirmed]);
+});
+
+test('分頁標籤的徽章顯示各狀態的人數', function () {
+    NewsletterSubscriber::factory()->count(2)->create();
+    NewsletterSubscriber::factory()->count(3)->confirmed()->create();
+    NewsletterSubscriber::factory()->unsubscribed()->create();
+
+    $tabs = livewire(ListNewsletterSubscribers::class)->instance()->getTabs();
+
+    expect((int) $tabs['all']->getBadge())->toBe(6)
+        ->and((int) $tabs['pending']->getBadge())->toBe(2)
+        ->and((int) $tabs['confirmed']->getBadge())->toBe(3)
+        ->and((int) $tabs['unsubscribed']->getBadge())->toBe(1);
+});
+
+test('狀態欄顯示尚未確認、已確認與已退訂', function () {
+    $pending = NewsletterSubscriber::factory()->create();
+    $confirmed = NewsletterSubscriber::factory()->confirmed()->create();
+    $unsubscribed = NewsletterSubscriber::factory()->confirmed()->unsubscribed()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->assertTableColumnStateSet('status', '尚未確認', $pending)
+        ->assertTableColumnStateSet('status', '已確認', $confirmed)
+        ->assertTableColumnStateSet('status', '已退訂', $unsubscribed);
+});
+
 test('可以對尚未確認的訂閱者重寄確認信', function () {
     $subscriber = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->create();
     Mail::fake();

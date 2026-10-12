@@ -5,16 +5,42 @@ namespace App\Filament\Resources\NewsletterSubscribers\Pages;
 use App\Enums\NewsletterTopic;
 use App\Filament\Resources\NewsletterSubscribers\NewsletterSubscriberResource;
 use App\Jobs\StoreNewsletterSubscriber;
+use App\Models\NewsletterSubscriber;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListNewsletterSubscribers extends ListRecords
 {
     protected static string $resource = NewsletterSubscriberResource::class;
+
+    /**
+     * @return array<string, Tab>
+     */
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make('全部')
+                ->badge(NewsletterSubscriber::query()->count()),
+            'pending' => Tab::make('尚未確認')
+                ->badge(NewsletterSubscriber::query()->pending()->count())
+                ->badgeColor('warning')
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->pending()),
+            'confirmed' => Tab::make('已確認')
+                ->badge(NewsletterSubscriber::query()->deliverable()->count())
+                ->badgeColor('success')
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->deliverable()),
+            'unsubscribed' => Tab::make('已退訂')
+                ->badge(NewsletterSubscriber::query()->unsubscribed()->count())
+                ->badgeColor('gray')
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->unsubscribed()),
+        ];
+    }
 
     protected function getHeaderActions(): array
     {

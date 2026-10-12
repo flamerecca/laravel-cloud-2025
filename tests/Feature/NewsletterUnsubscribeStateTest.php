@@ -41,3 +41,17 @@ test('unsubscribeUrl 是帶有簽章的退訂連結', function () {
         ->toContain('signature=')
         ->toContain('topic=filament');
 });
+
+test('pending 只包含尚未確認且未退訂的訂閱者', function () {
+    $pending = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->create();
+    NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->create();
+    NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->unsubscribed()->create();
+
+    expect(NewsletterSubscriber::pending()->pluck('id')->all())->toBe([$pending->id]);
+});
+
+test('status 依確認與退訂時間推導', function () {
+    expect(NewsletterSubscriber::factory()->create()->status())->toBe('尚未確認')
+        ->and(NewsletterSubscriber::factory()->confirmed()->create()->status())->toBe('已確認')
+        ->and(NewsletterSubscriber::factory()->confirmed()->unsubscribed()->create()->status())->toBe('已退訂');
+});

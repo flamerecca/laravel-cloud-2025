@@ -48,6 +48,35 @@ class NewsletterSubscriber extends Model
     }
 
     /**
+     * Subscribers who signed up but have not clicked the confirmation link yet.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->whereNull('confirmed_at')->whereNull('unsubscribed_at');
+    }
+
+    /**
+     * Subscribers who used the unsubscribe link.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeUnsubscribed(Builder $query): void
+    {
+        $query->whereNotNull('unsubscribed_at');
+    }
+
+    public function status(): string
+    {
+        return match (true) {
+            $this->unsubscribed_at !== null => '已退訂',
+            $this->confirmed_at !== null => '已確認',
+            default => '尚未確認',
+        };
+    }
+
+    /**
      * The signed link in every newsletter that stops further deliveries.
      */
     public function unsubscribeUrl(): string
