@@ -10,12 +10,14 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
@@ -54,6 +56,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             // A closure keeps the Vite manifest from being read until a page is actually rendered.
             ->favicon(fn (): string => Vite::asset('resources/images/reccaChao.png'))
+            ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn (): string => Blade::render('<x-filament::button tag="a" :href="route(\'home\')" color="gray" size="sm" icon="heroicon-o-home">回到首頁</x-filament::button>'),
+            )
             ->databaseNotifications()
             ->authMiddleware([
                 Authenticate::class,

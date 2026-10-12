@@ -5,6 +5,8 @@
     </head>
     <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-6 px-6 py-12">
+            <x-home-button />
+
             @if ($confirmed)
                 <flux:callout variant="success" icon="check-circle" heading="訂閱成功">
                     <flux:callout.text>

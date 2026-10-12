@@ -19,6 +19,8 @@
     </head>
     <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-10 px-6 py-12">
+            <x-home-button />
+
             <header class="flex flex-col gap-3">
                 <flux:badge color="amber" class="self-start {{ $badge }}">免費訂閱</flux:badge>
                 <flux:heading size="xl" level="1" class="term-title">{{ $topic->title() }}</flux:heading>
