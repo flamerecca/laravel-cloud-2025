@@ -35,6 +35,16 @@ class NewsletterSubscriberFactory extends Factory
     }
 
     /**
+     * The subscriber used the unsubscribe link.
+     */
+    public function unsubscribed(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'unsubscribed_at' => now(),
+        ]);
+    }
+
+    /**
      * The subscriber signed up for the given topic instead of the general newsletter.
      */
     public function forTopic(NewsletterTopic $topic): static

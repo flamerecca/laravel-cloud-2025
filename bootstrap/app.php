@@ -44,6 +44,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // One-click unsubscribe from mail clients posts without a CSRF token; the signed URL is the proof.
+        $middleware->validateCsrfTokens(except: ['newsletter/unsubscribe']);
+
         $middleware->alias([
             'token.check' => EnsureTokenIsValid::class,
         ]);

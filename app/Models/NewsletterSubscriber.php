@@ -7,6 +7,7 @@ use Database\Factories\NewsletterSubscriberFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 /** @use HasFactory<NewsletterSubscriberFactory> */
 class NewsletterSubscriber extends Model
@@ -18,6 +19,7 @@ class NewsletterSubscriber extends Model
         'topic',
         'subscribed_at',
         'confirmed_at',
+        'unsubscribed_at',
     ];
 
     protected function casts(): array
@@ -26,12 +28,34 @@ class NewsletterSubscriber extends Model
             'topic' => NewsletterTopic::class,
             'subscribed_at' => 'datetime',
             'confirmed_at' => 'datetime',
+            'unsubscribed_at' => 'datetime',
         ];
     }
 
     public function isConfirmed(): bool
     {
         return $this->confirmed_at !== null;
+    }
+
+    /**
+     * Subscribers who confirmed their address and have not unsubscribed since.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeDeliverable(Builder $query): void
+    {
+        $query->whereNotNull('confirmed_at')->whereNull('unsubscribed_at');
+    }
+
+    /**
+     * The signed link in every newsletter that stops further deliveries.
+     */
+    public function unsubscribeUrl(): string
+    {
+        return URL::signedRoute(
+            'newsletter.unsubscribe',
+            array_filter(['email' => $this->email, 'topic' => $this->topic?->value]),
+        );
     }
 
     /**

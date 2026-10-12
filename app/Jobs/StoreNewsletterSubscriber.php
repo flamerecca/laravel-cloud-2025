@@ -40,6 +40,15 @@ class StoreNewsletterSubscriber implements ShouldQueue
             ['subscribed_at' => $this->subscribedAt],
         );
 
+        // Coming back after unsubscribing starts over: the address has to be confirmed again.
+        if ($subscriber->unsubscribed_at !== null) {
+            $subscriber->update([
+                'subscribed_at' => $this->subscribedAt,
+                'confirmed_at' => null,
+                'unsubscribed_at' => null,
+            ]);
+        }
+
         if ($subscriber->isConfirmed()) {
             return;
         }
