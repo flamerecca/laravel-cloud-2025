@@ -7,7 +7,7 @@
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-6 px-6 py-12">
             <flux:heading size="xl" level="1">確認取消訂閱</flux:heading>
             <flux:text>
-                取消訂閱後，就不會再收到「{{ $topic?->title() ?? config('app.name').' 電子報' }}」。
+                取消訂閱後，就不會再收到「{{ $topic?->title() ?? config('mail.newsletter_name') }}」。
             </flux:text>
 
             <form method="POST" action="{{ $action }}" class="flex gap-3">

@@ -73,6 +73,6 @@ class NewsletterConfirmation extends Mailable
 
     private function topicTitle(): string
     {
-        return $this->topic?->title() ?? config('app.name').' 電子報';
+        return $this->topic?->title() ?? config('mail.newsletter_name');
     }
 }

@@ -131,6 +131,18 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Newsletter Name
+    |--------------------------------------------------------------------------
+    |
+    | The name readers see in newsletter mail headers, footers and sign-offs,
+    | and the name of the general newsletter that has no topic.
+    |
+    */
+
+    'newsletter_name' => env('NEWSLETTER_NAME', 'Recca Chao 電子報'),
+
     'newsletter_from' => [
         'address' => env('NEWSLETTER_FROM_ADDRESS', 'newsletter@reccachao.net'),
         'name' => env('NEWSLETTER_FROM_NAME', 'Recca Chao'),

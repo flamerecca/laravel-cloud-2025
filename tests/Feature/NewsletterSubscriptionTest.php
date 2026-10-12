@@ -328,3 +328,21 @@ test('寄件人可以用環境變數覆寫', function () {
 
     (new NewsletterConfirmation('reader@example.com'))->assertFrom('letters@example.org', 'Letters');
 });
+
+test('確認信內只出現 Recca Chao 電子報，不出現應用程式名稱', function () {
+    config(['app.name' => 'laravel-cloud-2025']);
+
+    $html = (new NewsletterConfirmation('reader@example.com', NewsletterTopic::Filament))->render();
+
+    expect($html)->toContain('Recca Chao 電子報')
+        ->not->toContain('laravel-cloud-2025');
+});
+
+test('一般電子報的確認信以 Recca Chao 電子報稱呼', function () {
+    config(['app.name' => 'laravel-cloud-2025']);
+
+    $mail = new NewsletterConfirmation('reader@example.com');
+
+    $mail->assertHasSubject('請確認訂閱「Recca Chao 電子報」');
+    expect($mail->render())->not->toContain('laravel-cloud-2025');
+});

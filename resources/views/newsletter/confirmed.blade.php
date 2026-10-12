@@ -8,7 +8,7 @@
             @if ($confirmed)
                 <flux:callout variant="success" icon="check-circle" heading="訂閱成功">
                     <flux:callout.text>
-                        已確認您的 Email，之後會開始收到「{{ $topic?->title() ?? config('app.name').' 電子報' }}」。
+                        已確認您的 Email，之後會開始收到「{{ $topic?->title() ?? config('mail.newsletter_name') }}」。
                     </flux:callout.text>
                 </flux:callout>
             @else

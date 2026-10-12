@@ -8,7 +8,7 @@
             @if ($unsubscribed)
                 <flux:callout variant="success" icon="check-circle" heading="已取消訂閱">
                     <flux:callout.text>
-                        之後不會再收到「{{ $topic?->title() ?? config('app.name').' 電子報' }}」。
+                        之後不會再收到「{{ $topic?->title() ?? config('mail.newsletter_name') }}」。
                     </flux:callout.text>
                 </flux:callout>
             @else

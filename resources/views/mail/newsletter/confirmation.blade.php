@@ -9,5 +9,5 @@
 
 確認連結將在 {{ $expiresInDays }} 天後失效。如果您沒有申請訂閱，請直接忽略這封信，我們不會再寄信給您。
 
-{{ config('app.name') }}
+{{ config('mail.newsletter_name') }}
 </x-mail::message>

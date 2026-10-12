@@ -58,3 +58,12 @@ test('電子報信件以 newsletter@reccachao.net 寄出', function () {
 
     $mail->assertFrom('newsletter@reccachao.net', 'Recca Chao');
 });
+
+test('電子報信件內只出現 Recca Chao 電子報，不出現應用程式名稱', function () {
+    config(['app.name' => 'laravel-cloud-2025']);
+
+    [, $html] = renderedIssueMail('內文');
+
+    expect($html)->toContain('Recca Chao 電子報')
+        ->not->toContain('laravel-cloud-2025');
+});
