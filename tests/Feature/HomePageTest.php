@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\NewsletterTopic;
+use Illuminate\Support\Facades\Vite;
 
 test('首頁顯示 Recca Chao 的簡介', function () {
     $this->get(route('home'))
@@ -23,4 +24,23 @@ test('首頁不再有電子報訂閱表單', function () {
         ->assertOk()
         ->assertDontSee('action="'.route('newsletter.subscribe').'"', false)
         ->assertDontSee('name="email"', false);
+});
+
+test('首頁使用 reccaChao.png 作為 favicon', function () {
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertSee('<link rel="icon" type="image/png" href="'.Vite::asset('resources/images/reccaChao.png').'">', false);
+});
+
+test('電子報頁面使用 reccaChao.png 作為 favicon', function () {
+    $this->get(route('newsletter.index'))
+        ->assertOk()
+        ->assertSee('rel="icon"', false)
+        ->assertSee(Vite::asset('resources/images/reccaChao.png'), false);
+});
+
+test('Filament 後台使用 reccaChao.png 作為 favicon', function () {
+    $this->get('/admin/login')
+        ->assertOk()
+        ->assertSee(Vite::asset('resources/images/reccaChao.png'), false);
 });
