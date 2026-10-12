@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head', ['title' => 'Recca Chao'])
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
+    <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col gap-12 px-6 py-12">
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-2">
@@ -20,11 +20,11 @@
 
             <section class="flex flex-col gap-4">
                 <div class="flex items-center gap-4">
-                    <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xl font-semibold text-white dark:bg-white dark:text-zinc-800">
+                    <div class="term-card flex size-16 shrink-0 items-center justify-center bg-surface text-xl font-semibold text-phosphor">
                         RC
                     </div>
                     <div class="flex flex-col gap-1">
-                        <flux:heading size="xl" level="1">Recca Chao</flux:heading>
+                        <flux:heading size="xl" level="1" class="term-title">Recca Chao</flux:heading>
                         <flux:text>後端開發者、講師與社群推廣者</flux:text>
                     </div>
                 </div>

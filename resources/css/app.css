@@ -9,7 +9,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'JetBrains Mono', Monaco, 'Bitstream Vera Sans Mono', 'Lucida Console', Terminal, ui-monospace, monospace;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -33,16 +33,26 @@
     --color-off-white: #faf9f5;
     --color-off-black: #292524;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
-    --color-accent-foreground: var(--color-white);
+    /* Terminal design system, modelled on gitpage.reccachao.net */
+    --color-terminal: #151515;
+    --color-surface: #1c1c1c;
+    --color-ink: #eaeaea;
+    --color-ink-muted: #888888;
+    --color-phosphor: #b5e853;
+    --color-link: #63c0f5;
+    --color-sand: #f4bf75;
+    --color-danger: #ac4142;
+
+    --color-accent: var(--color-phosphor);
+    --color-accent-content: var(--color-phosphor);
+    --color-accent-foreground: var(--color-terminal);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
+        --color-accent: var(--color-phosphor);
+        --color-accent-content: var(--color-phosphor);
+        --color-accent-foreground: var(--color-terminal);
     }
 }
 
@@ -69,4 +79,75 @@ input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Terminal design system
+|--------------------------------------------------------------------------
+|
+| Modelled on gitpage.reccachao.net: near black ground, phosphor green
+| headings with a glow, blue links, dashed green rules, 2px corners and
+| pill buttons. These rules are deliberately unlayered so they win over
+| the utility classes baked into the Flux components.
+|
+*/
+
+html {
+    background-color: var(--color-terminal);
+}
+
+body {
+    background-color: var(--color-terminal);
+    color: var(--color-ink);
+    line-height: 1.7;
+}
+
+[data-flux-heading],
+.term-title {
+    color: var(--color-phosphor);
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 5px rgb(181 232 83 / 0.2), 0 0 10px rgb(181 232 83 / 0.15);
+}
+
+.term-title::before {
+    content: './ ';
+}
+
+[data-flux-text] {
+    color: var(--color-ink);
+}
+
+a.term-link,
+[data-flux-link] {
+    color: var(--color-link);
+    text-shadow: 0 0 5px rgb(104 182 255 / 0.5);
+}
+
+.term-card {
+    border: 1px dashed rgb(181 232 83 / 0.55);
+    border-radius: 2px;
+    background-color: rgb(0 0 0 / 0.1);
+}
+
+a.term-card:hover,
+a.term-card:focus-visible {
+    border-color: var(--color-phosphor);
+    background-color: rgb(181 232 83 / 0.06);
+    outline: none;
+}
+
+[data-flux-button] {
+    border-radius: 9999px;
+}
+
+[data-flux-control] {
+    border: 1px dashed rgb(181 232 83 / 0.55);
+    border-radius: 2px;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+}
+
+[data-flux-control]:focus-visible {
+    border-color: var(--color-phosphor);
 }

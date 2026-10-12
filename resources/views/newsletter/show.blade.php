@@ -3,29 +3,29 @@
 
     // The Filament topic follows the Filament media kit colors; other topics keep the default look.
     $badge = $filament ? 'bg-honey! text-cocoa!' : '';
-    $card = $filament ? 'bg-serenade dark:bg-off-black' : 'bg-zinc-50 dark:bg-zinc-800';
+    $card = $filament ? 'bg-off-black' : 'term-card bg-surface';
     $button = $filament ? 'bg-honey! text-cocoa! hover:bg-honey/90!' : '';
-    $keyPointCards = $filament ? ['bg-bubblegum', 'bg-powder', 'bg-minty'] : ['bg-amber-50 dark:bg-zinc-800'];
+    $keyPointCards = $filament ? ['bg-bubblegum', 'bg-powder', 'bg-minty'] : ['term-card'];
     $keyPointText = $filament ? 'text-cocoa!' : '';
     $keyPointBadge = $filament ? 'bg-cocoa! text-serenade!' : '';
     $highlightCard = $filament
-        ? 'border-l-4 border-honey bg-serenade dark:bg-off-black'
-        : 'border border-zinc-200 dark:border-zinc-700';
+        ? 'border-l-4 border-honey bg-off-black'
+        : 'term-card';
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head', ['title' => '訂閱電子報｜'.$topic->title()])
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
+    <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-10 px-6 py-12">
             <header class="flex flex-col gap-3">
                 <flux:badge color="amber" class="self-start {{ $badge }}">免費訂閱</flux:badge>
-                <flux:heading size="xl" level="1">{{ $topic->title() }}</flux:heading>
+                <flux:heading size="xl" level="1" class="term-title">{{ $topic->title() }}</flux:heading>
                 <flux:text>{{ $topic->description() }}</flux:text>
             </header>
 
-            <section class="flex flex-col gap-4 rounded-xl p-6 {{ $card }}">
+            <section class="flex flex-col gap-4 rounded-sm p-6 {{ $card }}">
                 <flux:heading size="lg" level="2">訂閱電子報</flux:heading>
 
                 @if (session('success'))
@@ -57,7 +57,7 @@
                     <flux:heading size="lg" level="2">訂閱後你會看到的三個重點</flux:heading>
                     <ol class="grid gap-3 sm:grid-cols-3">
                         @foreach ($topic->keyPoints() as $keyPoint)
-                            <li class="flex flex-col gap-3 rounded-lg p-4 {{ $keyPointCards[$loop->index % count($keyPointCards)] }}">
+                            <li class="flex flex-col gap-3 rounded-sm p-4 {{ $keyPointCards[$loop->index % count($keyPointCards)] }}">
                                 <flux:badge color="amber" class="self-start {{ $keyPointBadge }}">{{ $loop->iteration }}</flux:badge>
                                 <div class="flex flex-col gap-1">
                                     <flux:heading level="3" class="{{ $keyPointText }}">{{ $keyPoint['title'] }}</flux:heading>
@@ -73,7 +73,7 @@
                 <flux:heading size="lg" level="2">你會收到的內容</flux:heading>
                 <ul class="flex flex-col gap-3">
                     @foreach ($topic->highlights() as $highlight)
-                        <li class="flex flex-col gap-1 rounded-lg p-4 {{ $highlightCard }}">
+                        <li class="flex flex-col gap-1 rounded-sm p-4 {{ $highlightCard }}">
                             <flux:heading level="3">{{ $highlight['title'] }}</flux:heading>
                             <flux:text>{{ $highlight['description'] }}</flux:text>
                         </li>
