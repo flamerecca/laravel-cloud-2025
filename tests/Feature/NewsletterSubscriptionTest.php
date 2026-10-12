@@ -7,6 +7,7 @@ use App\Models\NewsletterSubscriber;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Vite;
 
 test('有效 email 訂閱後顯示成功訊息並派送寫入任務', function () {
     Queue::fake();
@@ -250,11 +251,38 @@ test('電子報列表頁面列出所有主題並連到各自的訂閱頁面', fu
     }
 });
 
-test('電子報列表頁面包含連到首頁的一般電子報', function () {
-    $this->get('/newsletter')
+test('Laravel 進階分享有獨立於首頁的訂閱頁面', function () {
+    $this->get(route('newsletter.index'))
         ->assertOk()
-        ->assertSee(config('app.name').' 電子報')
-        ->assertSee('href="'.route('home').'"', false);
+        ->assertSee('Laravel 進階分享')
+        ->assertSee('href="'.route('newsletter.show', NewsletterTopic::Laravel).'"', false);
+
+    $this->get('/newsletter/laravel')
+        ->assertOk()
+        ->assertSee('Laravel 進階分享')
+        ->assertSee('name="topic" value="laravel"', false);
+});
+
+test('訂閱 Laravel 進階分享會記錄為 laravel 主題', function () {
+    Queue::fake();
+
+    $this->post(route('newsletter.subscribe'), ['email' => 'dev@example.com', 'topic' => 'laravel'])
+        ->assertRedirect();
+
+    Queue::assertPushed(
+        StoreNewsletterSubscriber::class,
+        fn (StoreNewsletterSubscriber $job) => $job->topic === NewsletterTopic::Laravel,
+    );
+});
+
+test('電子報列表頁面每個區塊前面都有 logo', function () {
+    $response = $this->get(route('newsletter.index'))->assertOk();
+
+    foreach (NewsletterTopic::cases() as $topic) {
+        $response->assertSee(Vite::asset($topic->logo()), false);
+    }
+
+    $response->assertSee(Vite::asset('resources/images/Laravel.png'), false);
 });
 
 test('POST /newsletter 仍然是訂閱表單的送出位置', function () {
