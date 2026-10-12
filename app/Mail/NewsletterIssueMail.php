@@ -6,6 +6,7 @@ use App\Models\NewsletterIssue;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Headers;
@@ -22,9 +23,14 @@ class NewsletterIssueMail extends Mailable
         public readonly NewsletterSubscriber $subscriber,
     ) {}
 
+    private static function sender(): Address
+    {
+        return new Address(config('mail.newsletter_from.address'), config('mail.newsletter_from.name'));
+    }
+
     public function envelope(): Envelope
     {
-        return new Envelope(subject: $this->issue->title);
+        return new Envelope(from: self::sender(), subject: $this->issue->title);
     }
 
     public function headers(): Headers

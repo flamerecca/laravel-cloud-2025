@@ -313,3 +313,18 @@ test('POST /newsletter 仍然是訂閱表單的送出位置', function () {
 
     Queue::assertPushed(StoreNewsletterSubscriber::class);
 });
+
+test('確認信以 newsletter@reccachao.net 寄出', function () {
+    $mail = new NewsletterConfirmation('reader@example.com', NewsletterTopic::Filament);
+
+    $mail->assertFrom('newsletter@reccachao.net', 'Recca Chao');
+});
+
+test('寄件人可以用環境變數覆寫', function () {
+    config([
+        'mail.newsletter_from.address' => 'letters@example.org',
+        'mail.newsletter_from.name' => 'Letters',
+    ]);
+
+    (new NewsletterConfirmation('reader@example.com'))->assertFrom('letters@example.org', 'Letters');
+});

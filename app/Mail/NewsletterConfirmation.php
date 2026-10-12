@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Enums\NewsletterTopic;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -27,12 +28,18 @@ class NewsletterConfirmation extends Mailable
         public readonly ?NewsletterTopic $topic = null,
     ) {}
 
+    private static function sender(): Address
+    {
+        return new Address(config('mail.newsletter_from.address'), config('mail.newsletter_from.name'));
+    }
+
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: self::sender(),
             subject: "請確認訂閱「{$this->topicTitle()}」",
         );
     }

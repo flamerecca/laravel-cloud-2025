@@ -52,3 +52,9 @@ test('信件帶有 List-Unsubscribe 與一鍵退訂標頭', function () {
     expect($headers->text['List-Unsubscribe'])->toContain('/newsletter/unsubscribe')
         ->and($headers->text['List-Unsubscribe-Post'])->toBe('List-Unsubscribe=One-Click');
 });
+
+test('電子報信件以 newsletter@reccachao.net 寄出', function () {
+    [$mail] = renderedIssueMail('內文');
+
+    $mail->assertFrom('newsletter@reccachao.net', 'Recca Chao');
+});

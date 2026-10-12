@@ -120,4 +120,20 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Newsletter Sender
+    |--------------------------------------------------------------------------
+    |
+    | Newsletter mails, including the double opt-in confirmation, go out from
+    | this address instead of the application wide one. The domain has to be
+    | verified in Mailgun before mail from it is accepted.
+    |
+    */
+
+    'newsletter_from' => [
+        'address' => env('NEWSLETTER_FROM_ADDRESS', 'newsletter@reccachao.net'),
+        'name' => env('NEWSLETTER_FROM_NAME', 'Recca Chao'),
+    ],
+
 ];
