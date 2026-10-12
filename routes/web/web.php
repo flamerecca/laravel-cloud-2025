@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\NewsletterTopic;
 use App\Models\ShortUrl;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,7 @@ use Livewire\Volt\Volt;
 Route::get('/', function () {
     User::all();
 
-    return view('welcome');
+    return view('welcome', ['topics' => NewsletterTopic::cases()]);
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
