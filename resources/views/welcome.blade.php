@@ -5,18 +5,16 @@
     </head>
     <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col gap-12 px-6 py-12">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-2">
-                    @auth
-                        <flux:button :href="url('/dashboard')" size="sm" variant="ghost">Dashboard</flux:button>
-                    @else
+            @guest
+                @if (Route::has('login'))
+                    <nav class="flex items-center justify-end gap-2">
                         <flux:button :href="route('login')" size="sm" variant="ghost">Log in</flux:button>
                         @if (Route::has('register'))
                             <flux:button :href="route('register')" size="sm" variant="ghost">Register</flux:button>
                         @endif
-                    @endauth
-                </nav>
-            @endif
+                    </nav>
+                @endif
+            @endguest
 
             <section class="flex flex-col gap-4">
                 <div class="flex items-center gap-4">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\NewsletterTopic;
+use App\Models\User;
 use Illuminate\Support\Facades\Vite;
 
 test('首頁顯示 Recca Chao 的簡介', function () {
@@ -43,4 +44,17 @@ test('Filament 後台使用 reccaChao.png 作為 favicon', function () {
     $this->get('/admin/login')
         ->assertOk()
         ->assertSee(Vite::asset('resources/images/reccaChao.png'), false);
+});
+
+test('登入後的首頁不顯示 Dashboard 按鈕', function () {
+    $this->actingAs(User::factory()->create());
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertDontSee('Dashboard')
+        ->assertDontSee('href="'.url('/dashboard').'"', false);
+});
+
+test('未登入的首頁仍顯示登入與註冊', function () {
+    $this->get(route('home'))->assertSee('Log in')->assertSee('Register');
 });
