@@ -23,8 +23,16 @@ Route::get('/newsletter/unsubscribe', [NewsletterUnsubscribeController::class, '
 Route::post('/newsletter/unsubscribe', [NewsletterUnsubscribeController::class, 'store'])
     ->middleware('throttle:6,1');
 
-Route::get('/newsletter/{topic}', fn (NewsletterTopic $topic) => view('newsletter.show', ['topic' => $topic]))
-    ->name('newsletter.show');
+// The path segment is the topic slug; the stored value is still accepted and redirects to the slug.
+Route::get('/newsletter/{topic}', function (string $topic) {
+    $resolved = NewsletterTopic::fromSlug($topic) ?? abort(404);
+
+    if ($topic !== $resolved->slug()) {
+        return redirect()->route('newsletter.show', $resolved->slug(), 301);
+    }
+
+    return view('newsletter.show', ['topic' => $resolved]);
+})->name('newsletter.show');
 
 Route::post('/newsletter', NewsletterController::class)
     ->middleware('throttle:6,1')

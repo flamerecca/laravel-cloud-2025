@@ -14,8 +14,8 @@ test('公開頁面一律使用深色模式', function (string $url) {
 })->with([
     'home' => fn () => route('home'),
     'newsletter list' => fn () => route('newsletter.index'),
-    'topic filament' => fn () => route('newsletter.show', NewsletterTopic::Filament),
-    'topic laravel' => fn () => route('newsletter.show', NewsletterTopic::Laravel),
+    'topic filament' => fn () => route('newsletter.show', NewsletterTopic::Filament->slug()),
+    'topic laravel' => fn () => route('newsletter.show', NewsletterTopic::Laravel->slug()),
 ]);
 
 test('確認與退訂頁面使用深色模式', function () {
@@ -27,7 +27,7 @@ test('確認與退訂頁面使用深色模式', function () {
 test('頁面標題使用終端機風格的前綴樣式', function () {
     $this->get(route('home'))->assertSee('term-title', false);
     $this->get(route('newsletter.index'))->assertSee('term-title', false);
-    $this->get(route('newsletter.show', NewsletterTopic::Laravel))->assertSee('term-title', false);
+    $this->get(route('newsletter.show', NewsletterTopic::Laravel->slug()))->assertSee('term-title', false);
 });
 
 test('確認信使用參考站的深色背景與綠色標題', function () {

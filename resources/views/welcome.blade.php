@@ -32,7 +32,7 @@
                 </flux:text>
 
                 <flux:text>
-                    曾在 LaravelConf Taiwan、COSCUP、JCConf Taiwan 與各地 DevFest 分享。目前以電子報分享 Filament 與 Laravel 的進階實戰經驗。
+                    曾在 LaravelConf Taiwan、COSCUP、JCConf Taiwan 與各地 DevFest 分享。目前以電子報分享 Filament 進階實戰與 Laravel 自動化測試的經驗。
                 </flux:text>
 
                 <div class="flex flex-wrap gap-2">

@@ -1,16 +1,45 @@
 @php
     $filament = $topic === \App\Enums\NewsletterTopic::Filament;
+    $laravel = $topic === \App\Enums\NewsletterTopic::Laravel;
 
-    // The Filament topic follows the Filament media kit colors; other topics keep the default look.
-    $badge = $filament ? 'bg-honey! text-cocoa!' : '';
-    $card = $filament ? 'bg-off-black' : 'term-card bg-surface';
-    $button = $filament ? 'bg-honey! text-cocoa! hover:bg-honey/90!' : '';
-    $keyPointCards = $filament ? ['bg-bubblegum', 'bg-powder', 'bg-minty'] : ['term-card'];
-    $keyPointText = $filament ? 'text-cocoa!' : '';
-    $keyPointBadge = $filament ? 'bg-cocoa! text-serenade!' : '';
-    $highlightCard = $filament
-        ? 'border-l-4 border-honey bg-off-black'
-        : 'term-card';
+    // Filament follows the Filament media kit colors and Laravel the Laravel brand colors;
+    // other topics keep the default look.
+    $badge = match (true) {
+        $filament => 'bg-honey! text-cocoa!',
+        $laravel => 'bg-laravel-red! text-white!',
+        default => '',
+    };
+    $card = match (true) {
+        $filament => 'bg-off-black',
+        $laravel => 'bg-laravel-ink border-t-4 border-laravel-red',
+        default => 'term-card bg-surface',
+    };
+    $button = match (true) {
+        $filament => 'bg-honey! text-cocoa! hover:bg-honey/90!',
+        $laravel => 'bg-laravel-red! text-white! hover:bg-laravel-ember!',
+        default => '',
+    };
+    $keyPointCards = match (true) {
+        $filament => ['bg-bubblegum', 'bg-powder', 'bg-minty'],
+        $laravel => ['bg-laravel-red', 'bg-laravel-blush', 'bg-laravel-ink border border-laravel-red'],
+        default => ['term-card'],
+    };
+    $keyPointText = match (true) {
+        $filament => ['text-cocoa!'],
+        $laravel => ['text-white!', 'text-laravel-ink!', 'text-laravel-rose!'],
+        default => [''],
+    };
+    $keyPointBadge = match (true) {
+        $filament => ['bg-cocoa! text-serenade!'],
+        $laravel => ['bg-white! text-laravel-red!', 'bg-laravel-red! text-white!', 'bg-laravel-red! text-white!'],
+        default => [''],
+    };
+    $highlightCard = match (true) {
+        $filament => 'border-l-4 border-honey bg-off-black',
+        $laravel => 'border-l-4 border-laravel-red bg-laravel-ink',
+        default => 'term-card',
+    };
+    $titleAccent = $laravel ? 'text-laravel-red!' : '';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
@@ -22,8 +51,15 @@
             <x-home-button />
 
             <header class="flex flex-col gap-3">
+                @if ($topic->secondaryLogo())
+                    <div class="flex items-center gap-3">
+                        <img src="{{ Vite::asset($topic->logo()) }}" alt="{{ $topic->title() }}" class="size-14 rounded-sm" />
+                        <span class="text-ink/60" aria-hidden="true">+</span>
+                        <img src="{{ Vite::asset($topic->secondaryLogo()) }}" alt="Pest" class="size-14 rounded-sm" />
+                    </div>
+                @endif
                 <flux:badge color="amber" class="self-start {{ $badge }}">免費訂閱</flux:badge>
-                <flux:heading size="xl" level="1" class="term-title">{{ $topic->title() }}</flux:heading>
+                <flux:heading size="xl" level="1" class="term-title {{ $titleAccent }}">{{ $topic->title() }}</flux:heading>
                 <flux:text>{{ $topic->description() }}</flux:text>
             </header>
 
@@ -60,10 +96,10 @@
                     <ol class="grid gap-3 sm:grid-cols-3">
                         @foreach ($topic->keyPoints() as $keyPoint)
                             <li class="flex flex-col gap-3 rounded-sm p-4 {{ $keyPointCards[$loop->index % count($keyPointCards)] }}">
-                                <flux:badge color="amber" class="self-start {{ $keyPointBadge }}">{{ $loop->iteration }}</flux:badge>
+                                <flux:badge color="amber" class="self-start {{ $keyPointBadge[$loop->index % count($keyPointBadge)] }}">{{ $loop->iteration }}</flux:badge>
                                 <div class="flex flex-col gap-1">
-                                    <flux:heading level="3" class="{{ $keyPointText }}">{{ $keyPoint['title'] }}</flux:heading>
-                                    <flux:text class="{{ $keyPointText }}">{{ $keyPoint['description'] }}</flux:text>
+                                    <flux:heading level="3" class="{{ $keyPointText[$loop->index % count($keyPointText)] }}">{{ $keyPoint['title'] }}</flux:heading>
+                                    <flux:text class="{{ $keyPointText[$loop->index % count($keyPointText)] }}">{{ $keyPoint['description'] }}</flux:text>
                                 </div>
                             </li>
                         @endforeach

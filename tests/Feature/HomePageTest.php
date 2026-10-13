@@ -16,7 +16,7 @@ test('首頁列出所有電子報並連到各自的訂閱頁面', function () {
 
     foreach (NewsletterTopic::cases() as $topic) {
         $response->assertSee($topic->title())
-            ->assertSee('href="'.route('newsletter.show', $topic).'"', false);
+            ->assertSee('href="'.route('newsletter.show', $topic->slug()).'"', false);
     }
 });
 

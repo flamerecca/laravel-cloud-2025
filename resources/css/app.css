@@ -33,6 +33,13 @@
     --color-off-white: #faf9f5;
     --color-off-black: #292524;
 
+    /* Laravel brand colors */
+    --color-laravel-red: #ff2d20;
+    --color-laravel-ember: #f53003;
+    --color-laravel-ink: #1b1b18;
+    --color-laravel-blush: #fff2f0;
+    --color-laravel-rose: #ffd0cb;
+
     /* Terminal design system, modelled on gitpage.reccachao.net */
     --color-terminal: #151515;
     --color-surface: #1c1c1c;

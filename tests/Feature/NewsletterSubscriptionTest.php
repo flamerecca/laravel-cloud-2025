@@ -62,7 +62,7 @@ test('短時間內送出超過限流門檻會回傳 429', function () {
 });
 
 test('Filament 進階分享訂閱頁面顯示主題與訂閱表單', function () {
-    $response = $this->get(route('newsletter.show', NewsletterTopic::Filament));
+    $response = $this->get(route('newsletter.show', NewsletterTopic::Filament->slug()));
 
     $response->assertOk();
     $response->assertSee('Filament 進階分享');
@@ -72,14 +72,14 @@ test('Filament 進階分享訂閱頁面顯示主題與訂閱表單', function ()
 });
 
 test('訂閱卡片排在內容介紹之前', function () {
-    $this->get(route('newsletter.show', NewsletterTopic::Filament))
+    $this->get(route('newsletter.show', NewsletterTopic::Filament->slug()))
         ->assertSeeInOrder(['訂閱電子報', '你會收到的內容']);
 });
 
 test('Filament 進階分享頁面在訂閱表單與內容介紹之間顯示三個重點', function () {
     expect(NewsletterTopic::Filament->keyPoints())->toHaveCount(3);
 
-    $this->get(route('newsletter.show', NewsletterTopic::Filament))
+    $this->get(route('newsletter.show', NewsletterTopic::Filament->slug()))
         ->assertOk()
         ->assertSeeInOrder([
             '訂閱電子報',
@@ -89,12 +89,6 @@ test('Filament 進階分享頁面在訂閱表單與內容介紹之間顯示三�
         ]);
 });
 
-test('沒有設定重點的主題不顯示重點區塊', function () {
-    $this->get(route('newsletter.show', NewsletterTopic::Laravel))
-        ->assertOk()
-        ->assertDontSee('訂閱後你會看到的三個重點');
-});
-
 test('不存在的主題頁面回傳 404', function () {
     $this->get('/newsletter/unknown')->assertNotFound();
 });
@@ -102,7 +96,7 @@ test('不存在的主題頁面回傳 404', function () {
 test('從主題頁面訂閱後導回該頁並顯示成功訊息', function () {
     Queue::fake();
 
-    $page = route('newsletter.show', NewsletterTopic::Filament);
+    $page = route('newsletter.show', NewsletterTopic::Filament->slug());
 
     $this->from($page)
         ->post(route('newsletter.subscribe'), ['email' => 'reader@example.com', 'topic' => 'filament'])
@@ -139,7 +133,7 @@ test('不存在的主題無法訂閱', function () {
 });
 
 test('主題頁面在確認失敗時顯示錯誤並保留輸入值', function () {
-    $page = route('newsletter.show', NewsletterTopic::Filament);
+    $page = route('newsletter.show', NewsletterTopic::Filament->slug());
 
     $this->from($page)
         ->post(route('newsletter.subscribe'), ['email' => 'not-an-email', 'topic' => 'filament'])
@@ -266,23 +260,47 @@ test('電子報列表頁面列出所有主題並連到各自的訂閱頁面', fu
 
     foreach (NewsletterTopic::cases() as $topic) {
         $response->assertSee($topic->title())
-            ->assertSee('href="'.route('newsletter.show', $topic).'"', false);
+            ->assertSee('href="'.route('newsletter.show', $topic->slug()).'"', false);
     }
 });
 
-test('Laravel 進階分享有獨立於首頁的訂閱頁面', function () {
+test('Laravel 自動化測試分享有獨立於首頁的訂閱頁面', function () {
     $this->get(route('newsletter.index'))
         ->assertOk()
-        ->assertSee('Laravel 進階分享')
-        ->assertSee('href="'.route('newsletter.show', NewsletterTopic::Laravel).'"', false);
+        ->assertSee('Laravel 自動化測試分享')
+        ->assertSee('href="'.route('newsletter.show', NewsletterTopic::Laravel->slug()).'"', false);
 
-    $this->get('/newsletter/laravel')
+    $this->get('/newsletter/laravel-test')
         ->assertOk()
-        ->assertSee('Laravel 進階分享')
+        ->assertSee('Laravel 自動化測試分享')
         ->assertSee('name="topic" value="laravel"', false);
 });
 
-test('訂閱 Laravel 進階分享會記錄為 laravel 主題', function () {
+test('Laravel 自動化測試分享頁面顯示 Pest logo', function () {
+    $this->get('/newsletter/laravel-test')
+        ->assertOk()
+        ->assertSee('alt="Pest"', false)
+        ->assertSee('pest', false);
+
+    $this->get('/newsletter/filament')->assertDontSee('alt="Pest"', false);
+});
+
+test('Laravel 自動化測試分享頁面使用 Laravel 品牌配色並顯示三個重點', function () {
+    $this->get('/newsletter/laravel-test')
+        ->assertOk()
+        ->assertSee('bg-laravel-red', false)
+        ->assertSee('border-laravel-red', false)
+        ->assertSee('訂閱後你會看到的三個重點');
+
+    $this->get('/newsletter/filament')->assertDontSee('laravel-red', false);
+});
+
+test('舊的 laravel 網址會轉址到 laravel-test，未知主題回 404', function () {
+    $this->get('/newsletter/laravel')->assertRedirect(route('newsletter.show', 'laravel-test'));
+    $this->get('/newsletter/unknown')->assertNotFound();
+});
+
+test('訂閱 Laravel 自動化測試分享會記錄為 laravel 主題', function () {
     Queue::fake();
 
     $this->post(route('newsletter.subscribe'), ['email' => 'dev@example.com', 'topic' => 'laravel'])

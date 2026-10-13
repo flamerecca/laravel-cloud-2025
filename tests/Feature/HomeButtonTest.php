@@ -10,8 +10,8 @@ test('公開頁面都有回到首頁的按鈕', function (string $url) {
         ->assertSee('href="'.route('home').'"', false);
 })->with([
     'newsletter list' => fn () => route('newsletter.index'),
-    'topic filament' => fn () => route('newsletter.show', NewsletterTopic::Filament),
-    'topic laravel' => fn () => route('newsletter.show', NewsletterTopic::Laravel),
+    'topic filament' => fn () => route('newsletter.show', NewsletterTopic::Filament->slug()),
+    'topic laravel' => fn () => route('newsletter.show', NewsletterTopic::Laravel->slug()),
     'confirm invalid' => fn () => route('newsletter.confirm'),
     'unsubscribe confirm' => fn () => URL::signedRoute('newsletter.unsubscribe', ['email' => 'a@example.com']),
     'unsubscribe invalid' => fn () => route('newsletter.unsubscribe'),

@@ -21,7 +21,7 @@
                 </flux:callout>
             @endif
 
-            <flux:button :href="$topic ? route('newsletter.show', $topic) : url('/')" class="self-start">
+            <flux:button :href="$topic ? route('newsletter.show', $topic->slug()) : url('/')" class="self-start">
                 {{ $confirmed ? '回到電子報頁面' : '重新訂閱' }}
             </flux:button>
         </main>

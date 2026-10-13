@@ -1,7 +1,7 @@
 @props(['topic'])
 
 <a
-    href="{{ route('newsletter.show', $topic) }}"
+    href="{{ route('newsletter.show', $topic->slug()) }}"
     class="term-card flex items-center gap-4 p-4 transition"
 >
     <img src="{{ Vite::asset($topic->logo()) }}" alt="" class="size-12 shrink-0 rounded-sm" />
