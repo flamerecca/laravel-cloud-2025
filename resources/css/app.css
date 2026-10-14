@@ -48,6 +48,13 @@
     --color-kotlin-purple: #7f52ff;
     --color-kotlin-lilac: #e3dbff;
 
+    /* Ktor brand colors */
+    --color-ktor-magenta: #c811e1;
+    --color-ktor-coral: #e54857;
+    --color-ktor-violet: #7f52ff;
+    --color-ktor-ink: #170f22;
+    --color-ktor-blush: #ffe6f8;
+
     /* Terminal design system, modelled on gitpage.reccachao.net */
     --color-terminal: #151515;
     --color-surface: #1c1c1c;

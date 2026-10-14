@@ -9,6 +9,7 @@ enum NewsletterTopic: string implements HasLabel
     case Filament = 'filament';
     case Laravel = 'laravel';
     case SpringBoot = 'spring-boot';
+    case Ktor = 'ktor';
 
     public function getLabel(): string
     {
@@ -25,6 +26,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Filament => 'filament',
             self::Laravel => 'laravel-test',
             self::SpringBoot => 'spring-boot',
+            self::Ktor => 'ktor',
         };
     }
 
@@ -47,7 +49,16 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => null,
             self::Laravel => 'resources/images/pest.png',
-            self::SpringBoot => 'resources/images/Kotlin.png',
+            self::SpringBoot, self::Ktor => 'resources/images/Kotlin.png',
+        };
+    }
+
+    public function secondaryLogoLabel(): ?string
+    {
+        return match ($this) {
+            self::Filament => null,
+            self::Laravel => 'Pest',
+            self::SpringBoot, self::Ktor => 'Kotlin',
         };
     }
 
@@ -57,6 +68,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Filament => 'Filament 進階分享',
             self::Laravel => 'Laravel 自動化測試分享',
             self::SpringBoot => 'Spring Boot 搭配 Kotlin 基礎開發',
+            self::Ktor => 'Ktor 基礎教學',
         };
     }
 
@@ -65,6 +77,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => '寫給已經會用 Filament 內建功能做出後台，卻被一個翻遍文件也找不到對應元件的需求卡住的 Laravel 工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從自訂欄位一路走到即時推播與套件封裝，並誠實告訴你哪些需求已經不該留在 Filament 裡。',
             self::SpringBoot => '寫給已經會寫 Kotlin 語法，第一次碰 Spring Boot，專案產生之後面對一堆檔案與標註，不知道哪些該先搞懂的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從 Initializr 產生的專案一路走到能驗證、能測試的第一支服務。',
+            self::Ktor => '寫給有 Laravel、Spring Boot 或 Node.js 後端經驗，決定動手試 Ktor 的工程師。選型文回答「要不要試」，這份三個月、共 12 期的電子報接著回答「決定試之後，第一個月會撞到什麼」。每週一期，每封信獨立成篇、只講一件事，帶你從 main() 一路走到 Docker 映像檔，並誠實列出系列沒有涵蓋的方向。',
             self::Laravel => '寫給已經熟悉 Laravel 基本用法，想用自動化測試守住專案品質、改程式時不再提心吊膽的開發者。每封電子報聚焦一個測試主題，附上可直接套用的 Pest 實戰範例。',
         };
     }
@@ -78,6 +91,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Filament => 'resources/images/filament.png',
             self::Laravel => 'resources/images/Laravel.png',
             self::SpringBoot => 'resources/images/spring-boot.png',
+            self::Ktor => 'resources/images/ktor.png',
         };
     }
 
@@ -93,6 +107,11 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
                 ['title' => '一杯咖啡的時間讀完', 'description' => '每期約 800 到 1500 字，專注解決一個具體的卡關情境'],
                 ['title' => '誠實說出框架的邊界', 'description' => '從自訂欄位走到即時推播，也會告訴你哪些需求不該勉強留在 Filament 裡'],
+            ],
+            self::Ktor => [
+                ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
+                ['title' => '從 main() 走到 Docker', 'description' => '全系列沿用同一個訂單查詢服務，一條路線串起路由、序列化、資料庫、認證、測試與部署'],
+                ['title' => '替有後端經驗的你省時間', 'description' => '拿 Laravel、Spring Boot 的概念對照過來，直接說明 Ktor 少了什麼、要自己補什麼'],
             ],
             self::SpringBoot => [
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
@@ -126,6 +145,20 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '封裝成套件', 'description' => '先判斷功能夠不夠獨立，再收斂成可以安裝與重複使用的套件'],
                 ['title' => '客製化的效能代價', 'description' => '疊加客製化之後，如何衡量效能成本與功能價值'],
                 ['title' => '你自己的判斷清單', 'description' => '收斂成下次卡關時能直接拿來用的問題清單'],
+            ],
+            self::Ktor => [
+                ['title' => '十行程式碼跑起一個服務，然後看它缺了什麼', 'description' => '看懂最小專案的每一行，與其他框架少了哪些預設'],
+                ['title' => '路由寫在哪裡，路徑參數拿不到怎麼辦', 'description' => '路由分組、路徑與查詢參數的取法'],
+                ['title' => 'JSON 進來出去，欄位對不上時發生什麼事', 'description' => 'ContentNegotiation 與序列化失敗的行為'],
+                ['title' => 'install() 一下，你的請求就多了一層', 'description' => 'Plugin 機制與請求管線，自己寫一個'],
+                ['title' => '例外丟出去之後，使用者看到的是什麼', 'description' => 'StatusPages 與統一錯誤格式'],
+                ['title' => 'handler 裡的 suspend，到底讓出了什麼', 'description' => '協程在 handler 裡的行為與阻塞陷阱'],
+                ['title' => '資料庫連線，在協程裡該怎麼開', 'description' => 'Exposed、連線池與協程交易'],
+                ['title' => '物件越來越多，誰來負責 new', 'description' => 'Koin 與手動組裝的取捨'],
+                ['title' => '登入之後，每個請求怎麼證明自己是誰', 'description' => 'JWT 認證與路由保護'],
+                ['title' => '測試不用真的開伺服器', 'description' => 'testApplication 與替換依賴'],
+                ['title' => '同一份程式，怎麼在三個環境跑起來', 'description' => '組態設定、環境變數、fat jar 與 Docker'],
+                ['title' => '十二週後，拿一份清單去評估你的第一支服務', 'description' => '把前 11 期收斂成上線前問題清單'],
             ],
             self::SpringBoot => [
                 ['title' => '剛產生的專案，哪些檔案可以先不用管', 'description' => '看懂 build.gradle.kts、設定檔與進入點三樣就夠'],
