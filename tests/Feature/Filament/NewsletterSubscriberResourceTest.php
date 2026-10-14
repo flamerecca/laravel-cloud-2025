@@ -136,6 +136,40 @@ test('已確認的訂閱者不顯示重寄確認信', function () {
         ->assertActionHidden(TestAction::make('resendConfirmation')->table($subscriber));
 });
 
+test('後台可以直接確認訂閱，不寄確認信', function () {
+    Mail::fake();
+    $subscriber = NewsletterSubscriber::factory()->create(['confirmed_at' => null]);
+
+    livewire(ListNewsletterSubscribers::class)
+        ->callAction(TestAction::make('confirmSubscription')->table($subscriber))
+        ->assertNotified();
+
+    expect($subscriber->refresh()->isConfirmed())->toBeTrue()
+        ->and(NewsletterSubscriber::deliverable()->whereKey($subscriber->id)->exists())->toBeTrue();
+    Mail::assertNothingSent();
+});
+
+test('已確認的訂閱者不顯示直接確認訂閱', function () {
+    $subscriber = NewsletterSubscriber::factory()->confirmed()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->assertActionHidden(TestAction::make('confirmSubscription')->table($subscriber));
+});
+
+test('批次直接確認訂閱只影響尚未確認的訂閱者', function () {
+    $pending = NewsletterSubscriber::factory()->count(2)->create(['confirmed_at' => null]);
+    $confirmedAt = now()->subDays(3)->startOfSecond();
+    $confirmed = NewsletterSubscriber::factory()->create(['confirmed_at' => $confirmedAt]);
+
+    livewire(ListNewsletterSubscribers::class)
+        ->selectTableRecords($pending->push($confirmed)->pluck('id')->all())
+        ->callAction(TestAction::make('confirmSubscriptions')->table()->bulk())
+        ->assertNotified();
+
+    expect(NewsletterSubscriber::whereNull('confirmed_at')->count())->toBe(0)
+        ->and($confirmed->refresh()->confirmed_at->equalTo($confirmedAt))->toBeTrue();
+});
+
 test('新增訂閱者會走確認信流程，不會直接成為已確認', function () {
     Mail::fake();
 

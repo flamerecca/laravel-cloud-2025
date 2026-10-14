@@ -6,6 +6,7 @@ use App\Enums\NewsletterTopic;
 use App\Jobs\StoreNewsletterSubscriber;
 use App\Models\NewsletterSubscriber;
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -16,6 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class NewsletterSubscribersTable
 {
@@ -93,10 +95,43 @@ class NewsletterSubscribersTable
                             ->success()
                             ->send();
                     }),
+                Action::make('confirmSubscription')
+                    ->label('直接確認訂閱')
+                    ->icon(Heroicon::OutlinedCheckBadge)
+                    ->color('success')
+                    ->visible(fn (NewsletterSubscriber $record): bool => ! $record->isConfirmed())
+                    ->requiresConfirmation()
+                    ->modalDescription('不經確認信，直接把這位訂閱者標記為已確認，之後會開始收到電子報。')
+                    ->action(function (NewsletterSubscriber $record): void {
+                        $record->update(['confirmed_at' => now(), 'unsubscribed_at' => null]);
+
+                        Notification::make()
+                            ->title("已確認 {$record->email} 的訂閱")
+                            ->success()
+                            ->send();
+                    }),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('confirmSubscriptions')
+                        ->label('直接確認訂閱')
+                        ->icon(Heroicon::OutlinedCheckBadge)
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->modalDescription('只會確認尚未確認的訂閱者，已確認或已退訂的不受影響。')
+                        ->deselectRecordsAfterCompletion()
+                        ->action(function (Collection $records): void {
+                            $confirmed = $records
+                                ->filter(fn (NewsletterSubscriber $record): bool => ! $record->isConfirmed())
+                                ->each(fn (NewsletterSubscriber $record) => $record->update(['confirmed_at' => now(), 'unsubscribed_at' => null]))
+                                ->count();
+
+                            Notification::make()
+                                ->title("已確認 {$confirmed} 位訂閱者")
+                                ->success()
+                                ->send();
+                        }),
                     DeleteBulkAction::make(),
                 ]),
             ]);
