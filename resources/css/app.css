@@ -55,6 +55,13 @@
     --color-ktor-ink: #170f22;
     --color-ktor-blush: #ffe6f8;
 
+    /* Exposed brand colors */
+    --color-exposed-violet: #7c4dff;
+    --color-exposed-fuchsia: #d946ef;
+    --color-exposed-sky: #8fb4ff;
+    --color-exposed-ink: #130f26;
+    --color-exposed-lavender: #ece6ff;
+
     /* Terminal design system, modelled on gitpage.reccachao.net */
     --color-terminal: #151515;
     --color-surface: #1c1c1c;

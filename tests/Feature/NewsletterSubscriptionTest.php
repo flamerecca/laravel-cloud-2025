@@ -327,6 +327,22 @@ test('Ktor 基礎教學有獨立的訂閱頁面與配色', function () {
         ->assertDontSee('spring-green', false);
 });
 
+test('Kotlin Exposed 基礎教學有獨立的訂閱頁面與配色', function () {
+    $this->get(route('newsletter.index'))
+        ->assertOk()
+        ->assertSee('Kotlin Exposed 基礎教學')
+        ->assertSee('href="'.route('newsletter.show', NewsletterTopic::Exposed->slug()).'"', false);
+
+    $this->get('/newsletter/exposed')
+        ->assertOk()
+        ->assertSee('Kotlin Exposed 基礎教學')
+        ->assertSee('alt="Kotlin"', false)
+        ->assertSee('bg-exposed-violet', false)
+        ->assertSee('訂閱後你會看到的三個重點')
+        ->assertSee('name="topic" value="exposed"', false)
+        ->assertDontSee('ktor-magenta', false);
+});
+
 test('舊的 laravel 網址會轉址到 laravel-test，未知主題回 404', function () {
     $this->get('/newsletter/laravel')->assertRedirect(route('newsletter.show', 'laravel-test'));
     $this->get('/newsletter/unknown')->assertNotFound();

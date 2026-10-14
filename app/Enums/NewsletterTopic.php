@@ -10,6 +10,7 @@ enum NewsletterTopic: string implements HasLabel
     case Laravel = 'laravel';
     case SpringBoot = 'spring-boot';
     case Ktor = 'ktor';
+    case Exposed = 'exposed';
 
     public function getLabel(): string
     {
@@ -27,6 +28,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Laravel => 'laravel-test',
             self::SpringBoot => 'spring-boot',
             self::Ktor => 'ktor',
+            self::Exposed => 'exposed',
         };
     }
 
@@ -49,7 +51,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => null,
             self::Laravel => 'resources/images/pest.png',
-            self::SpringBoot, self::Ktor => 'resources/images/Kotlin.png',
+            self::SpringBoot, self::Ktor, self::Exposed => 'resources/images/Kotlin.png',
         };
     }
 
@@ -58,7 +60,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => null,
             self::Laravel => 'Pest',
-            self::SpringBoot, self::Ktor => 'Kotlin',
+            self::SpringBoot, self::Ktor, self::Exposed => 'Kotlin',
         };
     }
 
@@ -69,6 +71,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Laravel => 'Laravel 自動化測試分享',
             self::SpringBoot => 'Spring Boot 搭配 Kotlin 基礎開發',
             self::Ktor => 'Ktor 基礎教學',
+            self::Exposed => 'Kotlin Exposed 基礎教學',
         };
     }
 
@@ -77,6 +80,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => '寫給已經會用 Filament 內建功能做出後台，卻被一個翻遍文件也找不到對應元件的需求卡住的 Laravel 工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從自訂欄位一路走到即時推播與套件封裝，並誠實告訴你哪些需求已經不該留在 Filament 裡。',
             self::SpringBoot => '寫給已經會寫 Kotlin 語法，第一次碰 Spring Boot，專案產生之後面對一堆檔案與標註，不知道哪些該先搞懂的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從 Initializr 產生的專案一路走到能驗證、能測試的第一支服務。',
+            self::Exposed => '寫給會寫 Kotlin，想用型別安全的方式操作資料庫，不想拼 SQL 字串，也不想被 ORM 綁架的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從一行連線走到關聯與查詢次數，並誠實列出系列沒有涵蓋的方向。',
             self::Ktor => '寫給有 Laravel、Spring Boot 或 Node.js 後端經驗，決定動手試 Ktor 的工程師。選型文回答「要不要試」，這份三個月、共 12 期的電子報接著回答「決定試之後，第一個月會撞到什麼」。每週一期，每封信獨立成篇、只講一件事，帶你從 main() 一路走到 Docker 映像檔，並誠實列出系列沒有涵蓋的方向。',
             self::Laravel => '寫給已經熟悉 Laravel 基本用法，想用自動化測試守住專案品質、改程式時不再提心吊膽的開發者。每封電子報聚焦一個測試主題，附上可直接套用的 Pest 實戰範例。',
         };
@@ -92,6 +96,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Laravel => 'resources/images/Laravel.png',
             self::SpringBoot => 'resources/images/spring-boot.png',
             self::Ktor => 'resources/images/ktor.png',
+            self::Exposed => 'resources/images/exposed.png',
         };
     }
 
@@ -107,6 +112,11 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
                 ['title' => '一杯咖啡的時間讀完', 'description' => '每期約 800 到 1500 字，專注解決一個具體的卡關情境'],
                 ['title' => '誠實說出框架的邊界', 'description' => '從自訂欄位走到即時推播，也會告訴你哪些需求不該勉強留在 Filament 裡'],
+            ],
+            self::Exposed => [
+                ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
+                ['title' => '編譯器替你檢查查詢', 'description' => '欄位名稱打錯，編譯時就會知道，不用等到查詢被執行才炸開'],
+                ['title' => '看得到每一條實際送出的 SQL', 'description' => 'DSL 與 DAO 並排比較，也教你數出查詢次數，揪出 N+1'],
             ],
             self::Ktor => [
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
@@ -145,6 +155,20 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '封裝成套件', 'description' => '先判斷功能夠不夠獨立，再收斂成可以安裝與重複使用的套件'],
                 ['title' => '客製化的效能代價', 'description' => '疊加客製化之後，如何衡量效能成本與功能價值'],
                 ['title' => '你自己的判斷清單', 'description' => '收斂成下次卡關時能直接拿來用的問題清單'],
+            ],
+            self::Exposed => [
+                ['title' => '不想拼 SQL 字串，也不想被 ORM 綁架', 'description' => '型別安全地描述 SQL，認識 DSL 與 DAO 兩種寫法'],
+                ['title' => '第一次連上資料庫，只要一行', 'description' => '最小依賴組合與 Database.connect，換資料庫只改連線字串與驅動'],
+                ['title' => '為什麼每個操作都要包在 transaction 裡', 'description' => 'transaction 是連線的範圍，也是提交與還原的邊界'],
+                ['title' => '資料表定義，寫在程式碼裡', 'description' => '用 object 宣告欄位與主鍵，成為編譯期檢查的來源'],
+                ['title' => '新增與查詢，DSL 的第一次體驗', 'description' => 'insert、selectAll 與 where 組成最小的資料存取'],
+                ['title' => '更新與刪除，忘了條件會發生什麼事', 'description' => 'update 與 deleteWhere 漏掉條件，整張資料表都會被改寫'],
+                ['title' => '換一種寫法，DAO 的 Entity', 'description' => '把每一列包成物件，用屬性與方法操作資料'],
+                ['title' => 'DSL 還是 DAO，該選哪一個', 'description' => '同一個需求並排比較，並約定團隊的混用界線'],
+                ['title' => '一個片段屬於一個集合', 'description' => '一對多關聯在資料表定義時就宣告清楚'],
+                ['title' => '一個片段，多個標籤', 'description' => '多對多為什麼必須拆成中介資料表'],
+                ['title' => '迴圈裡一筆一筆查，資料庫被打爆了', 'description' => '開啟 SQL 日誌數查詢次數，用 eager loading 一次載入'],
+                ['title' => '十二週後，拿一份清單檢查你的資料存取層', 'description' => '收斂成五個層次的檢查清單，並列出系列沒有涵蓋的方向'],
             ],
             self::Ktor => [
                 ['title' => '十行程式碼跑起一個服務，然後看它缺了什麼', 'description' => '看懂最小專案的每一行，與其他框架少了哪些預設'],
