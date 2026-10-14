@@ -40,6 +40,14 @@
     --color-laravel-blush: #fff2f0;
     --color-laravel-rose: #ffd0cb;
 
+    /* Spring Boot and Kotlin brand colors */
+    --color-spring-green: #6db33f;
+    --color-spring-leaf: #5a9a32;
+    --color-spring-ink: #1a2314;
+    --color-spring-mist: #e8f4de;
+    --color-kotlin-purple: #7f52ff;
+    --color-kotlin-lilac: #e3dbff;
+
     /* Terminal design system, modelled on gitpage.reccachao.net */
     --color-terminal: #151515;
     --color-surface: #1c1c1c;

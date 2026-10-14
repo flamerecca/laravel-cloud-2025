@@ -1,45 +1,58 @@
 @php
     $filament = $topic === \App\Enums\NewsletterTopic::Filament;
     $laravel = $topic === \App\Enums\NewsletterTopic::Laravel;
+    $springBoot = $topic === \App\Enums\NewsletterTopic::SpringBoot;
 
-    // Filament follows the Filament media kit colors and Laravel the Laravel brand colors;
+    // Filament follows the Filament media kit colors, Laravel the Laravel brand colors and Spring Boot
+    // the Spring green with a Kotlin purple accent;
     // other topics keep the default look.
     $badge = match (true) {
         $filament => 'bg-honey! text-cocoa!',
         $laravel => 'bg-laravel-red! text-white!',
+        $springBoot => 'bg-spring-green! text-spring-ink!',
         default => '',
     };
     $card = match (true) {
         $filament => 'bg-off-black',
         $laravel => 'bg-laravel-ink border-t-4 border-laravel-red',
+        $springBoot => 'bg-spring-ink border-t-4 border-spring-green',
         default => 'term-card bg-surface',
     };
     $button = match (true) {
         $filament => 'bg-honey! text-cocoa! hover:bg-honey/90!',
         $laravel => 'bg-laravel-red! text-white! hover:bg-laravel-ember!',
+        $springBoot => 'bg-spring-green! text-spring-ink! hover:bg-spring-leaf!',
         default => '',
     };
     $keyPointCards = match (true) {
         $filament => ['bg-bubblegum', 'bg-powder', 'bg-minty'],
         $laravel => ['bg-laravel-red', 'bg-laravel-blush', 'bg-laravel-ink border border-laravel-red'],
+        $springBoot => ['bg-spring-green', 'bg-spring-mist', 'bg-kotlin-purple'],
         default => ['term-card'],
     };
     $keyPointText = match (true) {
         $filament => ['text-cocoa!'],
         $laravel => ['text-white!', 'text-laravel-ink!', 'text-laravel-rose!'],
+        $springBoot => ['text-spring-ink!', 'text-spring-ink!', 'text-white!'],
         default => [''],
     };
     $keyPointBadge = match (true) {
         $filament => ['bg-cocoa! text-serenade!'],
         $laravel => ['bg-white! text-laravel-red!', 'bg-laravel-red! text-white!', 'bg-laravel-red! text-white!'],
+        $springBoot => ['bg-spring-ink! text-spring-green!', 'bg-spring-green! text-spring-ink!', 'bg-white! text-kotlin-purple!'],
         default => [''],
     };
     $highlightCard = match (true) {
         $filament => 'border-l-4 border-honey bg-off-black',
         $laravel => 'border-l-4 border-laravel-red bg-laravel-ink',
+        $springBoot => 'border-l-4 border-spring-green bg-spring-ink',
         default => 'term-card',
     };
-    $titleAccent = $laravel ? 'text-laravel-red!' : '';
+    $titleAccent = match (true) {
+        $laravel => 'text-laravel-red!',
+        $springBoot => 'text-spring-green!',
+        default => '',
+    };
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
@@ -55,7 +68,7 @@
                     <div class="flex items-center gap-3">
                         <img src="{{ Vite::asset($topic->logo()) }}" alt="{{ $topic->title() }}" class="size-14 rounded-sm" />
                         <span class="text-ink/60" aria-hidden="true">+</span>
-                        <img src="{{ Vite::asset($topic->secondaryLogo()) }}" alt="Pest" class="size-14 rounded-sm" />
+                        <img src="{{ Vite::asset($topic->secondaryLogo()) }}" alt="{{ $topic->secondaryLogo() === 'resources/images/pest.png' ? 'Pest' : 'Kotlin' }}" class="size-14 rounded-sm" />
                     </div>
                 @endif
                 <flux:badge color="amber" class="self-start {{ $badge }}">免費訂閱</flux:badge>

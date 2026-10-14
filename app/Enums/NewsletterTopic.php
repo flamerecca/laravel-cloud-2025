@@ -8,6 +8,7 @@ enum NewsletterTopic: string implements HasLabel
 {
     case Filament = 'filament';
     case Laravel = 'laravel';
+    case SpringBoot = 'spring-boot';
 
     public function getLabel(): string
     {
@@ -23,6 +24,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => 'filament',
             self::Laravel => 'laravel-test',
+            self::SpringBoot => 'spring-boot',
         };
     }
 
@@ -45,6 +47,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => null,
             self::Laravel => 'resources/images/pest.png',
+            self::SpringBoot => 'resources/images/Kotlin.png',
         };
     }
 
@@ -53,6 +56,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => 'Filament 進階分享',
             self::Laravel => 'Laravel 自動化測試分享',
+            self::SpringBoot => 'Spring Boot 搭配 Kotlin 基礎開發',
         };
     }
 
@@ -60,6 +64,7 @@ enum NewsletterTopic: string implements HasLabel
     {
         return match ($this) {
             self::Filament => '寫給已經會用 Filament 內建功能做出後台，卻被一個翻遍文件也找不到對應元件的需求卡住的 Laravel 工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從自訂欄位一路走到即時推播與套件封裝，並誠實告訴你哪些需求已經不該留在 Filament 裡。',
+            self::SpringBoot => '寫給已經會寫 Kotlin 語法，第一次碰 Spring Boot，專案產生之後面對一堆檔案與標註，不知道哪些該先搞懂的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從 Initializr 產生的專案一路走到能驗證、能測試的第一支服務。',
             self::Laravel => '寫給已經熟悉 Laravel 基本用法，想用自動化測試守住專案品質、改程式時不再提心吊膽的開發者。每封電子報聚焦一個測試主題，附上可直接套用的 Pest 實戰範例。',
         };
     }
@@ -72,6 +77,7 @@ enum NewsletterTopic: string implements HasLabel
         return match ($this) {
             self::Filament => 'resources/images/filament.png',
             self::Laravel => 'resources/images/Laravel.png',
+            self::SpringBoot => 'resources/images/spring-boot.png',
         };
     }
 
@@ -87,6 +93,11 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
                 ['title' => '一杯咖啡的時間讀完', 'description' => '每期約 800 到 1500 字，專注解決一個具體的卡關情境'],
                 ['title' => '誠實說出框架的邊界', 'description' => '從自訂欄位走到即時推播，也會告訴你哪些需求不該勉強留在 Filament 裡'],
+            ],
+            self::SpringBoot => [
+                ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
+                ['title' => '一條完整的學習路線', 'description' => '全系列沿用同一個片段庫服務，從專案產生、端點、資料庫一路走到驗證與測試'],
+                ['title' => '先說清楚卡關的原因', 'description' => '每期從一個你在動手時會撞到的具體問題出發，並誠實列出系列沒有涵蓋的方向'],
             ],
             self::Laravel => [
                 ['title' => '從第一個測試開始', 'description' => '不需要測試經驗，用 Pest 從最簡單的斷言一步步建立信心'],
@@ -115,6 +126,20 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '封裝成套件', 'description' => '先判斷功能夠不夠獨立，再收斂成可以安裝與重複使用的套件'],
                 ['title' => '客製化的效能代價', 'description' => '疊加客製化之後，如何衡量效能成本與功能價值'],
                 ['title' => '你自己的判斷清單', 'description' => '收斂成下次卡關時能直接拿來用的問題清單'],
+            ],
+            self::SpringBoot => [
+                ['title' => '剛產生的專案，哪些檔案可以先不用管', 'description' => '看懂 build.gradle.kts、設定檔與進入點三樣就夠'],
+                ['title' => '為什麼 Kotlin 類別在 Spring 裡突然要加 open', 'description' => 'kotlin-spring 外掛替你處理了什麼'],
+                ['title' => '誰來負責 new', 'description' => '建構子注入，與三個角色標註的差別'],
+                ['title' => '五個端點怎麼寫，參數各用哪個註解拿', 'description' => '路徑參數、查詢參數、請求主體的取法'],
+                ['title' => '全部回 200 的 API，前端怎麼知道出事了', 'description' => 'ResponseEntity 與狀態碼的選擇'],
+                ['title' => 'Entity 需要無參數建構子，Kotlin 類別怎麼辦', 'description' => 'kotlin-jpa 外掛與 Entity 建模'],
+                ['title' => '不寫 SQL，findByLanguage 為什麼就能查', 'description' => 'Repository 與衍生查詢方法的命名慣例'],
+                ['title' => '把記憶體換成資料庫，API 一行都不用改', 'description' => '整合 Service 與 Repository，H2 的定位'],
+                ['title' => '標題留空，API 應該回什麼', 'description' => 'Bean Validation 與 @Valid'],
+                ['title' => '三支 API 三種錯誤格式', 'description' => '@RestControllerAdvice 統一錯誤回應'],
+                ['title' => '不用每次改完都手動點 Postman', 'description' => '@SpringBootTest 與 MockMvc 的最小測試'],
+                ['title' => '十二週後，拿一份清單檢查你的第一支服務', 'description' => '收斂成問題清單，並列出系列沒有涵蓋的方向'],
             ],
             self::Laravel => [
                 ['title' => 'Pest 入門與測試思維', 'description' => '從第一個測試開始，建立「先寫測試」的開發節奏'],
