@@ -164,3 +164,29 @@ test('已寄出人數只計算目前這一輪', function () {
     livewire(ListNewsletterIssues::class)
         ->assertTableColumnStateSet('deliveries_count', 1, $issue);
 });
+
+test('可以直接在列表頁編輯預計寄送時間', function () {
+    $issue = NewsletterIssue::factory()->create(['scheduled_at' => null]);
+
+    livewire(ListNewsletterIssues::class)
+        ->callAction(TestAction::make('editScheduledAt')->table($issue), ['scheduled_at' => '2026-10-13 09:00:00'])
+        ->assertHasNoFormErrors();
+
+    expect($issue->refresh()->scheduled_at->utc()->format('Y-m-d H:i'))->toBe('2026-10-13 01:00');
+});
+
+test('可以在列表頁清空預計寄送時間', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->create();
+
+    livewire(ListNewsletterIssues::class)
+        ->callAction(TestAction::make('editScheduledAt')->table($issue), ['scheduled_at' => null]);
+
+    expect($issue->refresh()->scheduled_at)->toBeNull();
+});
+
+test('已派送的期數無法在列表頁編輯預計寄送時間', function () {
+    $issue = NewsletterIssue::factory()->scheduled()->sent()->create();
+
+    livewire(ListNewsletterIssues::class)
+        ->assertActionHidden(TestAction::make('editScheduledAt')->table($issue));
+});

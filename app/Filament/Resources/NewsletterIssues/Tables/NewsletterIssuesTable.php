@@ -5,8 +5,14 @@ namespace App\Filament\Resources\NewsletterIssues\Tables;
 use App\Enums\NewsletterTopic;
 use App\Filament\Resources\NewsletterIssues\Actions\MarkNewsletterIssueUnsentAction;
 use App\Models\NewsletterIssue;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -33,7 +39,30 @@ class NewsletterIssuesTable
                     ->label('預計寄送時間')
                     ->dateTime(timezone: 'Asia/Taipei')
                     ->sortable()
-                    ->placeholder('尚未排程'),
+                    ->placeholder('尚未排程')
+                    ->icon(fn (NewsletterIssue $record): ?Heroicon => $record->isDispatched() ? null : Heroicon::OutlinedPencilSquare)
+                    ->iconPosition(IconPosition::After)
+                    ->action(
+                        Action::make('editScheduledAt')
+                            ->modalHeading(fn (NewsletterIssue $record): string => "第 {$record->number} 期預計寄送時間")
+                            ->modalWidth(Width::Medium)
+                            ->visible(fn (NewsletterIssue $record): bool => ! $record->isDispatched())
+                            ->fillForm(fn (NewsletterIssue $record): array => ['scheduled_at' => $record->scheduled_at])
+                            ->schema([
+                                DateTimePicker::make('scheduled_at')
+                                    ->label('預計寄送時間')
+                                    ->timezone('Asia/Taipei')
+                                    ->helperText('到了這個時間，系統會自動寄給已確認的訂閱者，留空代表尚未排程。'),
+                            ])
+                            ->action(function (NewsletterIssue $record, array $data): void {
+                                $record->update(['scheduled_at' => $data['scheduled_at']]);
+
+                                Notification::make()
+                                    ->title("第 {$record->number} 期預計寄送時間已儲存")
+                                    ->success()
+                                    ->send();
+                            })
+                    ),
                 TextColumn::make('status')
                     ->label('狀態')
                     ->badge()
