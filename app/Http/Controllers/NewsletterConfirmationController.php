@@ -29,7 +29,7 @@ class NewsletterConfirmationController extends Controller
         }
 
         if (! $subscriber->isConfirmed()) {
-            $subscriber->update(['confirmed_at' => now()]);
+            $subscriber->confirm();
         }
 
         return response()->view('newsletter.confirmed', ['confirmed' => true, 'topic' => $topic]);

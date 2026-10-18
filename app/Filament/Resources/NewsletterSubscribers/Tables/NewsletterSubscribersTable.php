@@ -103,7 +103,7 @@ class NewsletterSubscribersTable
                     ->requiresConfirmation()
                     ->modalDescription('不經確認信，直接把這位訂閱者標記為已確認，之後會開始收到電子報。')
                     ->action(function (NewsletterSubscriber $record): void {
-                        $record->update(['confirmed_at' => now(), 'unsubscribed_at' => null]);
+                        $record->confirm();
 
                         Notification::make()
                             ->title("已確認 {$record->email} 的訂閱")
@@ -124,7 +124,7 @@ class NewsletterSubscribersTable
                         ->action(function (Collection $records): void {
                             $confirmed = $records
                                 ->filter(fn (NewsletterSubscriber $record): bool => ! $record->isConfirmed())
-                                ->each(fn (NewsletterSubscriber $record) => $record->update(['confirmed_at' => now(), 'unsubscribed_at' => null]))
+                                ->each(fn (NewsletterSubscriber $record) => $record->confirm())
                                 ->count();
 
                             Notification::make()

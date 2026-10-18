@@ -43,6 +43,21 @@ class NewsletterSubscriber extends Model
         return $this->series_started_at !== null;
     }
 
+    /**
+     * Mark the address as confirmed. Topic subscribers who confirm start the series from the beginning,
+     * with the first issue due right away. The general newsletter has no issues, so it stays out.
+     */
+    public function confirm(): void
+    {
+        $attributes = ['confirmed_at' => now(), 'unsubscribed_at' => null];
+
+        if ($this->topic !== null && ! $this->isInSeries()) {
+            $attributes += ['series_started_at' => now(), 'series_next_at' => now()];
+        }
+
+        $this->update($attributes);
+    }
+
     public function isConfirmed(): bool
     {
         return $this->confirmed_at !== null;
