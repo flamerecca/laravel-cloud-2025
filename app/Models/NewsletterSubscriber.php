@@ -93,6 +93,75 @@ class NewsletterSubscriber extends Model
         $query->whereNotNull('unsubscribed_at');
     }
 
+    /**
+     * Subscribers who receive the topic as a series.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeInSeries(Builder $query): void
+    {
+        $query->whereNotNull('series_started_at');
+    }
+
+    /**
+     * Series subscribers whose next issue may go out now.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeSeriesDue(Builder $query): void
+    {
+        $query->deliverable()->inSeries()->where('series_next_at', '<=', now());
+    }
+
+    /**
+     * The lowest published issue at or above the start number that this subscriber has not received in its current round.
+     */
+    public function nextIssue(): ?NewsletterIssue
+    {
+        if ($this->topic === null) {
+            return null;
+        }
+
+        return NewsletterIssue::query()
+            ->published()
+            ->where('topic', $this->topic->value)
+            // A model that was just created in this request has not loaded the column default yet.
+            ->where('number', '>=', $this->series_start_number ?? 1)
+            ->whereDoesntHave('deliveries', fn (Builder $query) => $query
+                ->where('newsletter_subscriber_id', $this->id)
+                ->whereColumn('newsletter_deliveries.send_round', 'newsletter_issues.send_round'))
+            ->orderBy('number')
+            ->first();
+    }
+
+    public function seriesProgress(): string
+    {
+        if (! $this->isInSeries() || $this->topic === null) {
+            return '廣播';
+        }
+
+        $published = NewsletterIssue::query()->published()->where('topic', $this->topic->value);
+
+        $received = (clone $published)
+            ->whereHas('deliveries', fn (Builder $query) => $query
+                ->where('newsletter_subscriber_id', $this->id)
+                ->whereColumn('newsletter_deliveries.send_round', 'newsletter_issues.send_round'))
+            ->count();
+
+        return "已收到 {$received} / {$published->count()} 期";
+    }
+
+    public function nextIssueLabel(): string
+    {
+        if (! $this->isInSeries()) {
+            return '廣播';
+        }
+
+        $issue = $this->nextIssue();
+
+        return $issue ? "第 {$issue->number} 期" : '已追上';
+    }
+
     public function status(): string
     {
         return match (true) {
