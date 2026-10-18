@@ -20,6 +20,9 @@ class NewsletterSubscriber extends Model
         'subscribed_at',
         'confirmed_at',
         'unsubscribed_at',
+        'series_started_at',
+        'series_next_at',
+        'series_start_number',
     ];
 
     protected function casts(): array
@@ -29,7 +32,15 @@ class NewsletterSubscriber extends Model
             'subscribed_at' => 'datetime',
             'confirmed_at' => 'datetime',
             'unsubscribed_at' => 'datetime',
+            'series_started_at' => 'datetime',
+            'series_next_at' => 'datetime',
+            'series_start_number' => 'integer',
         ];
+    }
+
+    public function isInSeries(): bool
+    {
+        return $this->series_started_at !== null;
     }
 
     public function isConfirmed(): bool
