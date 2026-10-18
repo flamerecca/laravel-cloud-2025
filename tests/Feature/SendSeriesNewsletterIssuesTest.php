@@ -142,3 +142,23 @@ test('排程器每分鐘執行 newsletter:send-series', function () {
         ->and($event->withoutOverlapping)->toBeTrue()
         ->and($event->expiresAt)->toBe(10);
 });
+
+test('另一個程序在讀取後、搶佔前先搶走這位訂閱者時，這個程序不會再派送', function () {
+    issueNumber(1);
+    $reader = seriesReader();
+
+    NewsletterSubscriber::retrieved(function (NewsletterSubscriber $subscriber) use ($reader): void {
+        if ($subscriber->is($reader)) {
+            // Another worker claims the subscriber behind this command's back.
+            NewsletterSubscriber::query()->whereKey($reader->id)->update(['series_next_at' => now()->addDays(7)]);
+        }
+    });
+
+    try {
+        $this->artisan('newsletter:send-series')->assertSuccessful();
+    } finally {
+        NewsletterSubscriber::flushEventListeners();
+    }
+
+    Mail::assertNothingSent();
+});
