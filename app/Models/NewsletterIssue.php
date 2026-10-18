@@ -59,13 +59,23 @@ class NewsletterIssue extends Model
     }
 
     /**
-     * The subscribers this issue goes to.
+     * Issues whose scheduled time has passed, whether or not the broadcast has been queued.
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopePublished(Builder $query): void
+    {
+        $query->whereNotNull('scheduled_at')->where('scheduled_at', '<=', now());
+    }
+
+    /**
+     * The broadcast subscribers this issue goes to. Series subscribers get issues one by one instead.
      *
      * @return Builder<NewsletterSubscriber>
      */
     public function recipients(): Builder
     {
-        return NewsletterSubscriber::forTopic($this->topic)->deliverable();
+        return NewsletterSubscriber::forTopic($this->topic)->deliverable()->whereNull('series_started_at');
     }
 
     /**

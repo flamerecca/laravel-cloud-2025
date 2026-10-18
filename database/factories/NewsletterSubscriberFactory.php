@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\NewsletterTopic;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends Factory<NewsletterSubscriber>
@@ -51,6 +52,17 @@ class NewsletterSubscriberFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'topic' => $topic,
+        ]);
+    }
+
+    /**
+     * The subscriber receives the topic as a series, one issue per interval.
+     */
+    public function inSeries(?Carbon $nextAt = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'series_started_at' => now(),
+            'series_next_at' => $nextAt ?? now(),
         ]);
     }
 }

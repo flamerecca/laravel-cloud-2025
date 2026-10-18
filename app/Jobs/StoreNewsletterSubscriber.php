@@ -46,6 +46,8 @@ class StoreNewsletterSubscriber implements ShouldQueue
                 'subscribed_at' => $this->subscribedAt,
                 'confirmed_at' => null,
                 'unsubscribed_at' => null,
+                'series_started_at' => null,
+                'series_next_at' => null,
             ]);
         }
 
