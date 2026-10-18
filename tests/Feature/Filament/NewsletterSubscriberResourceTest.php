@@ -6,6 +6,7 @@ use App\Filament\Resources\NewsletterSubscribers\Pages\ListNewsletterSubscribers
 use App\Filament\Resources\NewsletterSubscribers\Tables\NewsletterSubscribersTable;
 use App\Jobs\StoreNewsletterSubscriber;
 use App\Mail\NewsletterConfirmation;
+use App\Models\NewsletterIssue;
 use App\Models\NewsletterSubscriber;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -213,4 +214,48 @@ test('可以刪除訂閱者', function () {
         ->callAction(TestAction::make(DeleteAction::class)->table($subscriber));
 
     $this->assertModelMissing($subscriber);
+});
+
+test('列表顯示系列模式訂閱者的進度與下一封，廣播模式顯示廣播', function () {
+    NewsletterIssue::factory()->scheduled()->create(['topic' => NewsletterTopic::Filament, 'number' => 1]);
+    $series = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->inSeries()->create();
+    $broadcast = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->assertCanSeeTableRecords([$series, $broadcast])
+        ->assertSee('已收到 0 / 1 期')
+        ->assertSee('第 1 期')
+        ->assertSee('廣播');
+});
+
+test('可以調整系列模式訂閱者的下一封，被略過的期數不會再寄', function () {
+    NewsletterIssue::factory()->scheduled()->create(['topic' => NewsletterTopic::Filament, 'number' => 1]);
+    $third = NewsletterIssue::factory()->scheduled()->create(['topic' => NewsletterTopic::Filament, 'number' => 3]);
+    $subscriber = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->inSeries()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->callAction(TestAction::make('adjustNextIssue')->table($subscriber), ['number' => $third->number])
+        ->assertHasNoActionErrors()
+        ->assertNotified();
+
+    expect($subscriber->refresh()->series_start_number)->toBe(3)
+        ->and($subscriber->nextIssue()->is($third))->toBeTrue();
+});
+
+test('調整下一封只能選該訂閱者主題下的期數', function () {
+    NewsletterIssue::factory()->scheduled()->create(['topic' => NewsletterTopic::Ktor, 'number' => 9]);
+    $subscriber = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->inSeries()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->callAction(TestAction::make('adjustNextIssue')->table($subscriber), ['number' => 9])
+        ->assertHasActionErrors(['number']);
+
+    expect($subscriber->refresh()->series_start_number)->toBe(1);
+});
+
+test('廣播模式訂閱者不顯示調整下一封', function () {
+    $subscriber = NewsletterSubscriber::factory()->forTopic(NewsletterTopic::Filament)->confirmed()->create();
+
+    livewire(ListNewsletterSubscribers::class)
+        ->assertActionHidden(TestAction::make('adjustNextIssue')->table($subscriber));
 });

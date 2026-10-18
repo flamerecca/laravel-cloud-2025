@@ -4,12 +4,14 @@ namespace App\Filament\Resources\NewsletterSubscribers\Tables;
 
 use App\Enums\NewsletterTopic;
 use App\Jobs\StoreNewsletterSubscriber;
+use App\Models\NewsletterIssue;
 use App\Models\NewsletterSubscriber;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -53,6 +55,12 @@ class NewsletterSubscribersTable
                     ->dateTime()
                     ->sortable()
                     ->placeholder('尚未確認'),
+                TextColumn::make('series_progress')
+                    ->label('進度')
+                    ->state(fn (NewsletterSubscriber $record): string => $record->seriesProgress()),
+                TextColumn::make('next_issue')
+                    ->label('下一封')
+                    ->state(fn (NewsletterSubscriber $record): string => $record->nextIssueLabel()),
                 TextColumn::make('subscribed_at')
                     ->label('訂閱時間')
                     ->dateTime()
@@ -107,6 +115,31 @@ class NewsletterSubscribersTable
 
                         Notification::make()
                             ->title("已確認 {$record->email} 的訂閱")
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('adjustNextIssue')
+                    ->label('調整下一封')
+                    ->icon(Heroicon::OutlinedAdjustmentsHorizontal)
+                    ->visible(fn (NewsletterSubscriber $record): bool => $record->isInSeries())
+                    ->modalDescription('設定之後，下一封只會從所選的期數開始找。所選期數之前還沒收到的期數會被略過，已經收過的期數不會重寄。寄送時間仍依原本的間隔。')
+                    ->fillForm(fn (NewsletterSubscriber $record): array => ['number' => $record->series_start_number])
+                    ->schema(fn (NewsletterSubscriber $record): array => [
+                        Select::make('number')
+                            ->label('下一封從哪一期開始')
+                            ->options(fn (): array => NewsletterIssue::query()
+                                ->where('topic', $record->topic->value)
+                                ->orderBy('number')
+                                ->get()
+                                ->mapWithKeys(fn (NewsletterIssue $issue): array => [$issue->number => "第 {$issue->number} 期：{$issue->title}"])
+                                ->all())
+                            ->required(),
+                    ])
+                    ->action(function (NewsletterSubscriber $record, array $data): void {
+                        $record->update(['series_start_number' => (int) $data['number']]);
+
+                        Notification::make()
+                            ->title("{$record->email} 的下一封已調整為第 {$data['number']} 期起")
                             ->success()
                             ->send();
                     }),
