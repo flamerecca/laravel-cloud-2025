@@ -1,5 +1,7 @@
 ## 電子報訂閱改存資料庫與雙重確認 (Database Storage & Double Opt-In)
 
+> 本文件描述 4.0.0 版當時的設計。寄送電子報、退訂、系列模式與後台直接確認訂閱等後續變更，以及目前的完整行為，見 [docs/Newsletter/newsletter-subscribe-5.0.0.md](newsletter-subscribe-5.0.0.md)。
+
 ### 概述
 
 延續 [docs/Newsletter/newsletter-subscribe-3.0.0.md](newsletter-subscribe-3.0.0.md) 的主題電子報設計，本版有兩項變更：
