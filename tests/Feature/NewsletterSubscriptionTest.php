@@ -358,6 +358,44 @@ test('FastAPI 基礎教學有獨立的訂閱頁面與配色', function () {
         ->assertDontSee('exposed-violet', false);
 });
 
+test('每個主題頁面都有 SEO 與社群分享需要的 meta 資料', function (NewsletterTopic $topic) {
+    $url = route('newsletter.show', $topic->slug());
+
+    $this->get($url)
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.$url.'">', false)
+        ->assertSee('<meta property="og:url" content="'.$url.'">', false)
+        ->assertSee('<meta property="og:type" content="website">', false)
+        ->assertSee('<meta property="og:title" content="'.e('訂閱電子報｜'.$topic->title()).'">', false)
+        ->assertSee('<meta property="og:locale" content="zh_TW">', false)
+        ->assertSee('<meta name="twitter:card" content="summary">', false)
+        ->assertSee('<meta name="description" content="', false)
+        ->assertSee('<meta property="og:description" content="', false)
+        ->assertSee('<meta property="og:image" content="http', false)
+        ->assertSee('<meta name="twitter:image" content="http', false)
+        ->assertDontSee('noindex', false);
+})->with(NewsletterTopic::cases());
+
+test('主題頁面的 og:image 是該主題的圖示', function () {
+    $this->get('/newsletter/fastapi')
+        ->assertOk()
+        ->assertSee('og:image" content="', false)
+        ->assertSee('fastapi', false);
+});
+
+test('電子報列表頁面有 SEO 與社群分享的 meta 資料', function () {
+    $this->get(route('newsletter.index'))
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.route('newsletter.index').'">', false)
+        ->assertSee('<meta property="og:title" content="電子報列表">', false)
+        ->assertSee('<meta property="og:image" content="http', false);
+});
+
+test('確認與退訂結果頁面不讓搜尋引擎收錄', function () {
+    $this->get(route('newsletter.confirm', ['email' => 'nobody@example.com', 'topic' => 'ktor']))
+        ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
+});
+
 test('舊的 laravel 網址會轉址到 laravel-test，未知主題回 404', function () {
     $this->get('/newsletter/laravel')->assertRedirect(route('newsletter.show', 'laravel-test'));
     $this->get('/newsletter/unknown')->assertNotFound();

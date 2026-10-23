@@ -84,7 +84,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
-        @include('partials.head', ['title' => '訂閱電子報｜'.$topic->title()])
+        @include('partials.head', [
+            'title' => '訂閱電子報｜'.$topic->title(),
+            'description' => \Illuminate\Support\Str::limit($topic->description(), 150),
+            'canonical' => route('newsletter.show', $topic->slug()),
+            'image' => Vite::asset($topic->logo()),
+            'imageAlt' => $topic->title(),
+        ])
     </head>
     <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-10 px-6 py-12">

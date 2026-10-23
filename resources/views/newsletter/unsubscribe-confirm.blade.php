@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
-        @include('partials.head', ['title' => '確認取消訂閱'])
+        @include('partials.head', ['title' => '確認取消訂閱', 'robots' => 'noindex, nofollow'])
     </head>
     <body class="min-h-screen bg-terminal text-ink antialiased">
         <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-6 px-6 py-12">
