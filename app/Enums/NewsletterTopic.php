@@ -11,6 +11,7 @@ enum NewsletterTopic: string implements HasLabel
     case SpringBoot = 'spring-boot';
     case Ktor = 'ktor';
     case Exposed = 'exposed';
+    case FastApi = 'fastapi';
 
     public function getLabel(): string
     {
@@ -29,6 +30,7 @@ enum NewsletterTopic: string implements HasLabel
             self::SpringBoot => 'spring-boot',
             self::Ktor => 'ktor',
             self::Exposed => 'exposed',
+            self::FastApi => 'fastapi',
         };
     }
 
@@ -49,7 +51,7 @@ enum NewsletterTopic: string implements HasLabel
     public function secondaryLogo(): ?string
     {
         return match ($this) {
-            self::Filament => null,
+            self::Filament, self::FastApi => null,
             self::Laravel => 'resources/images/pest.png',
             self::SpringBoot, self::Ktor, self::Exposed => 'resources/images/Kotlin.png',
         };
@@ -58,7 +60,7 @@ enum NewsletterTopic: string implements HasLabel
     public function secondaryLogoLabel(): ?string
     {
         return match ($this) {
-            self::Filament => null,
+            self::Filament, self::FastApi => null,
             self::Laravel => 'Pest',
             self::SpringBoot, self::Ktor, self::Exposed => 'Kotlin',
         };
@@ -72,6 +74,7 @@ enum NewsletterTopic: string implements HasLabel
             self::SpringBoot => 'Spring Boot 搭配 Kotlin 基礎開發',
             self::Ktor => 'Ktor 基礎教學',
             self::Exposed => 'Kotlin Exposed 基礎教學',
+            self::FastApi => 'FastAPI 基礎教學',
         };
     }
 
@@ -81,6 +84,7 @@ enum NewsletterTopic: string implements HasLabel
             self::Filament => '寫給已經會用 Filament 內建功能做出後台，卻被一個翻遍文件也找不到對應元件的需求卡住的 Laravel 工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從自訂欄位一路走到即時推播與套件封裝，並誠實告訴你哪些需求已經不該留在 Filament 裡。',
             self::SpringBoot => '寫給已經會寫 Kotlin 語法，第一次碰 Spring Boot，專案產生之後面對一堆檔案與標註，不知道哪些該先搞懂的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從 Initializr 產生的專案一路走到能驗證、能測試的第一支服務。',
             self::Exposed => '寫給會寫 Kotlin，想用型別安全的方式操作資料庫，不想拼 SQL 字串，也不想被 ORM 綁架的後端工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從一行連線走到關聯與查詢次數，並誠實列出系列沒有涵蓋的方向。',
+            self::FastApi => '寫給已經會寫 Python，想用 FastAPI 做出第一支後端服務，卻在文件的十行範例之後不知道該往哪裡走的工程師。這是一份三個月、共 12 期的電子報，每週一期，每封信獨立成篇、只講一件事，帶你從最小的專案一路走到 JWT 登入、測試與 Docker 部署，並誠實列出系列沒有涵蓋的方向。',
             self::Ktor => '寫給有 Laravel、Spring Boot 或 Node.js 後端經驗，決定動手試 Ktor 的工程師。選型文回答「要不要試」，這份三個月、共 12 期的電子報接著回答「決定試之後，第一個月會撞到什麼」。每週一期，每封信獨立成篇、只講一件事，帶你從 main() 一路走到 Docker 映像檔，並誠實列出系列沒有涵蓋的方向。',
             self::Laravel => '寫給已經熟悉 Laravel 基本用法，想用自動化測試守住專案品質、改程式時不再提心吊膽的開發者。每封電子報聚焦一個測試主題，附上可直接套用的 Pest 實戰範例。',
         };
@@ -97,6 +101,7 @@ enum NewsletterTopic: string implements HasLabel
             self::SpringBoot => 'resources/images/spring-boot.png',
             self::Ktor => 'resources/images/ktor.png',
             self::Exposed => 'resources/images/exposed.png',
+            self::FastApi => 'resources/images/fastapi.png',
         };
     }
 
@@ -117,6 +122,11 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
                 ['title' => '編譯器替你檢查查詢', 'description' => '欄位名稱打錯，編譯時就會知道，不用等到查詢被執行才炸開'],
                 ['title' => '看得到每一條實際送出的 SQL', 'description' => 'DSL 與 DAO 並排比較，也教你數出查詢次數，揪出 N+1'],
+            ],
+            self::FastApi => [
+                ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
+                ['title' => '型別標註就是你的確認規則', 'description' => '從路徑參數到請求本文，看 FastAPI 如何靠型別提示替你擋掉錯誤輸入，也看懂 422 在說什麼'],
+                ['title' => '從 main.py 走到 Docker', 'description' => '一條路線串起路由、Pydantic、Depends、資料庫、JWT 登入、測試與部署，並點出哪些要自己補'],
             ],
             self::Ktor => [
                 ['title' => '每週一期，獨立成篇', 'description' => '每封信只講一件事，不需要追過前面幾期，任何一週加入都看得懂'],
@@ -169,6 +179,20 @@ enum NewsletterTopic: string implements HasLabel
                 ['title' => '一個片段，多個標籤', 'description' => '多對多為什麼必須拆成中介資料表'],
                 ['title' => '迴圈裡一筆一筆查，資料庫被打爆了', 'description' => '開啟 SQL 日誌數查詢次數，用 eager loading 一次載入'],
                 ['title' => '十二週後，拿一份清單檢查你的資料存取層', 'description' => '收斂成五個層次的檢查清單，並列出系列沒有涵蓋的方向'],
+            ],
+            self::FastApi => [
+                ['title' => '十行程式碼跑起一個服務，然後看它缺了什麼', 'description' => '逐行拆解最小專案，認識 app、uvicorn 與自動產生的 /docs，並點出得自己補的部分'],
+                ['title' => '路由與路徑參數，型別標註會幫你擋掉什麼', 'description' => '逐欄解讀 422 回應，並整理路徑參數、查詢參數與預設值'],
+                ['title' => '請求本文進來，欄位對不上時發生什麼事', 'description' => '用 Pydantic 模型接本文，缺欄位、多欄位、型別不符各是什麼結果'],
+                ['title' => '回應長什麼樣子，由你宣告而不是由資料庫決定', 'description' => '用 response_model 拆開輸入與輸出模型，避免雜湊後的密碼外洩'],
+                ['title' => 'Depends 一下，共用邏輯就不用到處複製', 'description' => '把分頁與取使用者抽成依賴函式，並看懂子依賴與同一請求內的快取'],
+                ['title' => '例外丟出去之後，使用者看到的是什麼', 'description' => '統一錯誤格式，並避免把內部細節回給用戶端'],
+                ['title' => 'async def 還是 def，寫錯會卡住整台伺服器', 'description' => '事件迴圈與執行緒池的差別，以及該怎麼選'],
+                ['title' => '資料庫連線，一個請求一個 Session', 'description' => '引擎全域一個，Session 每個請求一個，並揪出迴圈裡的 N+1'],
+                ['title' => '登入之後，每個請求怎麼證明自己是誰', 'description' => '雜湊密碼、簽發 JWT，並用依賴保護路由'],
+                ['title' => '測試不用真的開伺服器', 'description' => 'TestClient 搭配 dependency_overrides，把真實資料庫換成記憶體內的 SQLite'],
+                ['title' => '同一份程式，怎麼在三個環境跑起來', 'description' => '用環境變數切換組態設定，並附一份最小的 Dockerfile'],
+                ['title' => '十二週後，拿一份清單去評估你的第一支服務', 'description' => '收斂成四個層次、十二個問題的檢查清單，並列出系列沒有涵蓋的方向'],
             ],
             self::Ktor => [
                 ['title' => '十行程式碼跑起一個服務，然後看它缺了什麼', 'description' => '看懂最小專案的每一行，與其他框架少了哪些預設'],

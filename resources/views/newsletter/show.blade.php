@@ -4,6 +4,7 @@
     $springBoot = $topic === \App\Enums\NewsletterTopic::SpringBoot;
     $ktor = $topic === \App\Enums\NewsletterTopic::Ktor;
     $exposed = $topic === \App\Enums\NewsletterTopic::Exposed;
+    $fastapi = $topic === \App\Enums\NewsletterTopic::FastApi;
 
     // Filament follows the Filament media kit colors, Laravel the Laravel brand colors and Spring Boot
     // the Spring green with a Kotlin purple accent;
@@ -14,6 +15,7 @@
         $springBoot => 'bg-spring-green! text-spring-ink!',
         $ktor => 'bg-ktor-magenta! text-white!',
         $exposed => 'bg-exposed-violet! text-white!',
+        $fastapi => 'bg-fastapi-teal! text-white!',
         default => '',
     };
     $card = match (true) {
@@ -22,6 +24,7 @@
         $springBoot => 'bg-spring-ink border-t-4 border-spring-green',
         $ktor => 'bg-ktor-ink border-t-4 border-ktor-magenta',
         $exposed => 'bg-exposed-ink border-t-4 border-exposed-violet',
+        $fastapi => 'bg-fastapi-ink border-t-4 border-fastapi-teal',
         default => 'term-card bg-surface',
     };
     $button = match (true) {
@@ -30,6 +33,7 @@
         $springBoot => 'bg-spring-green! text-spring-ink! hover:bg-spring-leaf!',
         $ktor => 'bg-ktor-magenta! text-white! hover:bg-ktor-violet!',
         $exposed => 'bg-exposed-violet! text-white! hover:bg-exposed-fuchsia!',
+        $fastapi => 'bg-fastapi-teal! text-white! hover:bg-fastapi-deep!',
         default => '',
     };
     $keyPointCards = match (true) {
@@ -38,6 +42,7 @@
         $springBoot => ['bg-spring-green', 'bg-spring-mist', 'bg-kotlin-purple'],
         $ktor => ['bg-ktor-violet', 'bg-ktor-blush', 'bg-ktor-coral'],
         $exposed => ['bg-exposed-violet', 'bg-exposed-lavender', 'bg-exposed-sky'],
+        $fastapi => ['bg-fastapi-teal', 'bg-fastapi-foam', 'bg-fastapi-mint'],
         default => ['term-card'],
     };
     $keyPointText = match (true) {
@@ -46,6 +51,7 @@
         $springBoot => ['text-spring-ink!', 'text-spring-ink!', 'text-white!'],
         $ktor => ['text-white!', 'text-ktor-ink!', 'text-white!'],
         $exposed => ['text-white!', 'text-exposed-ink!', 'text-exposed-ink!'],
+        $fastapi => ['text-white!', 'text-fastapi-ink!', 'text-fastapi-ink!'],
         default => [''],
     };
     $keyPointBadge = match (true) {
@@ -54,6 +60,7 @@
         $springBoot => ['bg-spring-ink! text-spring-green!', 'bg-spring-green! text-spring-ink!', 'bg-white! text-kotlin-purple!'],
         $ktor => ['bg-white! text-ktor-violet!', 'bg-ktor-magenta! text-white!', 'bg-white! text-ktor-coral!'],
         $exposed => ['bg-white! text-exposed-violet!', 'bg-exposed-violet! text-white!', 'bg-exposed-ink! text-exposed-sky!'],
+        $fastapi => ['bg-white! text-fastapi-teal!', 'bg-fastapi-teal! text-white!', 'bg-fastapi-ink! text-fastapi-mint!'],
         default => [''],
     };
     $highlightCard = match (true) {
@@ -62,6 +69,7 @@
         $springBoot => 'border-l-4 border-spring-green bg-spring-ink',
         $ktor => 'border-l-4 border-ktor-magenta bg-ktor-ink',
         $exposed => 'border-l-4 border-exposed-violet bg-exposed-ink',
+        $fastapi => 'border-l-4 border-fastapi-teal bg-fastapi-ink',
         default => 'term-card',
     };
     $titleAccent = match (true) {
@@ -69,6 +77,7 @@
         $springBoot => 'text-spring-green!',
         $ktor => 'text-ktor-magenta!',
         $exposed => 'text-exposed-fuchsia!',
+        $fastapi => 'text-fastapi-mint!',
         default => '',
     };
 @endphp

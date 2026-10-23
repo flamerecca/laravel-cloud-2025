@@ -62,6 +62,13 @@
     --color-exposed-ink: #130f26;
     --color-exposed-lavender: #ece6ff;
 
+    /* FastAPI brand colors */
+    --color-fastapi-teal: #009688;
+    --color-fastapi-deep: #00796b;
+    --color-fastapi-mint: #7fe0d0;
+    --color-fastapi-ink: #0a1f1d;
+    --color-fastapi-foam: #e0f5f2;
+
     /* Terminal design system, modelled on gitpage.reccachao.net */
     --color-terminal: #151515;
     --color-surface: #1c1c1c;

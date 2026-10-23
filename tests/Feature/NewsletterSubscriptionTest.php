@@ -343,6 +343,21 @@ test('Kotlin Exposed 基礎教學有獨立的訂閱頁面與配色', function ()
         ->assertDontSee('ktor-magenta', false);
 });
 
+test('FastAPI 基礎教學有獨立的訂閱頁面與配色', function () {
+    $this->get(route('newsletter.index'))
+        ->assertOk()
+        ->assertSee('FastAPI 基礎教學')
+        ->assertSee('href="'.route('newsletter.show', NewsletterTopic::FastApi->slug()).'"', false);
+
+    $this->get('/newsletter/fastapi')
+        ->assertOk()
+        ->assertSee('FastAPI 基礎教學')
+        ->assertSee('bg-fastapi-teal', false)
+        ->assertSee('訂閱後你會看到的三個重點')
+        ->assertSee('name="topic" value="fastapi"', false)
+        ->assertDontSee('exposed-violet', false);
+});
+
 test('舊的 laravel 網址會轉址到 laravel-test，未知主題回 404', function () {
     $this->get('/newsletter/laravel')->assertRedirect(route('newsletter.show', 'laravel-test'));
     $this->get('/newsletter/unknown')->assertNotFound();
