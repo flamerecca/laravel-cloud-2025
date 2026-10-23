@@ -84,3 +84,45 @@ test('尚未派送的期數會被更新', function () {
 test('路徑不存在時回報錯誤', function () {
     $this->artisan('newsletter:import-issues', ['path' => $this->dir.'/missing'])->assertFailed();
 });
+
+test('--topic 指定要匯入到哪個主題', function () {
+    $this->artisan('newsletter:import-issues', ['path' => $this->dir, '--topic' => 'fastapi'])->assertSuccessful();
+
+    expect(NewsletterIssue::where('topic', NewsletterTopic::FastApi->value)->count())->toBe(2)
+        ->and(NewsletterIssue::where('topic', NewsletterTopic::Filament->value)->count())->toBe(0);
+});
+
+test('不同主題可以有相同的期號', function () {
+    $this->artisan('newsletter:import-issues', ['path' => $this->dir])->assertSuccessful();
+    $this->artisan('newsletter:import-issues', ['path' => $this->dir, '--topic' => 'ktor'])->assertSuccessful();
+
+    expect(NewsletterIssue::count())->toBe(4);
+});
+
+test('用底線取代空格的檔名也能匯入，標題的底線會還原成空格', function () {
+    File::deleteDirectory($this->dir);
+    File::ensureDirectoryExists($this->dir);
+    File::put($this->dir.'/第_05_期：Depends_一下，共用邏輯就不用到處複製.md', "---\nsummary: 摘要\n---\n\n# Depends 一下\n\n內文");
+
+    $this->artisan('newsletter:import-issues', ['path' => $this->dir, '--topic' => 'fastapi'])->assertSuccessful();
+
+    $issue = NewsletterIssue::where('topic', NewsletterTopic::FastApi->value)->where('number', 5)->firstOrFail();
+
+    expect($issue->title)->toBe('Depends 一下，共用邏輯就不用到處複製');
+});
+
+test('未知的主題會失敗', function () {
+    $this->artisan('newsletter:import-issues', ['path' => $this->dir, '--topic' => 'nope'])->assertFailed();
+
+    expect(NewsletterIssue::count())->toBe(0);
+});
+
+test('沒有預設目錄的主題必須指定 path', function () {
+    $this->artisan('newsletter:import-issues', ['--topic' => 'laravel'])->assertFailed();
+});
+
+test('不指定 path 時依主題讀取 docs 底下的預設目錄', function () {
+    $this->artisan('newsletter:import-issues', ['--topic' => 'fastapi'])->assertSuccessful();
+
+    expect(NewsletterIssue::where('topic', NewsletterTopic::FastApi->value)->count())->toBe(12);
+})->skip(fn () => ! is_dir(base_path('docs/Newsletter/FastAPINewsletter')), 'docs/Newsletter/FastAPINewsletter is not in this checkout');
