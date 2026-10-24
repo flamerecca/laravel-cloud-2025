@@ -18,6 +18,15 @@ enum NewsletterTopic: string implements HasLabel
         return $this->title();
     }
 
+    public function category(): NewsletterCategory
+    {
+        return match ($this) {
+            self::Filament, self::Laravel => NewsletterCategory::Laravel,
+            self::SpringBoot, self::Ktor, self::Exposed => NewsletterCategory::Kotlin,
+            self::FastApi => NewsletterCategory::Python,
+        };
+    }
+
     /**
      * The path segment of the public subscription page. Stored values stay untouched so existing
      * subscribers and signed links keep working.

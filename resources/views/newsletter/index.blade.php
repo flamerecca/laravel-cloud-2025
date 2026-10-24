@@ -19,13 +19,19 @@
                 <flux:text>挑選有興趣的主題訂閱，每份電子報都需要各自點擊確認信中的連結才會開始寄送。</flux:text>
             </header>
 
-            <ul class="flex flex-col gap-3">
-                @foreach ($topics as $topic)
-                    <li>
-                        <x-newsletter.topic-card :topic="$topic" />
-                    </li>
-                @endforeach
-            </ul>
+            @foreach ($categories as $category)
+                <section class="flex flex-col gap-3" aria-labelledby="category-{{ $category->value }}">
+                    <flux:heading id="category-{{ $category->value }}" level="2" size="lg">{{ $category->title() }}</flux:heading>
+
+                    <ul class="flex flex-col gap-3">
+                        @foreach ($category->topics() as $topic)
+                            <li>
+                                <x-newsletter.topic-card :topic="$topic" />
+                            </li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endforeach
         </main>
         @fluxScripts
     </body>

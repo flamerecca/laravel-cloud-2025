@@ -1,12 +1,13 @@
 <?php
 
+use App\Enums\NewsletterCategory;
 use App\Enums\NewsletterTopic;
 use App\Http\Controllers\NewsletterConfirmationController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterUnsubscribeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/newsletter', fn () => view('newsletter.index', ['topics' => NewsletterTopic::cases()]))
+Route::get('/newsletter', fn () => view('newsletter.index', ['categories' => NewsletterCategory::cases()]))
     ->name('newsletter.index');
 
 // Registered before newsletter.show so "confirm" is not bound as a topic.

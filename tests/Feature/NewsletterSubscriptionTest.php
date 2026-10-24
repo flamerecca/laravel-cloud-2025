@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\NewsletterCategory;
 use App\Enums\NewsletterTopic;
 use App\Jobs\StoreNewsletterSubscriber;
 use App\Mail\NewsletterConfirmation;
@@ -394,6 +395,22 @@ test('電子報列表頁面有 SEO 與社群分享的 meta 資料', function () 
 test('確認與退訂結果頁面不讓搜尋引擎收錄', function () {
     $this->get(route('newsletter.confirm', ['email' => 'nobody@example.com', 'topic' => 'ktor']))
         ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
+});
+
+test('每個主題都屬於一個分類，電子報列表依分類分組', function () {
+    foreach (NewsletterTopic::cases() as $topic) {
+        expect($topic->category())->toBeInstanceOf(NewsletterCategory::class);
+    }
+
+    expect(collect(NewsletterCategory::cases())->flatMap->topics()->all())
+        ->toHaveCount(count(NewsletterTopic::cases()))
+        ->and(NewsletterTopic::Filament->category())->toBe(NewsletterCategory::Laravel)
+        ->and(NewsletterTopic::Ktor->category())->toBe(NewsletterCategory::Kotlin)
+        ->and(NewsletterTopic::FastApi->category())->toBe(NewsletterCategory::Python);
+
+    $this->get(route('newsletter.index'))
+        ->assertOk()
+        ->assertSeeInOrder(['Laravel 生態系', 'Filament 進階分享', 'Laravel 自動化測試分享', 'Kotlin 後端', 'Ktor 基礎教學', 'Python 後端', 'FastAPI 基礎教學']);
 });
 
 test('舊的 laravel 網址會轉址到 laravel-test，未知主題回 404', function () {
