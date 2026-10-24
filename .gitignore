@@ -1,4 +1,6 @@
 /.ai
+/.codegraph
+/.superpowers
 /.phpunit.cache
 /node_modules
 /public/build
